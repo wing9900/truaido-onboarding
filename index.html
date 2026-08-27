@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="light only">
+<meta name="supported-color-schemes" content="light">
+<meta name="robots" content="noindex, nofollow">
+<title>Start my build | TruAido</title>
+<meta name="description" content="Two minutes of setup and your build starts today.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap">
+<link rel="icon" href="data:image/png;base64,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">
+<style>
+  /* ---- tokens inherited from the landing page ---- */
+  :root {
+    color-scheme: light only;
+    --ink: #10203A;
+    --ink-2: #47546B;
+    --green: #0E8A5F;
+    --green-dark: #0B6E4C;
+    --green-deep: #17402A;
+    --green-deep-2: #1E5B31;
+    --orange: #F5901E;
+    --orange-dark: #E07F0F;
+    --blue: #1D4E89;
+    --rule: #E5E6E8;
+    --rule-2: #E9EBEE;
+    --border: #C9CBCF;
+    --select: #CDEBDD;
+    --white: #FFFFFF;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  /* a class with an explicit display beats the UA rule for [hidden] — make hidden win */
+  [hidden] { display: none !important; }
+  body {
+    background: var(--white);
+    font-family: 'Archivo', system-ui, sans-serif;
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--select); }
+  .wide { font-stretch: 122%; font-weight: 790; letter-spacing: -0.02em; }
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---- header ---- */
+  header.top { background: var(--ink); position: sticky; top: 0; z-index: 50; }
+  .nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px; max-width: 1080px; margin: 0 auto; }
+  .logo { display: flex; align-items: center; gap: 9px; text-decoration: none; }
+  .logo-mark { width: 26px; height: 26px; display: block; }
+  .logo-text { color: #fff; font-stretch: 122%; font-weight: 790; letter-spacing: -0.02em; font-size: 19px; }
+  .meter { display: flex; align-items: center; gap: 14px; color: #AFBACB; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .meter .sep { width: 1px; height: 14px; background: #2C3E5E; }
+  .meter b { color: #fff; font-weight: 700; }
+  .track { height: 3px; background: #2C3E5E; }
+  .track > i { display: block; height: 100%; width: 0; background: var(--green); transition: width 0.35s cubic-bezier(.4,0,.2,1); }
+
+  /* ---- resume bar ---- */
+  .resume { display: none; background: #FDF3E3; border-bottom: 1px solid #F3DCB4; }
+  .resume.on { display: block; }
+  .resume .container { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding-top: 12px; padding-bottom: 12px; }
+  .resume p { font-size: 14px; color: #6B4A12; flex: 1; min-width: 200px; }
+  .linkish { background: none; border: 0; font: inherit; font-weight: 650; color: var(--blue); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; padding: 4px; }
+
+  /* ---- screens ---- */
+  main { padding: 40px 0 140px; }
+  .screen { display: none; animation: rise 0.28s cubic-bezier(.2,.7,.3,1); }
+  .screen.on { display: block; }
+  @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .screen { animation: none; } .track > i { transition: none; } }
+  .eyebrow { font-stretch: 78%; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; font-size: 12px; color: var(--blue); margin-bottom: 10px; }
+  h1.q { font-stretch: 120%; font-weight: 780; font-size: clamp(26px, 5.5vw, 34px); line-height: 1.12; letter-spacing: -0.02em; margin-bottom: 10px; text-wrap: balance; }
+  .sub { font-size: 16px; color: var(--ink-2); max-width: 620px; margin-bottom: 26px; text-wrap: pretty; }
+  .block { max-width: 620px; }
+  .grp { margin-bottom: 26px; }
+  .grp > .lbl { display: block; font-size: 14px; font-weight: 650; margin-bottom: 8px; }
+  .hint { font-size: 13.5px; color: var(--ink-2); margin-top: 7px; }
+
+  /* ---- fields ---- */
+  label.f { display: block; margin-bottom: 14px; }
+  label.f > span { display: block; font-size: 13.5px; font-weight: 650; color: var(--ink); margin-bottom: 6px; }
+  input[type=text], input[type=email], input[type=tel], input[type=url], select, textarea {
+    width: 100%; font: inherit; font-size: 16px; color: var(--ink); background: #fff;
+    border: 1px solid var(--border); border-radius: 6px; padding: 14px 14px; min-height: 52px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  textarea { min-height: 96px; resize: vertical; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px rgba(14,138,95,0.16); }
+  select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' stroke='%2347546B' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 520px) { .row2 { grid-template-columns: 1fr; } }
+  .row-city { display: grid; grid-template-columns: 2fr 0.8fr 1fr; gap: 12px; }
+  @media (max-width: 520px) { .row-city { grid-template-columns: 1fr; } }
+
+  /* ---- buttons ---- */
+  .btn-solid { background: var(--green); color: #fff; font-weight: 650; border-radius: 6px; display: inline-block; text-decoration: none; padding: 15px 28px; font-size: 16px; cursor: pointer; border: none; font-family: inherit; transition: background 0.15s, transform 0.15s, box-shadow 0.15s; }
+  @media (hover: hover) { .btn-solid:hover { background: var(--green-dark); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(14,138,95,0.25); } }
+  .btn-solid:active { transform: translateY(-1px); }
+  .btn-solid[disabled] { opacity: 0.45; cursor: default; transform: none; box-shadow: none; }
+  .btn-ghost { border: 1px solid var(--border); color: var(--ink); border-radius: 6px; display: inline-block; text-decoration: none; padding: 15px 28px; font-size: 16px; cursor: pointer; background: transparent; font-family: inherit; transition: border-color 0.15s; }
+  @media (hover: hover) { .btn-ghost:hover { border-color: var(--ink); } }
+
+  /* ---- confirm card ---- */
+  .card { border: 1px solid var(--rule); border-radius: 10px; padding: 20px 22px; background: #fff; box-shadow: 0 1px 2px rgba(16,32,58,0.05); }
+  .card dl { display: grid; grid-template-columns: auto 1fr; gap: 10px 18px; align-items: baseline; }
+  .card dt { font-size: 12px; font-stretch: 80%; font-weight: 650; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-2); white-space: nowrap; }
+  .card dd { font-size: 16px; font-weight: 600; overflow-wrap: anywhere; }
+
+  /* ---- chips ---- */
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip {
+    font: inherit; font-size: 15px; font-weight: 600; color: var(--ink); background: #fff;
+    border: 1px solid var(--border); border-radius: 999px; padding: 12px 18px; min-height: 48px;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+  }
+  @media (hover: hover) { .chip:hover { border-color: var(--ink); } }
+  .chip[aria-pressed="true"] { background: var(--select); border-color: var(--green); color: var(--green-deep); }
+  .chip[aria-pressed="true"]::before { content: ""; width: 15px; height: 15px; flex: none; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2.5 8.5 6.5 12.5 13.5 3.5' stroke='%2317402A' stroke-width='2.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / contain; }
+  .chip.add { border-style: dashed; color: var(--ink-2); font-weight: 600; }
+  .chip.skip { border-style: dashed; color: var(--ink-2); }
+
+  /* ---- stacked option cards (single-select) ---- */
+  .opts { display: grid; gap: 10px; }
+  .opt {
+    font: inherit; text-align: left; background: #fff; border: 1px solid var(--border); border-radius: 8px;
+    padding: 16px 18px; cursor: pointer; display: block; width: 100%; min-height: 56px;
+    transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+  }
+  @media (hover: hover) { .opt:hover { border-color: var(--ink); } }
+  .opt[aria-pressed="true"] { background: var(--select); border-color: var(--green); box-shadow: inset 0 0 0 1px var(--green); }
+  .opt b { display: block; font-size: 16px; font-weight: 650; }
+  .opt em { display: block; font-style: normal; font-size: 13.5px; color: var(--ink-2); margin-top: 3px; }
+  .opt.quiet b { font-weight: 600; color: var(--ink-2); }
+
+  /* ---- trade grid ---- */
+  .trades { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .trades .opt { text-align: center; padding: 18px 12px; font-weight: 650; }
+
+  /* ---- checkbox rows ---- */
+  .check { display: flex; gap: 14px; align-items: flex-start; border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; cursor: pointer; margin-bottom: 12px; transition: border-color 0.15s, background 0.15s; }
+  .check[data-on="1"] { background: var(--select); border-color: var(--green); }
+  .check input { width: 22px; height: 22px; flex: none; margin-top: 1px; accent-color: var(--green); }
+  .check span { font-size: 15.5px; line-height: 1.45; }
+
+  /* ---- slider ---- */
+  .radius-out { font-stretch: 120%; font-weight: 780; font-size: 40px; letter-spacing: -0.02em; margin-bottom: 4px; }
+  .radius-out small { font-size: 17px; font-weight: 650; font-stretch: 100%; color: var(--ink-2); margin-left: 6px; }
+  input[type=range] { width: 100%; height: 44px; accent-color: var(--green); background: transparent; }
+  .ticks { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--ink-2); margin-top: -6px; }
+
+  /* ---- disclosure panel (no-EIN branch) ---- */
+  .disclosure { border: 1px solid var(--rule); border-left: 3px solid var(--orange); border-radius: 8px; padding: 20px 22px; background: #FFFDF9; margin-bottom: 20px; }
+  .disclosure h2 { font-stretch: 120%; font-weight: 780; font-size: 21px; letter-spacing: -0.02em; margin-bottom: 10px; }
+  .disclosure p { font-size: 15px; color: var(--ink-2); margin-bottom: 12px; }
+  .disclosure p.key { color: var(--ink); font-weight: 600; }
+  .disclosure p:last-child { margin-bottom: 0; }
+
+  /* ---- notices ---- */
+  .note { border-left: 3px solid var(--blue); background: #F3F7FC; border-radius: 0 6px 6px 0; padding: 12px 16px; font-size: 14px; color: var(--ink-2); margin-top: 14px; }
+  .offer { display: none; margin-top: 8px; font-size: 14px; color: #8A5A00; background: #FDF3E3; border-radius: 6px; padding: 10px 14px; }
+  .offer.on { display: block; }
+
+  /* ---- footer bar ---- */
+  .footbar { position: fixed; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.94); backdrop-filter: blur(8px); border-top: 1px solid var(--rule); z-index: 40; padding-bottom: env(safe-area-inset-bottom); }
+  .footbar .container { display: flex; align-items: center; gap: 12px; padding-top: 14px; padding-bottom: 14px; }
+  .footbar .spacer { flex: 1; }
+  .back { background: none; border: 0; font: inherit; font-size: 15px; font-weight: 600; color: var(--ink-2); cursor: pointer; padding: 12px 6px; }
+  .back[hidden] { display: none; }
+  .share { background: none; border: 0; font: inherit; font-size: 13.5px; font-weight: 600; color: var(--blue); cursor: pointer; padding: 12px 8px; white-space: nowrap; }
+  @media (max-width: 400px) {
+    .footbar .container { padding-left: 16px; padding-right: 16px; gap: 6px; }
+    .share { font-size: 12.5px; padding: 12px 4px; }
+    .btn-solid { padding: 15px 20px; }
+    .back { padding: 12px 2px; }
+  }
+
+  /* ---- status board ---- */
+  .board { max-width: 640px; }
+  .board .line { display: flex; align-items: flex-start; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--rule-2); }
+  .board .line:last-child { border-bottom: 0; }
+  .tickmark { width: 22px; height: 22px; flex: none; border-radius: 50%; background: var(--green); margin-top: 2px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5 6.5 11.5 12.5 4.5' stroke='%23fff' stroke-width='2.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: center; background-size: 15px; }
+  .tickmark.pending { background-color: #E9EBEE; background-image: none; }
+  .board .txt { flex: 1; }
+  .board .txt b { display: block; font-size: 16px; font-weight: 650; }
+  .board .txt time { display: block; font-size: 13.5px; color: var(--ink-2); font-variant-numeric: tabular-nums; margin-top: 2px; }
+  .board .txt em { display: block; font-style: normal; font-size: 13.5px; color: var(--ink-2); margin-top: 2px; }
+  .sending { display: flex; align-items: center; gap: 12px; font-size: 16px; font-weight: 600; color: var(--ink-2); }
+  .spinner { width: 20px; height: 20px; border: 2.5px solid var(--rule); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .warn { border-left: 3px solid var(--orange); background: #FDF3E3; border-radius: 0 6px 6px 0; padding: 14px 16px; font-size: 14.5px; color: #6B4A12; margin-top: 22px; }
+  .warn b { display: block; margin-bottom: 4px; }
+
+  .err { display: none; font-size: 14px; font-weight: 600; color: #8A5A00; background: #FDF3E3; border-radius: 6px; padding: 11px 14px; margin-top: 12px; }
+  .err.on { display: block; }
+  .vis-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="nav">
+    <a href="https://truaido.com/" class="logo"><img class="logo-mark" src="data:image/png;base64,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" alt=""><span class="logo-text">TruAido</span></a>
+    <div class="meter" id="meter" hidden>
+      <span><b id="stepNow">1</b> of 9</span>
+      <span class="sep"></span>
+      <span id="clock">0:00</span>
+    </div>
+  </div>
+  <div class="track"><i id="bar"></i></div>
+</header>
+
+<div class="resume" id="resumeBar">
+  <div class="container">
+    <p><b>We saved your answers.</b> <span id="resumeWhen"></span></p>
+    <button type="button" class="linkish" id="resumeGo">Pick up where I left off</button>
+    <button type="button" class="linkish" id="resumeNew">Start over</button>
+  </div>
+</div>
+
+<main>
+<div class="container">
+
+<!-- ============ 1.1 identity ============ -->
+<section class="screen" data-screen="1" aria-labelledby="q1">
+  <p class="eyebrow">Step 1 &middot; About 2 minutes left</p>
+  <h1 class="q" id="q1">Is this right?</h1>
+  <p class="sub">Straight from your checkout. If it all looks correct, one tap and we're moving.</p>
+
+  <div class="block">
+    <div class="card" id="idCard">
+      <dl>
+        <dt>Name</dt><dd id="cName">&mdash;</dd>
+        <dt>Business</dt><dd id="cBiz">&mdash;</dd>
+        <dt>Email</dt><dd id="cEmail">&mdash;</dd>
+        <dt>Mobile</dt><dd id="cPhone">&mdash;</dd>
+        <dt>Address</dt><dd id="cAddr">&mdash;</dd>
+      </dl>
+    </div>
+    <p class="hint" id="idHint">This is the mobile we'll text you on &mdash; not your business line.</p>
+
+    <div id="idEdit" hidden style="margin-top:18px">
+      <div class="row2">
+        <label class="f"><span>First name</span><input type="text" id="f_first_name" autocomplete="given-name" enterkeyhint="next"></label>
+        <label class="f"><span>Last name</span><input type="text" id="f_last_name" autocomplete="family-name" enterkeyhint="next"></label>
+      </div>
+      <label class="f"><span>Business name</span><input type="text" id="f_company_name" autocomplete="organization" enterkeyhint="next"></label>
+      <label class="f"><span>Email</span><input type="email" id="f_email" autocomplete="email" inputmode="email" enterkeyhint="next"></label>
+      <label class="f"><span>Your mobile</span><input type="tel" id="f_contact_phone" autocomplete="tel" inputmode="tel" enterkeyhint="next"></label>
+      <label class="f"><span>Street address</span><input type="text" id="f_address1" autocomplete="address-line1" enterkeyhint="next"></label>
+      <div class="row-city">
+        <label class="f"><span>City</span><input type="text" id="f_city" autocomplete="address-level2" enterkeyhint="next"></label>
+        <label class="f"><span>State</span><input type="text" id="f_state" maxlength="2" autocomplete="address-level1" enterkeyhint="next"></label>
+        <label class="f"><span>ZIP</span><input type="text" id="f_postal_code" inputmode="numeric" maxlength="10" autocomplete="postal-code" enterkeyhint="done"></label>
+      </div>
+    </div>
+    <p style="margin-top:14px"><button type="button" class="linkish" id="idEditBtn">Something's wrong &mdash; let me edit it</button></p>
+    <div class="err" id="err1"></div>
+  </div>
+</section>
+
+<!-- ============ 1.2 the listing ============ -->
+<section class="screen" data-screen="2" aria-labelledby="q2">
+  <p class="eyebrow">Step 2 &middot; Google Business Profile</p>
+  <h1 class="q" id="q2">What number do your customers call?</h1>
+  <p class="sub">This is how we find your Google listing &mdash; we look it up by hand before your build starts, so you don't have to go digging.</p>
+
+  <div class="block">
+    <label class="f"><span>Business phone</span><input type="tel" id="f_business_phone" inputmode="tel" autocomplete="off" placeholder="(916) 382-2904" enterkeyhint="next"></label>
+
+    <div class="grp" style="margin-top:22px">
+      <span class="lbl">Got your Google Maps link handy? <span style="font-weight:500;color:var(--ink-2)">Optional &mdash; it saves us a minute.</span></span>
+      <label class="f"><input type="url" id="f_gbp_url" inputmode="url" autocomplete="off" placeholder="https://maps.app.goo.gl/..." enterkeyhint="next"></label>
+      <div class="chips">
+        <button type="button" class="chip skip" data-skip="gbp_url">Skip &mdash; you find it</button>
+        <button type="button" class="chip" id="noGbp" aria-pressed="false">I don't have a Google listing yet</button>
+      </div>
+      <p class="hint">If you don't have one, that's fine &mdash; we create and verify it for you.</p>
+    </div>
+
+    <div class="grp">
+      <span class="lbl">Do you already have a website? <span style="font-weight:500;color:var(--ink-2)">Optional.</span></span>
+      <label class="f"><input type="url" id="f_existing_website" inputmode="url" autocomplete="off" placeholder="yourbusiness.com" enterkeyhint="done"></label>
+      <div class="chips"><button type="button" class="chip skip" data-skip="existing_website">No website yet</button></div>
+    </div>
+    <div class="err" id="err2"></div>
+  </div>
+</section>
+
+<!-- ============ 1.3 listing owner ============ -->
+<section class="screen" data-screen="3" aria-labelledby="q3">
+  <p class="eyebrow">Step 3 &middot; Google access</p>
+  <h1 class="q" id="q3">Which email owns that Google listing?</h1>
+  <p class="sub">We send a manager invite to that address today. It has to be accepted from the inbox, so it's worth getting right &mdash; this is the single most common thing that stalls a build.</p>
+
+  <div class="block">
+    <div class="opts" id="ownerOpts">
+      <button type="button" class="opt" data-owner="same" aria-pressed="false"><b id="ownerSameEmail">Your checkout email</b><em>Use the address you just paid with</em></button>
+      <button type="button" class="opt" data-owner="other" aria-pressed="false"><b>A different address</b><em>Often a Gmail account, or whoever set the listing up</em></button>
+      <button type="button" class="opt quiet" data-owner="unknown" aria-pressed="false"><b>I don't know who has access</b><em>We start the reclaim process today rather than on day six</em></button>
+    </div>
+    <div id="ownerOtherWrap" hidden style="margin-top:16px">
+      <label class="f"><span>The email that owns the listing</span><input type="email" id="f_gbp_owner_email" inputmode="email" autocomplete="off" enterkeyhint="done"></label>
+    </div>
+    <div class="err" id="err3"></div>
+  </div>
+</section>
+
+<!-- ============ 1.4 carrier registration ============ -->
+<section class="screen" data-screen="4" aria-labelledby="q4">
+  <p class="eyebrow">Step 4 &middot; Carrier registration</p>
+  <h1 class="q" id="q4">Every US carrier requires this before your number can text.</h1>
+  <p class="sub">Sixty seconds, and we submit it today. This is the one screen that asks for a tax ID &mdash; it's what the carriers check your business against.</p>
+
+  <div class="block">
+    <label class="f"><span>Legal business name</span><input type="text" id="f_legal_business_name" autocomplete="organization" enterkeyhint="next"><span class="hint" style="font-weight:500">Exactly as it reads on your EIN letter. Registration is rejected on a single mismatched character, so it's worth checking.</span></label>
+
+    <div class="grp">
+      <span class="lbl">Business type</span>
+      <div class="chips" id="entityChips">
+        <button type="button" class="chip" data-entity="LLC" aria-pressed="false">LLC</button>
+        <button type="button" class="chip" data-entity="Corporation" aria-pressed="false">Corporation</button>
+        <button type="button" class="chip" data-entity="Partnership" aria-pressed="false">Partnership</button>
+        <button type="button" class="chip" data-entity="Sole Proprietor" aria-pressed="false">Sole proprietor</button>
+        <button type="button" class="chip" data-entity="Non-Profit" aria-pressed="false">Non-profit</button>
+      </div>
+    </div>
+
+    <div class="grp">
+      <span class="lbl">EIN &mdash; your federal tax ID</span>
+      <label class="f"><input type="text" id="f_ein" inputmode="numeric" autocomplete="off" maxlength="10" placeholder="12-3456789" enterkeyhint="next"></label>
+      <div class="chips"><button type="button" class="chip" id="noEinBtn" aria-pressed="false">I don't have one</button></div>
+      <div class="offer" id="einOffer"></div>
+      <p class="hint"><b>Nine digits.</b> Never your Social Security number &mdash; we don't accept one, and the carriers don't want it either.</p>
+    </div>
+
+    <div id="einBranch" hidden>
+      <div class="disclosure">
+        <h2>Don't have an EIN?</h2>
+        <p>Most sole proprietors don't. There are two ways forward and the difference is worth a minute.</p>
+        <p><b>Getting one takes about 10 minutes.</b> The IRS issues an EIN online at irs.gov and shows you the number on screen straight away. It's free, and it's what most banks ask for when you open a business account.</p>
+        <p><b>Without one, you still get all of it.</b> Texting from your business number, missed-call text-back, review requests, and your reactivation and referral campaigns. Promotional messages are allowed either way.</p>
+        <p><b>What's different:</b> the carriers cap a business with no EIN at one campaign, one phone number, and about 1,000 messages a day to T-Mobile customers &mdash; roughly a third of US phones. Everything shares that pool: missed-call replies, review requests, and campaigns. A first campaign to a few hundred past customers fits comfortably. A bigger list gets paced over several days instead of going out at once.</p>
+        <p class="key">The part that matters most: those limits are fixed. Businesses registered with an EIN earn higher limits as they build a track record. Businesses without one never do. You can switch later, but it means registering again and waiting on another carrier review.</p>
+        <p>Either way, we text a verification code to your personal mobile. It can't be a VoIP or app-based number, so not your office line.</p>
+      </div>
+      <div class="opts" id="einPathOpts">
+        <button type="button" class="opt" data-einpath="Getting EIN" aria-pressed="false"><b>Get one free &mdash; text me the link</b><em>We hold your spot and register you as Standard once it's issued</em></button>
+        <button type="button" class="opt" data-einpath="Sole Proprietor" aria-pressed="false"><b>Register me without an EIN</b><em>Sole Proprietor, with the capped limits above</em></button>
+      </div>
+    </div>
+
+    <div class="grp" style="margin-top:26px">
+      <span class="lbl">Registered address</span>
+      <div class="opts" id="regAddrOpts">
+        <button type="button" class="opt" data-regaddr="same" aria-pressed="false"><b id="regSameLine">Same as my business address</b></button>
+        <button type="button" class="opt quiet" data-regaddr="other" aria-pressed="false"><b>It's registered somewhere else</b></button>
+      </div>
+      <div id="regAddrWrap" hidden style="margin-top:14px">
+        <label class="f"><span>Registered address</span><input type="text" id="f_registered_address" autocomplete="off" placeholder="Street, city, state, ZIP" enterkeyhint="next"></label>
+      </div>
+    </div>
+
+    <div class="row2">
+      <label class="f"><span>Authorised representative</span><input type="text" id="f_auth_rep_name" autocomplete="name" enterkeyhint="next"></label>
+      <label class="f"><span>Their title</span><input type="text" id="f_auth_rep_title" placeholder="Owner" autocomplete="organization-title" enterkeyhint="next"></label>
+    </div>
+
+    <label class="f"><span>Mobile for the verification code</span><input type="tel" id="f_otp_mobile" inputmode="tel" autocomplete="tel" enterkeyhint="done"><span class="hint" style="font-weight:500">Your personal mobile. The code won't arrive on a VoIP or app-based line, so this can't be your office number.</span></label>
+    <div class="err" id="err4"></div>
+  </div>
+</section>
+
+<!-- ============ 1.5 the business line ============ -->
+<section class="screen" data-screen="5" aria-labelledby="q5">
+  <p class="eyebrow">Step 5 &middot; Your business line</p>
+  <h1 class="q" id="q5">Who's your phone service through?</h1>
+  <p class="sub">This tells us on day one whether <span id="bizPhoneEcho">your number</span> can be text-enabled at all, or whether it's a landline that needs hosted messaging. Finding that out on day five costs a week.</p>
+
+  <div class="block">
+    <div class="grp">
+      <span class="lbl">Phone carrier</span>
+      <label class="f">
+        <select id="f_phone_carrier">
+          <option value="">Choose your provider</option>
+          <option>Verizon</option><option>AT&amp;T</option><option>T-Mobile</option>
+          <option>Spectrum</option><option>Comcast</option><option>RingCentral</option>
+          <option>Google Voice</option><option>Ooma</option><option>Other</option>
+          <option>Not sure</option>
+        </select>
+      </label>
+      <p class="hint"><b>Not sure</b> is a perfectly good answer &mdash; we run the lookup either way.</p>
+    </div>
+
+    <div class="grp">
+      <span class="lbl">Where should missed-call alerts go?</span>
+      <label class="f"><span>Text alerts to</span><input type="tel" id="f_alert_number" inputmode="tel" autocomplete="tel" enterkeyhint="next"></label>
+      <div id="alert2Wrap" hidden>
+        <label class="f"><span>And copy a second person</span><input type="tel" id="f_alert_number_2" inputmode="tel" autocomplete="off" enterkeyhint="done"></label>
+      </div>
+      <div class="chips"><button type="button" class="chip add" id="addAlert2">+ Add a second person</button></div>
+    </div>
+    <div class="err" id="err5"></div>
+  </div>
+</section>
+
+<!-- ============ 1.6 domain ============ -->
+<section class="screen" data-screen="6" aria-labelledby="q6">
+  <p class="eyebrow">Step 6 &middot; Your web address</p>
+  <h1 class="q" id="q6">Do you have a website domain?</h1>
+  <p class="sub">Whatever the answer, we handle it today. You don't need to know any of the technical parts.</p>
+
+  <div class="block">
+    <div class="opts" id="domainOpts">
+      <button type="button" class="opt" data-domain="Have it with login" aria-pressed="false"><b>Yes, and I have the login</b><em>We'll email you a transfer request to approve</em></button>
+      <button type="button" class="opt" data-domain="Have it no access" aria-pressed="false"><b>Yes, but I don't know who has it</b><em>We run a WHOIS lookup and chase it down</em></button>
+      <button type="button" class="opt" data-domain="Need one" aria-pressed="false"><b>No, I need one</b><em>We register it in your name, included</em></button>
+    </div>
+
+    <div id="domainHave" hidden style="margin-top:20px">
+      <label class="f"><span>Your domain</span><input type="text" id="f_domain_name" inputmode="url" autocomplete="off" placeholder="yourbusiness.com" enterkeyhint="next"><span class="hint" style="font-weight:500">No https://, no www.</span></label>
+      <div class="grp">
+        <span class="lbl">Who's it registered with?</span>
+        <div class="chips" id="registrarChips">
+          <button type="button" class="chip" data-registrar="GoDaddy" aria-pressed="false">GoDaddy</button>
+          <button type="button" class="chip" data-registrar="Namecheap" aria-pressed="false">Namecheap</button>
+          <button type="button" class="chip" data-registrar="Wix" aria-pressed="false">Wix</button>
+          <button type="button" class="chip" data-registrar="Squarespace" aria-pressed="false">Squarespace</button>
+          <button type="button" class="chip" data-registrar="Google Domains" aria-pressed="false">Google Domains</button>
+          <button type="button" class="chip" data-registrar="Network Solutions" aria-pressed="false">Network Solutions</button>
+          <button type="button" class="chip" data-registrar="Not sure" aria-pressed="false">Not sure</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="domainNeed" hidden style="margin-top:20px">
+      <div class="grp">
+        <span class="lbl">Tap one and we'll confirm it's available</span>
+        <div class="opts" id="domainSuggest"></div>
+      </div>
+      <label class="f"><span>Or type one you'd rather have</span><input type="text" id="f_domain_wanted" inputmode="url" autocomplete="off" placeholder="yourbusiness.com" enterkeyhint="done"></label>
+      <p class="hint">These are built from your business name and city. We check availability before registering &mdash; if one's taken we'll come back with the closest thing.</p>
+    </div>
+    <div class="err" id="err6"></div>
+  </div>
+</section>
+
+<!-- ============ 1.7 trade + services ============ -->
+<section class="screen" data-screen="7" aria-labelledby="q7">
+  <p class="eyebrow">Step 7 &middot; What you do</p>
+  <h1 class="q" id="q7">What do you do?</h1>
+  <p class="sub">Pick your trade and we'll load the usual service list &mdash; untick anything you don't do.</p>
+
+  <div class="block">
+    <div class="trades" id="tradeGrid"></div>
+
+    <div id="servicesWrap" hidden style="margin-top:30px">
+      <div class="grp">
+        <span class="lbl">Your services <span style="font-weight:500;color:var(--ink-2)">&mdash; we've ticked the common ones</span></span>
+        <div class="chips" id="serviceChips"></div>
+      </div>
+      <div class="grp">
+        <span class="lbl">Which of these makes you the most money? <span style="font-weight:500;color:var(--ink-2)">&mdash; up to three</span></span>
+        <div class="chips" id="topChips"></div>
+        <p class="hint">This decides which services get their own page and rank first. It's the most valuable answer on this screen.</p>
+      </div>
+    </div>
+    <div class="err" id="err7"></div>
+  </div>
+</section>
+
+<!-- ============ 1.8 service area ============ -->
+<section class="screen" data-screen="8" aria-labelledby="q8">
+  <p class="eyebrow">Step 8 &middot; Your patch</p>
+  <h1 class="q" id="q8">How far do you travel?</h1>
+  <p class="sub" id="areaSub">Measured from your address. This builds the local pages you rank on.</p>
+
+  <div class="block">
+    <div class="opts" style="grid-template-columns:1fr 1fr;display:grid;gap:10px" id="areaOpts">
+      <button type="button" class="opt" data-area="Radius" aria-pressed="true"><b>A radius</b></button>
+      <button type="button" class="opt" data-area="Cities" aria-pressed="false"><b>Specific towns</b></button>
+    </div>
+
+    <div id="areaRadius" style="margin-top:26px">
+      <div class="radius-out"><span id="radiusVal">25</span><small>miles</small></div>
+      <input type="range" id="f_service_radius_mi" min="5" max="100" step="5" value="25">
+      <div class="ticks"><span>5</span><span>50</span><span>100</span></div>
+    </div>
+
+    <div id="areaCities" hidden style="margin-top:26px">
+      <div class="grp">
+        <span class="lbl">Which towns do you cover?</span>
+        <div class="chips" id="cityChips"></div>
+        <label class="f" style="margin-top:12px"><input type="text" id="cityInput" placeholder="Type a town and press enter" enterkeyhint="done" autocomplete="off"></label>
+      </div>
+    </div>
+    <div class="err" id="err8"></div>
+  </div>
+</section>
+
+<!-- ============ 1.9 the legal spine ============ -->
+<section class="screen" data-screen="9" aria-labelledby="q9">
+  <p class="eyebrow">Step 9 &middot; Last one</p>
+  <h1 class="q" id="q9">Two quick confirmations.</h1>
+  <p class="sub">Plain English on purpose. These are what make the campaigns legal to send, so they're worth actually reading.</p>
+
+  <div class="block">
+    <label class="check" data-on="0" id="chkTcpaWrap">
+      <input type="checkbox" id="f_tcpa_attested">
+      <span>The people on my customer list are people my business has worked for or quoted, and they gave me their number as part of that.</span>
+    </label>
+    <label class="check" data-on="0" id="chkAgencyWrap">
+      <input type="checkbox" id="f_agency_authorized">
+      <span>I authorise TruAido to act for my business on Google, my domain, and carrier registration.</span>
+    </label>
+
+    <label class="f" style="margin-top:22px"><span>Type your full name to sign</span><input type="text" id="f_signature_name" autocomplete="name" enterkeyhint="done"></label>
+    <p class="hint">Signed <span id="signDate"></span>, and stored against your account.</p>
+    <div class="err" id="err9"></div>
+  </div>
+</section>
+
+<!-- ============ status board ============ -->
+<section class="screen" data-screen="10" aria-labelledby="q10">
+  <div id="boardSending">
+    <p class="eyebrow">Sending</p>
+    <h1 class="q">Starting your build&hellip;</h1>
+    <p class="sending" style="margin-top:20px"><span class="spinner"></span> Filing your answers</p>
+  </div>
+
+  <div id="boardDone" hidden>
+    <p class="eyebrow">Live &middot; <span id="boardToday"></span></p>
+    <h1 class="q" id="q10">Your build has started.</h1>
+    <p class="sub">Nothing is charged today. Here's what's already moving &mdash; you don't need to do anything else right now.</p>
+
+    <div class="board">
+      <div class="line"><span class="tickmark"></span><span class="txt"><b>Carrier registration submitted</b><time id="t1"></time><em id="e1">Carrier review is out of our hands &mdash; usually a few days.</em></span></div>
+      <div class="line"><span class="tickmark"></span><span class="txt"><b id="b2">Domain secured</b><time id="t2"></time><em id="e2"></em></span></div>
+      <div class="line"><span class="tickmark"></span><span class="txt"><b id="b3">Google manager invite sent</b><time id="t3"></time><em id="e3"></em></span></div>
+      <div class="line"><span class="tickmark"></span><span class="txt"><b>Build started</b><time id="t4"></time><em id="e4">We're building your pages now.</em></span></div>
+      <div class="line"><span class="tickmark pending"></span><span class="txt"><b>Your site preview</b><em>About five days out. We'll text you the link.</em></span></div>
+    </div>
+
+    <div class="warn" style="border-left-color:var(--green);background:#EDF7F2;color:var(--green-deep)">
+      <b>Next: the part that makes it yours.</b>
+      Photos and your customer list come to you as a text message &mdash; no forms, no logins. Watch your phone.
+    </div>
+
+    <div class="warn" id="unconfirmed" hidden>
+      <b>One thing worth knowing.</b>
+      Your answers were sent but we couldn't get a receipt back from the server. They're still saved on this device, so nothing is lost.
+      <span style="display:block;margin-top:10px"><button type="button" class="btn-ghost" id="retryBtn" style="padding:10px 18px;font-size:15px">Try sending again</button></span>
+    </div>
+  </div>
+
+  <div id="boardFailed" hidden>
+    <p class="eyebrow">Not sent yet</p>
+    <h1 class="q">We couldn't reach the server.</h1>
+    <p class="sub"><b>Your answers are safe on this device</b> &mdash; nothing is lost, and this page will still have them if you close it and come back. Check your connection and try again.</p>
+    <p><button type="button" class="btn-solid" id="retryBtn2">Try again</button></p>
+    <div class="err" id="errSend"></div>
+  </div>
+</section>
+
+</div>
+</main>
+
+<div class="footbar" id="footbar">
+  <div class="container">
+    <button type="button" class="back" id="backBtn" hidden>&larr; Back</button>
+    <span class="spacer"></span>
+    <button type="button" class="share" id="shareBtn">Text me this link</button>
+    <button type="button" class="btn-solid" id="nextBtn">Continue</button>
+  </div>
+</div>
+
+<p class="vis-hidden" role="status" aria-live="polite" id="live"></p>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ------------------------------------------------------------------ *
+   * CONFIG — set ENDPOINT to your deployed Apps Script web app URL.
+   * ------------------------------------------------------------------ */
+  var ENDPOINT = 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
+  var DISCLOSURE_VERSION = '2026-08-a';
+  var STORE_KEY = 'truaido_onboarding_v1';
+  var LAST_SCREEN = 9;
+
+  /* ---- trade library: trades named on the landing page ---- */
+  /* "*" prefix = pre-ticked, per the spec's "common ones pre-ticked" */
+  var TRADES = {
+    'HVAC': ['*AC repair','*AC installation','*Furnace repair','*Furnace installation','Heat pumps','Ductwork','Indoor air quality','*Maintenance plans','Thermostats','Mini-splits','*Emergency service','Commercial HVAC'],
+    'Plumbing': ['*Drain cleaning','*Water heaters','*Leak repair','Repiping','*Toilets & faucets','Sewer line repair','Garbage disposals','Water softeners','Gas lines','*Emergency plumbing','Sump pumps','Bathroom remodels'],
+    'Electrical': ['*Panel upgrades','*Wiring & rewiring','*Outlets & switches','*Lighting installation','Ceiling fans','EV chargers','Generators','*Troubleshooting','Surge protection','Landscape lighting','Commercial electrical'],
+    'Roofing': ['*Roof replacement','*Roof repair','*Storm & hail damage','*Gutters','Siding','Skylights','Flat & commercial roofs','*Roof inspections','*Insurance claims','Ventilation'],
+    'Tree service': ['*Tree removal','*Tree trimming','*Stump grinding','*Emergency storm work','Land clearing','Pruning','Tree health & disease','Brush chipping','Crane removals'],
+    'Restoration': ['*Water damage','*Fire & smoke damage','*Mold remediation','*Storm damage','Sewage cleanup','*Structural drying','Contents cleaning','Reconstruction','Biohazard cleanup','*Insurance claims'],
+    'Paving': ['*Asphalt paving','*Driveways','*Sealcoating','Crack filling','*Parking lots','Concrete work','*Patching & repair','Line striping','Excavation'],
+    'Moving': ['*Local moves','*Long-distance moves','*Packing services','*Loading & unloading','Storage','Piano & specialty items','Office moves','Junk removal','Furniture assembly'],
+    'Remodeling': ['*Kitchen remodels','*Bathroom remodels','Additions','Basement finishing','*Whole-home remodels','Flooring','Decks & patios','Painting','Windows & doors','Custom carpentry'],
+    'Auto repair': ['*Brakes','*Oil changes','*Engine diagnostics','Transmission','AC & heating','*Tires & alignment','Batteries & electrical','Suspension','Pre-purchase inspections','Fleet service'],
+    'Other service trade': ['*Repairs','*Installations','*Maintenance','*Emergency service','Inspections','Consultations','Residential work','Commercial work']
+  };
+
+  /* ------------------------------------------------------------------ *
+   * state
+   * ------------------------------------------------------------------ */
+  var D = {};                 // field-map columns
+  var UI = { screen: 1, started: 0, elapsed: 0, status: 'draft' };
+  var services = [];          // selected services
+  var topServices = [];
+  var cities = [];
+
+  var $ = function (id) { return document.getElementById(id); };
+  var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
+
+  /* ------------------------------------------------------------------ *
+   * formatting — the field map is an output contract
+   * ------------------------------------------------------------------ */
+  function digits(v) { return String(v == null ? '' : v).replace(/[^\d]/g, ''); }
+
+  function e164(v) {
+    var raw = String(v == null ? '' : v).trim();
+    var d = digits(raw);
+    if (!d) return '';
+    if (d.length === 10) return '+1' + d;
+    if (d.length === 11 && d.charAt(0) === '1') return '+' + d;
+    if (raw.charAt(0) === '+' && d.length >= 11 && d.length <= 15) return '+' + d;
+    return '';
+  }
+
+  function prettyPhone(v) {
+    var d = digits(v);
+    if (d.length === 11 && d.charAt(0) === '1') d = d.slice(1);
+    if (d.length !== 10) return String(v == null ? '' : v).trim();
+    return '(' + d.slice(0, 3) + ') ' + d.slice(3, 6) + '-' + d.slice(6);
+  }
+
+  function cleanDomain(v) {
+    return String(v == null ? '' : v).trim().toLowerCase()
+      .replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/.*$/, '');
+  }
+
+  function cleanUrl(v) {
+    var s = String(v == null ? '' : v).trim();
+    if (!s) return '';
+    if (!/^https?:\/\//i.test(s)) s = 'https://' + s;
+    return s;
+  }
+
+  function todayISO() {
+    var d = new Date();
+    var p = function (n) { return (n < 10 ? '0' : '') + n; };
+    return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
+  }
+
+  function slug(s) {
+    return String(s || '').toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  }
+
+  /* ------------------------------------------------------------------ *
+   * persistence — autosave on every change, never cleared before receipt
+   * ------------------------------------------------------------------ */
+  var wiped = false;   /* set by "Start over" so beforeunload can't rewrite the draft */
+
+  function save() {
+    if (wiped) return;
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify({
+        v: 1, D: D, UI: UI, services: services, topServices: topServices,
+        cities: cities, savedAt: Date.now()
+      }));
+    } catch (e) { /* private mode — the form still works, it just won't resume */ }
+  }
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(STORE_KEY);
+      if (!raw) return null;
+      var o = JSON.parse(raw);
+      return (o && o.D) ? o : null;
+    } catch (e) { return null; }
+  }
+
+  function set(k, v) { D[k] = v; save(); }
+
+  /* ------------------------------------------------------------------ *
+   * prefill — Stripe hands us what it collected, via the redirect URL
+   * ------------------------------------------------------------------ */
+  var PARAM_MAP = {
+    first_name: ['first_name', 'firstname', 'fname'],
+    last_name: ['last_name', 'lastname', 'lname'],
+    email: ['email'],
+    company_name: ['company_name', 'company', 'business', 'business_name'],
+    contact_phone: ['phone', 'contact_phone', 'mobile'],
+    address1: ['address1', 'address', 'line1'],
+    city: ['city'],
+    state: ['state'],
+    postal_code: ['postal_code', 'zip', 'postcode']
+  };
+
+  function prefillFromUrl() {
+    var q;
+    try { q = new URLSearchParams(location.search); } catch (e) { return; }
+    Object.keys(PARAM_MAP).forEach(function (col) {
+      if (D[col]) return;
+      for (var i = 0; i < PARAM_MAP[col].length; i++) {
+        var v = q.get(PARAM_MAP[col][i]);
+        if (v) { D[col] = v.trim(); return; }
+      }
+    });
+    var name = q.get('name');
+    if (name && !D.first_name && !D.last_name) {
+      var parts = name.trim().split(/\s+/);
+      D.first_name = parts.shift() || '';
+      D.last_name = parts.join(' ');
+    }
+  }
+
+  /* ------------------------------------------------------------------ *
+   * generic control wiring
+   * ------------------------------------------------------------------ */
+  function bindText(id, col, transform) {
+    var el = $(id);
+    if (!el) return;
+    el.addEventListener('input', function () { set(col, el.value); });
+    if (transform) {
+      el.addEventListener('blur', function () {
+        var t = transform(el.value);
+        if (t && t !== el.value) { el.value = t; set(col, t); }
+      });
+    }
+  }
+
+  function singleSelect(containerId, attr, onPick) {
+    var wrap = $(containerId);
+    if (!wrap) return;
+    wrap.addEventListener('click', function (ev) {
+      var btn = ev.target.closest('[' + attr + ']');
+      if (!btn || !wrap.contains(btn)) return;
+      $$('[' + attr + ']', wrap).forEach(function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
+      onPick(btn.getAttribute(attr), btn);
+      clearErr();
+      save();
+    });
+  }
+
+  function pressed(containerId, attr) {
+    var wrap = $(containerId);
+    if (!wrap) return '';
+    var on = wrap.querySelector('[' + attr + '][aria-pressed="true"]');
+    return on ? on.getAttribute(attr) : '';
+  }
+
+  function press(containerId, attr, value) {
+    var wrap = $(containerId);
+    if (!wrap || !value) return;
+    $$('[' + attr + ']', wrap).forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute(attr) === value));
+    });
+  }
+
+  /* ------------------------------------------------------------------ *
+   * screen 1 — confirm, don't ask
+   * ------------------------------------------------------------------ */
+  var ID_FIELDS = ['first_name', 'last_name', 'company_name', 'email', 'contact_phone', 'address1', 'city', 'state', 'postal_code'];
+
+  function renderCard() {
+    var name = [D.first_name, D.last_name].filter(Boolean).join(' ');
+    var addr = [D.address1, [D.city, D.state].filter(Boolean).join(', '), D.postal_code].filter(Boolean).join('  ');
+    $('cName').textContent = name || '—';
+    $('cBiz').textContent = D.company_name || '—';
+    $('cEmail').textContent = D.email || '—';
+    $('cPhone').textContent = D.contact_phone ? prettyPhone(D.contact_phone) : '—';
+    $('cAddr').textContent = addr || '—';
+    $('ownerSameEmail').textContent = D.email || 'Your checkout email';
+    $('regSameLine').textContent = addr ? 'Same as ' + addr : 'Same as my business address';
+  }
+
+  function openEdit(force) {
+    $('idEdit').hidden = false;
+    $('idCard').hidden = true;
+    $('idHint').hidden = true;
+    $('idEditBtn').hidden = true;
+    ID_FIELDS.forEach(function (c) { var el = $('f_' + c); if (el) el.value = D[c] || ''; });
+    if (force) {
+      $('q1').textContent = 'First, who are we building for?';
+      var sub = document.querySelector('[data-screen="1"] .sub');
+      if (sub) sub.textContent = "We didn't get these across from checkout, so this is the one place we have to ask.";
+    }
+  }
+
+  /* ------------------------------------------------------------------ *
+   * screen 6 — domain suggestions (no availability API; we confirm by hand)
+   * ------------------------------------------------------------------ */
+  function domainSuggestions() {
+    var base = slug(D.company_name || '').replace(/-/g, '');
+    var city = slug(D.city || '').replace(/-/g, '');
+    var out = [];
+    if (base) {
+      out.push(base + '.com');
+      if (city && (base + city).length <= 30) out.push(base + city + '.com');
+      out.push(base + 'co.com');
+      if (city) out.push(city + base + '.com');
+    }
+    var seen = {}, uniq = [];
+    out.forEach(function (d) { if (!seen[d] && d.length > 5) { seen[d] = 1; uniq.push(d); } });
+    return uniq.slice(0, 3);
+  }
+
+  function renderDomainSuggestions() {
+    var wrap = $('domainSuggest');
+    var list = domainSuggestions();
+    if (!list.length) { wrap.innerHTML = ''; return; }
+    wrap.innerHTML = list.map(function (d) {
+      return '<button type="button" class="opt" data-dom="' + d + '" aria-pressed="false"><b>' + d + '</b></button>';
+    }).join('') + '<button type="button" class="opt quiet" data-dom="" aria-pressed="false"><b>You pick a good one for me</b><em>We register whichever reads best in your name</em></button>';
+    if (D.domain_name) press('domainSuggest', 'data-dom', D.domain_name);
+    else if (D._domainDefer === 'yes') press('domainSuggest', 'data-dom-defer', 'yes');
+  }
+
+  /* ------------------------------------------------------------------ *
+   * screen 7 — trade, services, money services
+   * ------------------------------------------------------------------ */
+  function renderTrades() {
+    $('tradeGrid').innerHTML = Object.keys(TRADES).map(function (t) {
+      return '<button type="button" class="opt" data-trade="' + t + '" aria-pressed="false"><b>' + t + '</b></button>';
+    }).join('');
+  }
+
+  function loadServicesFor(trade, keepSelection) {
+    var list = TRADES[trade] || [];
+    if (!keepSelection) {
+      services = list.filter(function (s) { return s.charAt(0) === '*'; }).map(function (s) { return s.slice(1); });
+      topServices = [];
+    }
+    renderServiceChips(list);
+    renderTopChips();
+    $('servicesWrap').hidden = false;
+  }
+
+  function renderServiceChips(list) {
+    var names = list.map(function (s) { return s.charAt(0) === '*' ? s.slice(1) : s; });
+    services.forEach(function (s) { if (names.indexOf(s) === -1) names.push(s); });
+    $('serviceChips').innerHTML = names.map(function (n) {
+      return '<button type="button" class="chip" data-svc="' + esc(n) + '" aria-pressed="' + (services.indexOf(n) > -1) + '">' + esc(n) + '</button>';
+    }).join('') + '<button type="button" class="chip add" id="addSvc">+ Add one</button>';
+  }
+
+  function renderTopChips() {
+    $('topChips').innerHTML = services.length
+      ? services.map(function (n) {
+          return '<button type="button" class="chip" data-top="' + esc(n) + '" aria-pressed="' + (topServices.indexOf(n) > -1) + '">' + esc(n) + '</button>';
+        }).join('')
+      : '<span class="hint" style="margin:0">Tick a service above first.</span>';
+  }
+
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  /* ------------------------------------------------------------------ *
+   * screen 8 — service area
+   * ------------------------------------------------------------------ */
+  function renderCities() {
+    $('cityChips').innerHTML = cities.map(function (c) {
+      return '<button type="button" class="chip" data-city="' + esc(c) + '" aria-pressed="true">' + esc(c) + '</button>';
+    }).join('') || '<span class="hint" style="margin:0">Add the towns you cover below.</span>';
+  }
+
+  /* ------------------------------------------------------------------ *
+   * the output contract — column order matches apps-script.gs exactly
+   * ------------------------------------------------------------------ */
+  var COLUMNS = [
+    'first_name','last_name','email','company_name','address1','city','state','postal_code','timezone','tags',
+    'gbp_url','gbp_owner_email','google_review_link','existing_website',
+    'legal_business_name','business_type','has_ein','ein','ein_path','ein_disclosure_version',
+    'registered_address','auth_rep_name','auth_rep_title','otp_mobile',
+    'business_phone','phone_carrier','alert_number','alert_number_2',
+    'domain_status','domain_name','registrar','trade','services','top_services',
+    'service_area_type','service_radius_mi','service_cities',
+    'tcpa_attested','agency_authorized','signature_name','signed_at','signed_ip','list_source',
+    'story_mode','story_text','story_recording_url','years_in_business','license_number','insured','bonded',
+    'certifications','team_size','free_estimates','emergency_service','emergency_hours','financing_offered',
+    'warranty_terms','payment_methods','services_declined','logo_status','logo_url','brand_colors','style_pick','design_notes',
+    'reactivation_offer','reactivation_type','referral_offer','referral_type','weekly_capacity','slow_months','do_not_contact',
+    'avg_job_value','monthly_new_customers','weekly_missed_calls','baseline_locked_at','existing_crm','crm_integration',
+    'contact_phone','text_ok','cc_email','best_time',
+    'photos_status','photos_url','list_status','list_url','list_count',
+    'gbp_access_status','domain_access_status','a2p_status','launch_date'
+  ];
+
+  function buildTags() {
+    var t = ['phase1-complete'];
+    if (D.trade) t.push('trade-' + slug(D.trade));
+    if (D.has_ein === 'Yes') t.push('a2p-standard');
+    else if (D.ein_path === 'Sole Proprietor') t.push('a2p-soleprop');
+    t.push('needs-photos');
+    t.push('needs-list');
+    /* An invite (or a reclaim) is pending unless there is no listing to get
+       access to — in that case we create one and there is nothing to chase. */
+    if (D._noGbp !== 'yes') t.push('needs-gbp-access');
+    return t.join(',');
+  }
+
+  function buildPayload() {
+    D.timezone = D.timezone || (function () {
+      try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { return ''; }
+    })();
+    D.services = services.join(',');
+    D.top_services = topServices.join(',');
+    D.service_cities = (D.service_area_type === 'Cities') ? cities.join(',') : '';
+    if (D.service_area_type !== 'Radius') D.service_radius_mi = '';
+    D.tags = buildTags();
+    D.signed_at = todayISO();
+
+    var out = {};
+    COLUMNS.forEach(function (c) {
+      var v = D[c];
+      out[c] = (v === undefined || v === null) ? '' : String(v);
+    });
+    return {
+      submission_id: submissionId(),
+      phase: 'phase1',
+      client_submitted_at: new Date().toISOString(),
+      form_version: DISCLOSURE_VERSION,
+      row: out
+    };
+  }
+
+  function submissionId() {
+    if (!UI.sid) {
+      UI.sid = 'p1-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+      save();
+    }
+    return UI.sid;
+  }
+
+  /* ------------------------------------------------------------------ *
+   * validation — offers, never scolds
+   * ------------------------------------------------------------------ */
+  function clearErr() { $$('.err').forEach(function (e) { e.classList.remove('on'); e.textContent = ''; }); }
+
+  function fail(n, msg, focusId) {
+    var box = $('err' + n);
+    if (box) { box.textContent = msg; box.classList.add('on'); }
+    $('live').textContent = msg;
+    if (focusId && $(focusId)) { $(focusId).focus(); }
+    return false;
+  }
+
+  function validate(n) {
+    clearErr();
+    if (n === 1) {
+      if ($('idEdit').hidden === false) {
+        ID_FIELDS.forEach(function (c) { var el = $('f_' + c); if (el) D[c] = el.value.trim(); });
+      }
+      if (!D.first_name || !D.last_name) return fail(1, 'We need a first and last name to put on the registration.', 'f_first_name');
+      if (!D.company_name) return fail(1, "What's the business called? It goes on the site and the carrier filing.", 'f_company_name');
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(D.email || '')) return fail(1, "That email doesn't look complete — mind checking it?", 'f_email');
+      if (!e164(D.contact_phone)) return fail(1, "That mobile doesn't look like ten digits. It's the number we text you on.", 'f_contact_phone');
+      if (!D.address1 || !D.city || !D.state) return fail(1, 'We need the business address — the carriers check it, and your service area is measured from it.', 'f_address1');
+      if (!digits(D.postal_code)) return fail(1, 'A ZIP code as well, and that part is done.', 'f_postal_code');
+      D.contact_phone = e164(D.contact_phone);
+      D.state = String(D.state).toUpperCase().slice(0, 2);
+      return true;
+    }
+    if (n === 2) {
+      if (!e164(D.business_phone)) return fail(2, "That doesn't look like ten digits — this is the number customers dial.", 'f_business_phone');
+      D.business_phone = e164(D.business_phone);
+      D.gbp_url = D.gbp_url ? cleanUrl(D.gbp_url) : '';
+      D.existing_website = D.existing_website ? cleanUrl(D.existing_website) : '';
+      return true;
+    }
+    if (n === 3) {
+      if (!D._ownerChoice) return fail(3, 'Pick whichever is closest — "I don\'t know" is a real answer here and we handle it.');
+      if (D._ownerChoice === 'other' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(D.gbp_owner_email || '')) {
+        return fail(3, 'We need that address to send the invite to.', 'f_gbp_owner_email');
+      }
+      return true;
+    }
+    if (n === 4) {
+      if (!D.legal_business_name) return fail(4, 'The legal name as it reads on your EIN letter — this is the one the carriers match against.', 'f_legal_business_name');
+      if (!D.business_type) return fail(4, 'Which of these is the business set up as?');
+      var ein = digits(D.ein);
+      if (D.has_ein === 'No') {
+        if (!D.ein_path) return fail(4, 'Have a read of the two options above and pick one — the difference is worth a minute.');
+      } else {
+        if (ein.length !== 9) return fail(4, "That doesn't look like nine digits. If you don't have it on you, tap \"I don't have one\" and we'll sort it.", 'f_ein');
+        D.ein = ein;
+        D.has_ein = 'Yes';
+        D.ein_path = 'Standard';
+      }
+      if (!D._regAddrChoice) return fail(4, 'Is the business registered at that same address?');
+      if (D._regAddrChoice === 'other' && !D.registered_address) return fail(4, 'Where is it registered?', 'f_registered_address');
+      if (!D.auth_rep_name) return fail(4, "Who's signing for the business? Usually you.", 'f_auth_rep_name');
+      if (!e164(D.otp_mobile)) return fail(4, "That doesn't look like ten digits. It has to be a real mobile — the code won't land on an office line.", 'f_otp_mobile');
+      D.otp_mobile = e164(D.otp_mobile);
+      return true;
+    }
+    if (n === 5) {
+      if (!D.phone_carrier) return fail(5, '"Not sure" is fine — we run the lookup either way.', 'f_phone_carrier');
+      if (!e164(D.alert_number)) return fail(5, 'Where should the missed-call alerts land?', 'f_alert_number');
+      D.alert_number = e164(D.alert_number);
+      D.alert_number_2 = e164(D.alert_number_2) || '';
+      return true;
+    }
+    if (n === 6) {
+      if (!D.domain_status) return fail(6, 'Which of these is you?');
+      if (D.domain_status !== 'Need one') {
+        if (!D.domain_name) return fail(6, "What's the address? Just the domain — no https:// needed.", 'f_domain_name');
+        D.domain_name = cleanDomain(D.domain_name);
+      } else {
+        var typed = cleanDomain($('f_domain_wanted') ? $('f_domain_wanted').value : '');
+        if (typed) D.domain_name = typed;
+        if (!D.domain_name && D._domainDefer !== 'yes') {
+          return fail(6, 'Tap one of ours, type your own, or tap "you pick one for me" — any of the three works.');
+        }
+        D.registrar = '';
+      }
+      return true;
+    }
+    if (n === 7) {
+      if (!D.trade) return fail(7, 'Which one is closest? It loads the right service list.');
+      if (!services.length) return fail(7, 'Tick at least one thing you do.');
+      if (!topServices.length) return fail(7, 'Tap the one or two that make you the most money — it decides what the site leads with.');
+      return true;
+    }
+    if (n === 8) {
+      if (D.service_area_type === 'Cities') {
+        if (!cities.length) return fail(8, 'Add at least one town, or switch back to a radius.', 'cityInput');
+      } else {
+        D.service_area_type = 'Radius';
+        D.service_radius_mi = String($('f_service_radius_mi').value || 25);
+      }
+      return true;
+    }
+    if (n === 9) {
+      if (D.tcpa_attested !== 'Yes' || D.agency_authorized !== 'Yes') {
+        return fail(9, 'Both boxes have to be ticked — they are what makes the campaigns legal to send.');
+      }
+      if (!D.signature_name || D.signature_name.trim().length < 3) {
+        return fail(9, 'Type your full name to sign.', 'f_signature_name');
+      }
+      return true;
+    }
+    return true;
+  }
+
+  /* ------------------------------------------------------------------ *
+   * navigation
+   * ------------------------------------------------------------------ */
+  function show(n) {
+    UI.screen = n;
+    $$('.screen').forEach(function (s) { s.classList.toggle('on', Number(s.getAttribute('data-screen')) === n); });
+    var isBoard = n > LAST_SCREEN;
+    $('meter').hidden = isBoard;
+    $('footbar').style.display = isBoard ? 'none' : '';
+    $('backBtn').hidden = (n <= 1);
+    $('nextBtn').textContent = (n === LAST_SCREEN) ? 'Start my build' : 'Continue';
+    $('stepNow').textContent = String(Math.min(n, LAST_SCREEN));
+    $('bar').style.width = (isBoard ? 100 : ((n - 1) / LAST_SCREEN) * 100) + '%';
+    window.scrollTo(0, 0);
+    var h = document.querySelector('.screen.on h1');
+    if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
+    if (n === 5) $('bizPhoneEcho').textContent = D.business_phone ? prettyPhone(D.business_phone) : 'your number';
+    if (n === 6) renderDomainSuggestions();
+    if (n === 8) {
+      var sub = $('areaSub');
+      if (D.city) sub.textContent = 'Measured from ' + D.city + (D.state ? ', ' + D.state : '') + '. This builds the local pages you rank on.';
+    }
+    if (n === 9) $('signDate').textContent = new Date().toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' });
+    save();
+  }
+
+  function next() {
+    var n = UI.screen;
+    if (n > LAST_SCREEN) return;          /* already on the status board */
+    if (!validate(n)) return;
+    save();
+    if (n === LAST_SCREEN) { show(10); submit(); return; }
+    show(n + 1);
+  }
+
+  /* ------------------------------------------------------------------ *
+   * submit — simple request, no preflight. Nothing is cleared without a receipt.
+   * ------------------------------------------------------------------ */
+  var sending = false;
+
+  function submit() {
+    if (sending) return;
+    sending = true;
+    $('boardSending').hidden = false;
+    $('boardDone').hidden = true;
+    $('boardFailed').hidden = true;
+
+    var payload = JSON.stringify(buildPayload());
+
+    if (!ENDPOINT || ENDPOINT.indexOf('PASTE_') === 0) {
+      sending = false;
+      finish(false, 'No endpoint is configured on this page yet.');
+      return;
+    }
+
+    fetch(ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: payload,
+      redirect: 'follow'
+    })
+      .then(function (r) { return r.text(); })
+      .then(function (txt) {
+        var ok = false;
+        try { ok = JSON.parse(txt).ok === true; } catch (e) { ok = false; }
+        sending = false;
+        if (ok) { confirmed(); } else { blind(payload); }
+      })
+      .catch(function () { sending = false; blind(payload); });
+  }
+
+  /* The CORS quirk: a successful write can still look like a failure.
+     Send again opaquely, and treat it as sent-but-unconfirmed —
+     the local copy stays put either way. */
+  function blind(payload) {
+    fetch(ENDPOINT, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: payload
+    })
+      .then(function () { finish(true, null); })
+      .catch(function () { finish(false, 'We could not reach the server.'); });
+  }
+
+  function confirmed() {
+    UI.status = 'submitted';
+    save();
+    finish(true, null, true);
+  }
+
+  function finish(sent, message, receipted) {
+    $('boardSending').hidden = true;
+    if (!sent) {
+      $('boardFailed').hidden = false;
+      if (message) { $('errSend').textContent = message; $('errSend').classList.add('on'); }
+      return;
+    }
+    $('boardDone').hidden = false;
+    $('unconfirmed').hidden = !!receipted;
+    renderBoard();
+  }
+
+  function renderBoard() {
+    var now = new Date();
+    var t = function (offsetSec) {
+      var d = new Date(now.getTime() + offsetSec * 1000);
+      return d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }).toLowerCase();
+    };
+    $('boardToday').textContent = now.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+    $('t1').textContent = t(0);
+    $('t2').textContent = t(20);
+    $('t3').textContent = t(45);
+    $('t4').textContent = t(60);
+
+    if (D.has_ein === 'Yes') $('e1').textContent = 'Filed as a Standard brand. Carrier review is out of our hands — usually a few days.';
+    else if (D.ein_path === 'Sole Proprietor') $('e1').textContent = 'Filed as a Sole Proprietor. We text a code to ' + prettyPhone(D.otp_mobile) + ' — answer it from that phone.';
+    else $('e1').textContent = 'Held for your EIN. Send us the number when the IRS shows it and we file the same hour.';
+
+    if (D.domain_status === 'Need one') {
+      $('b2').textContent = 'Domain registration started';
+      $('e2').textContent = D.domain_name ? 'Confirming ' + D.domain_name + ' is free, then registering it in your name.' : "We're picking a good one and registering it in your name.";
+    } else if (D.domain_status === 'Have it with login') {
+      $('b2').textContent = 'Domain transfer request queued';
+      $('e2').textContent = 'Watch for an approval email from your registrar for ' + (D.domain_name || 'your domain') + '.';
+    } else {
+      $('b2').textContent = 'Domain lookup started';
+      $('e2').textContent = "We're running WHOIS on " + (D.domain_name || 'your domain') + ' to find who holds it.';
+    }
+
+    if (D._ownerChoice === 'unknown') {
+      $('b3').textContent = 'Google profile reclaim started';
+      $('e3').textContent = 'No invite to accept — we take it from here.';
+    } else if (D._noGbp === 'yes') {
+      $('b3').textContent = 'New Google profile being created';
+      $('e3').textContent = 'We create it and put it through verification for you.';
+    } else {
+      $('b3').textContent = 'Google manager invite sent';
+      $('e3').textContent = 'Sent to ' + (D.gbp_owner_email || D.email) + '. Accepting it from that inbox is the one thing we can\'t do for you.';
+    }
+
+    $('e4').textContent = topServices.length
+      ? 'Starting with your ' + topServices.slice(0, 3).join(', ').toLowerCase() + ' pages.'
+      : "We're building your pages now.";
+  }
+
+  /* ------------------------------------------------------------------ *
+   * wiring
+   * ------------------------------------------------------------------ */
+  function wire() {
+    $('nextBtn').addEventListener('click', next);
+    $('backBtn').addEventListener('click', function () { if (UI.screen > 1) show(UI.screen - 1); });
+
+    document.addEventListener('keydown', function (ev) {
+      if (ev.key !== 'Enter') return;
+      var el = ev.target;
+      if (el && (el.tagName === 'TEXTAREA' || el.id === 'cityInput' || el.tagName === 'BUTTON')) return;
+      if (UI.screen <= LAST_SCREEN) { ev.preventDefault(); next(); }
+    });
+
+    /* --- 1.1 --- */
+    $('idEditBtn').addEventListener('click', function () { openEdit(false); });
+    ID_FIELDS.forEach(function (c) { bindText('f_' + c, c, c === 'contact_phone' ? prettyPhone : null); });
+
+    /* --- 1.2 --- */
+    bindText('f_business_phone', 'business_phone', prettyPhone);
+    bindText('f_gbp_url', 'gbp_url');
+    bindText('f_existing_website', 'existing_website');
+    $$('[data-skip]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var col = b.getAttribute('data-skip');
+        var input = $('f_' + col);
+        if (input) input.value = '';
+        set(col, '');
+        b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+        $$('[data-skip="' + col + '"]').forEach(function (o) { if (o !== b) o.setAttribute('aria-pressed', 'false'); });
+      });
+    });
+    $('noGbp').addEventListener('click', function () {
+      var on = $('noGbp').getAttribute('aria-pressed') !== 'true';
+      $('noGbp').setAttribute('aria-pressed', String(on));
+      D._noGbp = on ? 'yes' : '';
+      if (on) { $('f_gbp_url').value = ''; set('gbp_url', ''); }
+      save();
+    });
+
+    /* --- 1.3 --- */
+    singleSelect('ownerOpts', 'data-owner', function (v) {
+      D._ownerChoice = v;
+      $('ownerOtherWrap').hidden = (v !== 'other');
+      if (v === 'same') set('gbp_owner_email', D.email || '');
+      if (v === 'unknown') set('gbp_owner_email', '');
+      if (v === 'other') { set('gbp_owner_email', $('f_gbp_owner_email').value.trim()); $('f_gbp_owner_email').focus(); }
+    });
+    bindText('f_gbp_owner_email', 'gbp_owner_email');
+
+    /* --- 1.4 --- */
+    bindText('f_legal_business_name', 'legal_business_name');
+    singleSelect('entityChips', 'data-entity', function (v) {
+      set('business_type', v);
+      if (v === 'Sole Proprietor' && !D.ein) {
+        $('einOffer').textContent = "Plenty of sole proprietors do have an EIN — if you've got one, it's the better path. If not, tap \"I don't have one\".";
+        $('einOffer').classList.add('on');
+      } else { $('einOffer').classList.remove('on'); }
+    });
+
+    var einEl = $('f_ein');
+    einEl.addEventListener('input', function () {
+      var d = digits(einEl.value).slice(0, 9);
+      einEl.value = d.length > 2 ? d.slice(0, 2) + '-' + d.slice(2) : d;
+      set('ein', d);
+      if (d.length) {
+        D.has_ein = 'Yes'; D.ein_path = 'Standard';
+        $('noEinBtn').setAttribute('aria-pressed', 'false');
+        $('einBranch').hidden = true;
+        save();
+      }
+    });
+
+    $('noEinBtn').addEventListener('click', function () {
+      var on = $('noEinBtn').getAttribute('aria-pressed') !== 'true';
+      $('noEinBtn').setAttribute('aria-pressed', String(on));
+      $('einBranch').hidden = !on;
+      if (on) {
+        einEl.value = '';
+        D.ein = ''; D.has_ein = 'No'; D.ein_path = '';
+        D.ein_disclosure_version = DISCLOSURE_VERSION;
+        $('einBranch').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else {
+        D.has_ein = ''; D.ein_path = ''; D.ein_disclosure_version = '';
+        $$('[data-einpath]').forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
+      }
+      clearErr();
+      save();
+    });
+
+    singleSelect('einPathOpts', 'data-einpath', function (v) {
+      set('ein_path', v);
+      set('ein_disclosure_version', DISCLOSURE_VERSION);
+      if (v === 'Getting EIN') {
+        share('Get your free EIN from the IRS here: https://www.irs.gov/businesses/small-businesses-self-employed/apply-for-an-employer-identification-number-ein-online', 'Your free EIN');
+      }
+    });
+
+    singleSelect('regAddrOpts', 'data-regaddr', function (v) {
+      D._regAddrChoice = v;
+      $('regAddrWrap').hidden = (v !== 'other');
+      if (v === 'same') set('registered_address', '');   /* blank = same as address1 */
+      else $('f_registered_address').focus();
+    });
+    bindText('f_registered_address', 'registered_address');
+    bindText('f_auth_rep_name', 'auth_rep_name');
+    bindText('f_auth_rep_title', 'auth_rep_title');
+    bindText('f_otp_mobile', 'otp_mobile', prettyPhone);
+
+    /* --- 1.5 --- */
+    $('f_phone_carrier').addEventListener('change', function () { set('phone_carrier', $('f_phone_carrier').value); });
+    bindText('f_alert_number', 'alert_number', prettyPhone);
+    bindText('f_alert_number_2', 'alert_number_2', prettyPhone);
+    $('addAlert2').addEventListener('click', function () {
+      $('alert2Wrap').hidden = false;
+      $('addAlert2').style.display = 'none';
+      $('f_alert_number_2').focus();
+    });
+
+    /* --- 1.6 --- */
+    singleSelect('domainOpts', 'data-domain', function (v) {
+      set('domain_status', v);
+      $('domainHave').hidden = (v === 'Need one');
+      $('domainNeed').hidden = (v !== 'Need one');
+      if (v === 'Need one') { D.registrar = ''; renderDomainSuggestions(); }
+    });
+    bindText('f_domain_name', 'domain_name', cleanDomain);
+    singleSelect('registrarChips', 'data-registrar', function (v) { set('registrar', v); });
+    $('domainSuggest').addEventListener('click', function (ev) {
+      var b = ev.target.closest('[data-dom]');
+      if (!b) return;
+      $$('[data-dom]', $('domainSuggest')).forEach(function (o) { o.setAttribute('aria-pressed', String(o === b)); });
+      D._domainDefer = b.getAttribute('data-dom') === '' ? 'yes' : '';
+      set('domain_name', b.getAttribute('data-dom'));
+      $('f_domain_wanted').value = '';
+      clearErr();
+    });
+    $('f_domain_wanted').addEventListener('input', function () {
+      var v = $('f_domain_wanted').value.trim();
+      if (v) {
+        $$('[data-dom]', $('domainSuggest')).forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
+        D._domainDefer = '';
+        set('domain_name', cleanDomain(v));
+      }
+    });
+
+    /* --- 1.7 --- */
+    $('tradeGrid').addEventListener('click', function (ev) {
+      var b = ev.target.closest('[data-trade]');
+      if (!b) return;
+      var t = b.getAttribute('data-trade');
+      $$('[data-trade]').forEach(function (o) { o.setAttribute('aria-pressed', String(o === b)); });
+      var changed = (D.trade !== t);
+      set('trade', t);
+      loadServicesFor(t, !changed);
+      clearErr();
+      if (changed) $('servicesWrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      save();
+    });
+
+    $('serviceChips').addEventListener('click', function (ev) {
+      if (ev.target.closest('#addSvc')) {
+        var name = window.prompt('What else do you do?');
+        if (name && name.trim()) {
+          name = name.trim();
+          if (services.indexOf(name) === -1) services.push(name);
+          renderServiceChips(TRADES[D.trade] || []);
+          renderTopChips();
+          save();
+        }
+        return;
+      }
+      var b = ev.target.closest('[data-svc]');
+      if (!b) return;
+      var n = b.getAttribute('data-svc');
+      var i = services.indexOf(n);
+      if (i > -1) {
+        services.splice(i, 1);
+        var j = topServices.indexOf(n);
+        if (j > -1) topServices.splice(j, 1);
+      } else { services.push(n); }
+      b.setAttribute('aria-pressed', String(services.indexOf(n) > -1));
+      renderTopChips();
+      clearErr();
+      save();
+    });
+
+    $('topChips').addEventListener('click', function (ev) {
+      var b = ev.target.closest('[data-top]');
+      if (!b) return;
+      var n = b.getAttribute('data-top');
+      var i = topServices.indexOf(n);
+      if (i > -1) { topServices.splice(i, 1); }
+      else {
+        if (topServices.length >= 3) {
+          $('live').textContent = 'Three is the limit — untick one to swap it.';
+          var box = $('err7');
+          box.textContent = 'Three is the limit. Untick one if you want to swap it.';
+          box.classList.add('on');
+          return;
+        }
+        topServices.push(n);
+      }
+      b.setAttribute('aria-pressed', String(topServices.indexOf(n) > -1));
+      clearErr();
+      save();
+    });
+
+    /* --- 1.8 --- */
+    singleSelect('areaOpts', 'data-area', function (v) {
+      set('service_area_type', v);
+      $('areaRadius').hidden = (v !== 'Radius');
+      $('areaCities').hidden = (v !== 'Cities');
+      if (v === 'Cities') $('cityInput').focus();
+    });
+    $('f_service_radius_mi').addEventListener('input', function () {
+      $('radiusVal').textContent = $('f_service_radius_mi').value;
+      set('service_radius_mi', $('f_service_radius_mi').value);
+    });
+    $('cityInput').addEventListener('keydown', function (ev) {
+      if (ev.key !== 'Enter') return;
+      ev.preventDefault();
+      var v = $('cityInput').value.trim();
+      if (v && cities.indexOf(v) === -1) { cities.push(v); renderCities(); save(); }
+      $('cityInput').value = '';
+      clearErr();
+    });
+    $('cityChips').addEventListener('click', function (ev) {
+      var b = ev.target.closest('[data-city]');
+      if (!b) return;
+      var i = cities.indexOf(b.getAttribute('data-city'));
+      if (i > -1) { cities.splice(i, 1); renderCities(); save(); }
+    });
+
+    /* --- 1.9 --- */
+    [['f_tcpa_attested', 'tcpa_attested', 'chkTcpaWrap'], ['f_agency_authorized', 'agency_authorized', 'chkAgencyWrap']].forEach(function (t) {
+      $(t[0]).addEventListener('change', function () {
+        set(t[1], $(t[0]).checked ? 'Yes' : 'No');
+        $(t[2]).setAttribute('data-on', $(t[0]).checked ? '1' : '0');
+        clearErr();
+      });
+    });
+    bindText('f_signature_name', 'signature_name');
+
+    /* --- board --- */
+    $('retryBtn').addEventListener('click', function () { sending = false; submit(); });
+    $('retryBtn2').addEventListener('click', function () { sending = false; submit(); });
+
+    /* --- share / resume --- */
+    $('shareBtn').addEventListener('click', function () { share(location.href, 'Finish your TruAido setup'); });
+    $('resumeGo').addEventListener('click', function () { $('resumeBar').classList.remove('on'); show(UI.screen || 1); });
+    $('resumeNew').addEventListener('click', function () {
+      if (!window.confirm('Start over? Your saved answers on this device will be cleared.')) return;
+      wiped = true;
+      try { localStorage.removeItem(STORE_KEY); } catch (e) {}
+      location.replace(location.pathname + location.search);
+    });
+
+    window.addEventListener('beforeunload', save);
+  }
+
+  function share(url, title) {
+    if (navigator.share) {
+      navigator.share({ title: title, text: title, url: url }).catch(function () {});
+      return;
+    }
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(function () { $('live').textContent = 'Link copied.'; window.alert('Link copied — paste it into a text to yourself.'); });
+      return;
+    }
+    window.prompt('Copy this link:', url);
+  }
+
+  /* ------------------------------------------------------------------ *
+   * restore everything the customer already answered
+   * ------------------------------------------------------------------ */
+  function repaint() {
+    ID_FIELDS.forEach(function (c) { var el = $('f_' + c); if (el) el.value = D[c] || ''; });
+    ['business_phone','gbp_url','existing_website','gbp_owner_email','legal_business_name',
+     'registered_address','auth_rep_name','auth_rep_title','otp_mobile','alert_number',
+     'alert_number_2','domain_name','signature_name'].forEach(function (c) {
+      var el = $('f_' + c);
+      if (el && D[c]) el.value = /phone|mobile|alert/.test(c) ? prettyPhone(D[c]) : D[c];
+    });
+    if (D.ein) $('f_ein').value = D.ein.length > 2 ? D.ein.slice(0, 2) + '-' + D.ein.slice(2) : D.ein;
+    if (D.phone_carrier) $('f_phone_carrier').value = D.phone_carrier;
+
+    press('entityChips', 'data-entity', D.business_type);
+    press('domainOpts', 'data-domain', D.domain_status);
+    press('registrarChips', 'data-registrar', D.registrar);
+    press('einPathOpts', 'data-einpath', D.ein_path);
+    press('ownerOpts', 'data-owner', D._ownerChoice);
+    press('regAddrOpts', 'data-regaddr', D._regAddrChoice);
+    press('areaOpts', 'data-area', D.service_area_type || 'Radius');
+
+    if (D.has_ein === 'No') { $('noEinBtn').setAttribute('aria-pressed', 'true'); $('einBranch').hidden = false; }
+    if (D._noGbp === 'yes') $('noGbp').setAttribute('aria-pressed', 'true');
+    if (D._ownerChoice === 'other') $('ownerOtherWrap').hidden = false;
+    if (D._regAddrChoice === 'other') $('regAddrWrap').hidden = false;
+    if (D.domain_status) {
+      $('domainHave').hidden = (D.domain_status === 'Need one');
+      $('domainNeed').hidden = (D.domain_status !== 'Need one');
+    }
+    if (D.alert_number_2) { $('alert2Wrap').hidden = false; $('addAlert2').style.display = 'none'; }
+
+    if (D.trade) {
+      $$('[data-trade]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-trade') === D.trade)); });
+      loadServicesFor(D.trade, true);
+    }
+
+    var area = D.service_area_type || 'Radius';
+    $('areaRadius').hidden = (area !== 'Radius');
+    $('areaCities').hidden = (area !== 'Cities');
+    if (D.service_radius_mi) { $('f_service_radius_mi').value = D.service_radius_mi; $('radiusVal').textContent = D.service_radius_mi; }
+    renderCities();
+
+    if (D.tcpa_attested === 'Yes') { $('f_tcpa_attested').checked = true; $('chkTcpaWrap').setAttribute('data-on', '1'); }
+    if (D.agency_authorized === 'Yes') { $('f_agency_authorized').checked = true; $('chkAgencyWrap').setAttribute('data-on', '1'); }
+
+    renderCard();
+  }
+
+  /* ------------------------------------------------------------------ *
+   * honest progress — a real elapsed timer
+   * ------------------------------------------------------------------ */
+  function startClock() {
+    UI.started = Date.now();
+    setInterval(function () {
+      if (UI.screen > LAST_SCREEN) return;
+      var secs = Math.floor(UI.elapsed + (Date.now() - UI.started) / 1000);
+      var m = Math.floor(secs / 60), s = secs % 60;
+      $('clock').textContent = m + ':' + (s < 10 ? '0' : '') + s;
+      if (secs % 10 === 0) { UI.elapsed = secs; UI.started = Date.now(); save(); }
+    }, 1000);
+  }
+
+  /* ------------------------------------------------------------------ *
+   * boot
+   * ------------------------------------------------------------------ */
+  function init() {
+    var saved = load();
+    if (saved) {
+      D = saved.D || {};
+      services = saved.services || [];
+      topServices = saved.topServices || [];
+      cities = saved.cities || [];
+      UI.screen = (saved.UI && saved.UI.screen) || 1;
+      UI.elapsed = (saved.UI && saved.UI.elapsed) || 0;
+      UI.sid = saved.UI && saved.UI.sid;
+      UI.status = (saved.UI && saved.UI.status) || 'draft';
+    }
+    prefillFromUrl();
+
+    renderTrades();
+    wire();
+    repaint();
+
+    var needAsking = !(D.first_name && D.last_name && D.email && D.contact_phone && D.company_name && D.address1);
+    if (needAsking) openEdit(true);
+
+    if (UI.status === 'submitted') {
+      show(10);
+      finish(true, null, true);
+      return;
+    }
+
+    if (saved && UI.screen > 1) {
+      $('resumeBar').classList.add('on');
+      var mins = Math.round((Date.now() - (saved.savedAt || Date.now())) / 60000);
+      $('resumeWhen').textContent = mins < 2 ? 'Just now.' : (mins < 60 ? mins + ' minutes ago.' : 'Earlier today.');
+    }
+
+    show(UI.screen > LAST_SCREEN ? LAST_SCREEN : UI.screen);
+    startClock();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+</body>
+</html>

@@ -2,8 +2,8 @@
 
 Post-checkout onboarding for **The TruAido System**, a $297/mo marketing system for
 contractors and local service businesses. This repo holds the onboarding form the
-customer fills out immediately after paying. It is currently **empty — the form has
-not been built yet.** This file is the complete brief.
+customer fills out immediately after paying. **Phase 1 is built** (`index.html` +
+`apps-script.gs`); Phase 2 is specified but not built. This file is the complete brief.
 
 Owner: Jordan Ewing (ewing9900@gmail.com). Solo founder, pre-first-customer.
 
@@ -51,8 +51,8 @@ Read both before writing code. They are the specification; this file is the cont
 Static site. No build step, no framework, no backend server.
 
 ```
-index.html          Phase 1 interview (TO BUILD)
-apps-script.gs      Google Apps Script endpoint (TO BUILD)
+index.html          Phase 1 interview (BUILT)
+apps-script.gs      Google Apps Script endpoint (BUILT — run setupSheet() once)
 ```
 
 Data path: **form → Google Apps Script web app → Google Sheet → (later) CSV → HighLevel.**
@@ -235,9 +235,12 @@ but not merged**:
 
 ## Open items, roughly in order
 
-1. **Build Phase 1** — `index.html` + `apps-script.gs`, per the spec and field map.
-2. **Create the Google Sheet**, columns in field-map order, EIN/ZIP/phone pre-formatted
-   as plain text.
+1. ~~Build Phase 1~~ — done. Two things remain before it can take a customer: run
+   `setupSheet()` from the Apps Script editor, and paste the deployed `/exec` URL into
+   `ENDPOINT` at the top of `index.html`.
+2. **Create the Google Sheet** — `setupSheet()` writes the 90 columns in field-map order
+   and pre-formats EIN, ZIP and every phone column as plain text. Run it before the
+   first submission, not after.
 3. **Stripe: set the Terms of Service URL** in Settings → Business → Public details
    (`https://truaido.com/terms.html`). The "require customers to accept your terms of
    service" checkbox on the Payment Link is greyed out purely because that field is
