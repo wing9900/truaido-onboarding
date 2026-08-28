@@ -102,6 +102,14 @@
 
   /* ---- confirm card ---- */
   .card { border: 1px solid var(--rule); border-radius: 10px; padding: 20px 22px; background: #fff; box-shadow: 0 1px 2px rgba(16,32,58,0.05); }
+  #recap dd { overflow-wrap: break-word; }
+  @media (max-width: 520px) {
+    #recap dl { grid-template-columns: 1fr; gap: 0; }
+    #recap dt { margin-top: 14px; }
+    #recap dt:first-child { margin-top: 0; }
+    #recap dd { margin-top: 2px; }
+  }
+  .recap-h { font-stretch: 110%; font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 16px; }
   .card dl { display: grid; grid-template-columns: auto 1fr; gap: 10px 18px; align-items: baseline; }
   .card dt { font-size: 12px; font-stretch: 80%; font-weight: 650; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-2); white-space: nowrap; }
   .card dd { font-size: 16px; font-weight: 600; overflow-wrap: anywhere; }
@@ -548,6 +556,11 @@
       <div class="line"><span class="tickmark"></span><span class="txt"><b id="b3">Google manager invite sent</b><time id="t3"></time><em id="e3"></em></span></div>
       <div class="line"><span class="tickmark"></span><span class="txt"><b>Build started</b><time id="t4"></time><em id="e4">We're building your pages now.</em></span></div>
       <div class="line"><span class="tickmark pending"></span><span class="txt"><b>Your site preview</b><em>About five days out. We'll text you the link.</em></span></div>
+    </div>
+
+    <div class="card" id="recap" style="margin-top:26px">
+      <h2 class="recap-h">What we're building from</h2>
+      <dl id="recapList"></dl>
     </div>
 
     <div class="warn" style="border-left-color:var(--green);background:#EDF7F2;color:var(--green-deep)">
@@ -1328,9 +1341,41 @@
       $('e3').textContent = 'Sent to ' + (D.gbp_owner_email || D.email) + '. Accepting it from that inbox is the one thing we can\'t do for you.';
     }
 
+    renderRecap();
+
     $('e4').textContent = topServices.length
       ? 'Starting with your ' + topServices.slice(0, 3).join(', ').toLowerCase() + ' pages.'
       : "We're building your pages now.";
+  }
+
+  /* What they told us, shown back as the brief we're building from. The
+     timeline above says what is happening; this says what it is based on. */
+  function renderRecap() {
+    var area = '';
+    if (D.service_area_type === 'Cities') {
+      area = cities.length + (cities.length === 1 ? ' town' : ' towns');
+    } else {
+      area = (D.service_radius_mi || 25) + ' miles';
+      if (D.city) area += ' around ' + D.city;
+      if (cities.length) area += ', starting with ' + cities.join(' and ');
+    }
+
+    var domain = D.domain_name
+      ? D.domain_name
+      : (D.domain_status === 'Need one' ? "we're choosing one for you" : 'yours');
+
+    var rows = [
+      ['Business', D.company_name],
+      ['Trade', D.trade],
+      ['Services', services.length ? String(services.length) + ' of them' : ''],
+      ['Leading with', topServices.join(', ')],
+      ['Area', area],
+      ['Domain', domain]
+    ];
+
+    $('recapList').innerHTML = rows.filter(function (r) { return r[1]; }).map(function (r) {
+      return '<dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd>';
+    }).join('');
   }
 
   /* ------------------------------------------------------------------ *
