@@ -270,7 +270,7 @@
       <span class="lbl">Got your Google Maps link handy? <span style="font-weight:500;color:var(--ink-2)">Optional. It saves us a minute.</span></span>
       <label class="f"><input type="url" id="f_gbp_url" inputmode="url" autocomplete="off" placeholder="https://maps.app.goo.gl/..." enterkeyhint="next"></label>
       <div class="chips">
-        <button type="button" class="chip skip" data-skip="gbp_url">Skip, you find it</button>
+        <button type="button" class="chip skip" data-skip="gbp_url">Skip, we'll find it</button>
         <button type="button" class="chip" id="noGbp" aria-pressed="false">I don't have a Google listing yet</button>
       </div>
       <p class="hint">If you don't have one, that's fine. We create and verify it for you.</p>
@@ -499,7 +499,7 @@
         <span class="lbl" id="townsLabel">Which towns do you cover?</span>
         <div class="chips" id="cityChips"></div>
         <label class="f" style="margin-top:12px"><input type="text" id="cityInput" placeholder="Type a town and press enter" enterkeyhint="done" autocomplete="off"></label>
-        <div class="chips" id="townsSkipWrap" hidden><button type="button" class="chip skip" id="skipTowns">Skip, you work it out</button></div>
+        <div class="chips" id="townsSkipWrap" hidden><button type="button" class="chip skip" id="skipTowns" aria-pressed="false">Skip, we'll choose them</button></div>
         <p class="hint" id="townsHint">These get their own pages first.</p>
       </div>
     </div>
@@ -1516,11 +1516,24 @@
       if (ev.key !== 'Enter') return;
       ev.preventDefault();
       var v = $('cityInput').value.trim();
-      if (v && cities.indexOf(v) === -1) { cities.push(v); renderCities(); save(); }
+      if (v && cities.indexOf(v) === -1) {
+        cities.push(v);
+        $('skipTowns').setAttribute('aria-pressed', 'false');
+        renderCities();
+        save();
+      }
       $('cityInput').value = '';
       clearErr();
     });
-    $('skipTowns').addEventListener('click', function () { next(); });
+    /* Selects, like every other chip. Advancing is the Continue button's job,
+       and nothing else on the form moves the screen out from under them. */
+    $('skipTowns').addEventListener('click', function () {
+      var on = $('skipTowns').getAttribute('aria-pressed') !== 'true';
+      $('skipTowns').setAttribute('aria-pressed', String(on));
+      if (on && cities.length) { cities = []; renderCities(); }
+      clearErr();
+      save();
+    });
 
     $('cityChips').addEventListener('click', function (ev) {
       var b = ev.target.closest('[data-city]');
