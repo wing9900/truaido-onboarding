@@ -70,6 +70,11 @@
   @media (prefers-reduced-motion: reduce) { .screen { animation: none; } .track > i { transition: none; } }
   .eyebrow { font-stretch: 78%; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; font-size: 12px; color: var(--blue); margin-bottom: 10px; }
   h1.q { font-stretch: 120%; font-weight: 780; font-size: clamp(26px, 5.5vw, 34px); line-height: 1.12; letter-spacing: -0.02em; margin-bottom: 10px; text-wrap: balance; }
+  /* Each screen change moves focus to its heading so a screen reader announces
+     the new question. The heading is tabindex="-1", so it is never reached by
+     Tab and has no need of a focus ring; without this the browser draws one
+     around the headline on every screen. */
+  h1.q:focus, h1.q:focus-visible { outline: none; }
   .sub { font-size: 16px; color: var(--ink-2); max-width: 620px; margin-bottom: 26px; text-wrap: pretty; }
   .block { max-width: 620px; }
   .grp { margin-bottom: 26px; }
