@@ -497,11 +497,13 @@
       <div class="ticks"><span>5</span><span>50</span><span>100</span></div>
     </div>
 
-    <div id="areaCities" hidden style="margin-top:26px">
+    <div id="townsBlock" style="margin-top:28px">
       <div class="grp">
-        <span class="lbl">Which towns do you cover?</span>
+        <span class="lbl" id="townsLabel">Which towns do you cover?</span>
         <div class="chips" id="cityChips"></div>
         <label class="f" style="margin-top:12px"><input type="text" id="cityInput" placeholder="Type a town and press enter" enterkeyhint="done" autocomplete="off"></label>
+        <div class="chips" id="townsSkipWrap" hidden><button type="button" class="chip skip" id="skipTowns">Skip, you work it out</button></div>
+        <p class="hint" id="townsHint">These get their own pages first.</p>
       </div>
     </div>
     <div class="err" id="err8"></div>
@@ -904,6 +906,19 @@
   /* ------------------------------------------------------------------ *
    * screen 8. Service area.
    * ------------------------------------------------------------------ */
+  /* On the radius path the towns are the anchor pages we build first, and the
+     radius fills in the rest. On the cities path they are the whole answer. */
+  function setTownsCopy(mode) {
+    var optional = (mode !== 'Cities');
+    $('townsLabel').innerHTML = optional
+      ? 'Which towns matter most? <span style="font-weight:500;color:var(--ink-2)">(optional, the big ones)</span>'
+      : 'Which towns do you cover?';
+    $('townsHint').textContent = optional
+      ? 'These get their own pages first. We work the rest out from your radius.'
+      : 'Add each town you cover. These become your local pages.';
+    $('townsSkipWrap').hidden = !optional;
+  }
+
   function renderCities() {
     $('cityChips').innerHTML = cities.map(function (c) {
       return '<button type="button" class="chip" data-city="' + esc(c) + '" aria-pressed="true">' + esc(c) + '</button>';
@@ -974,7 +989,7 @@
     })();
     D.services = services.join(',');
     D.top_services = topServices.join(',');
-    D.service_cities = (D.service_area_type === 'Cities') ? cities.join(',') : '';
+    D.service_cities = cities.join(',');   /* named towns count on either path */
     if (D.service_area_type !== 'Radius') D.service_radius_mi = '';
     D.tags = buildTags();
     D.signed_at = todayISO();
@@ -1137,6 +1152,7 @@
     if (n === 8) {
       var sub = $('areaSub');
       if (D.city) sub.textContent = 'Measured from ' + D.city + (D.state ? ', ' + D.state : '') + '. This builds the local pages you rank on.';
+      setTownsCopy(D.service_area_type || 'Radius');
     }
     if (n === 9) $('signDate').textContent = new Date().toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' });
     save();
@@ -1492,7 +1508,7 @@
     singleSelect('areaOpts', 'data-area', function (v) {
       set('service_area_type', v);
       $('areaRadius').hidden = (v !== 'Radius');
-      $('areaCities').hidden = (v !== 'Cities');
+      setTownsCopy(v);
       if (v === 'Cities') $('cityInput').focus();
     });
     $('f_service_radius_mi').addEventListener('input', function () {
@@ -1507,6 +1523,8 @@
       $('cityInput').value = '';
       clearErr();
     });
+    $('skipTowns').addEventListener('click', function () { next(); });
+
     $('cityChips').addEventListener('click', function (ev) {
       var b = ev.target.closest('[data-city]');
       if (!b) return;
@@ -1597,7 +1615,7 @@
 
     var area = D.service_area_type || 'Radius';
     $('areaRadius').hidden = (area !== 'Radius');
-    $('areaCities').hidden = (area !== 'Cities');
+    setTownsCopy(area);
     if (D.service_radius_mi) { $('f_service_radius_mi').value = D.service_radius_mi; $('radiusVal').textContent = D.service_radius_mi; }
     renderCities();
 
