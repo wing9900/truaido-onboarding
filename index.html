@@ -30,7 +30,7 @@
     --white: #FFFFFF;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  /* a class with an explicit display beats the UA rule for [hidden] — make hidden win */
+  /* a class with an explicit display beats the UA rule for [hidden]; make hidden win */
   [hidden] { display: none !important; }
   body {
     background: var(--white);
@@ -231,14 +231,14 @@
   <div class="block">
     <div class="card" id="idCard">
       <dl>
-        <dt>Name</dt><dd id="cName">&mdash;</dd>
-        <dt>Business</dt><dd id="cBiz">&mdash;</dd>
-        <dt>Email</dt><dd id="cEmail">&mdash;</dd>
-        <dt>Mobile</dt><dd id="cPhone">&mdash;</dd>
-        <dt>Address</dt><dd id="cAddr">&mdash;</dd>
+        <dt>Name</dt><dd id="cName">Not provided</dd>
+        <dt>Business</dt><dd id="cBiz">Not provided</dd>
+        <dt>Email</dt><dd id="cEmail">Not provided</dd>
+        <dt>Mobile</dt><dd id="cPhone">Not provided</dd>
+        <dt>Address</dt><dd id="cAddr">Not provided</dd>
       </dl>
     </div>
-    <p class="hint" id="idHint">This is the mobile we'll text you on &mdash; not your business line.</p>
+    <p class="hint" id="idHint">This is the mobile we'll text you on. Not your business line.</p>
 
     <div id="idEdit" hidden style="margin-top:18px">
       <div class="row2">
@@ -255,7 +255,7 @@
         <label class="f"><span>ZIP</span><input type="text" id="f_postal_code" inputmode="numeric" maxlength="10" autocomplete="postal-code" enterkeyhint="done"></label>
       </div>
     </div>
-    <p style="margin-top:14px"><button type="button" class="linkish" id="idEditBtn">Something's wrong &mdash; let me edit it</button></p>
+    <p style="margin-top:14px"><button type="button" class="linkish" id="idEditBtn">Something's wrong. Let me edit it</button></p>
     <div class="err" id="err1"></div>
   </div>
 </section>
@@ -264,19 +264,19 @@
 <section class="screen" data-screen="2" aria-labelledby="q2">
   <p class="eyebrow">Step 2 &middot; Google Business Profile</p>
   <h1 class="q" id="q2">What number do your customers call?</h1>
-  <p class="sub">This is how we find your Google listing &mdash; we look it up by hand before your build starts, so you don't have to go digging.</p>
+  <p class="sub">This is how we find your Google listing. We look it up by hand before your build starts, so you don't have to go digging.</p>
 
   <div class="block">
     <label class="f"><span>Business phone</span><input type="tel" id="f_business_phone" inputmode="tel" autocomplete="off" placeholder="(916) 382-2904" enterkeyhint="next"></label>
 
     <div class="grp" style="margin-top:22px">
-      <span class="lbl">Got your Google Maps link handy? <span style="font-weight:500;color:var(--ink-2)">Optional &mdash; it saves us a minute.</span></span>
+      <span class="lbl">Got your Google Maps link handy? <span style="font-weight:500;color:var(--ink-2)">Optional. It saves us a minute.</span></span>
       <label class="f"><input type="url" id="f_gbp_url" inputmode="url" autocomplete="off" placeholder="https://maps.app.goo.gl/..." enterkeyhint="next"></label>
       <div class="chips">
-        <button type="button" class="chip skip" data-skip="gbp_url">Skip &mdash; you find it</button>
+        <button type="button" class="chip skip" data-skip="gbp_url">Skip, you find it</button>
         <button type="button" class="chip" id="noGbp" aria-pressed="false">I don't have a Google listing yet</button>
       </div>
-      <p class="hint">If you don't have one, that's fine &mdash; we create and verify it for you.</p>
+      <p class="hint">If you don't have one, that's fine. We create and verify it for you.</p>
     </div>
 
     <div class="grp">
@@ -292,7 +292,7 @@
 <section class="screen" data-screen="3" aria-labelledby="q3">
   <p class="eyebrow">Step 3 &middot; Google access</p>
   <h1 class="q" id="q3">Which email owns that Google listing?</h1>
-  <p class="sub">We send a manager invite to that address today. It has to be accepted from the inbox, so it's worth getting right &mdash; this is the single most common thing that stalls a build.</p>
+  <p class="sub">We send a manager invite to that address today. It has to be accepted from the inbox, so it's worth getting right. This is the single most common thing that stalls a build.</p>
 
   <div class="block">
     <div class="opts" id="ownerOpts">
@@ -311,7 +311,7 @@
 <section class="screen" data-screen="4" aria-labelledby="q4">
   <p class="eyebrow">Step 4 &middot; Carrier registration</p>
   <h1 class="q" id="q4">Every US carrier requires this before your number can text.</h1>
-  <p class="sub">Sixty seconds, and we submit it today. This is the one screen that asks for a tax ID &mdash; it's what the carriers check your business against.</p>
+  <p class="sub">Sixty seconds, and we submit it today. This is the one screen that asks for a tax ID. It's what the carriers check your business against.</p>
 
   <div class="block">
     <label class="f"><span>Legal business name</span><input type="text" id="f_legal_business_name" autocomplete="organization" enterkeyhint="next"><span class="hint" style="font-weight:500">Exactly as it reads on your EIN letter. Registration is rejected on a single mismatched character, so it's worth checking.</span></label>
@@ -328,11 +328,11 @@
     </div>
 
     <div class="grp">
-      <span class="lbl">EIN &mdash; your federal tax ID</span>
+      <span class="lbl">EIN, your federal tax ID</span>
       <label class="f"><input type="text" id="f_ein" inputmode="numeric" autocomplete="off" maxlength="10" placeholder="12-3456789" enterkeyhint="next"></label>
       <div class="chips"><button type="button" class="chip" id="noEinBtn" aria-pressed="false">I don't have one</button></div>
       <div class="offer" id="einOffer"></div>
-      <p class="hint"><b>Nine digits.</b> Never your Social Security number &mdash; we don't accept one, and the carriers don't want it either.</p>
+      <p class="hint"><b>Nine digits.</b> Never your Social Security number. We don't accept one, and the carriers don't want it either.</p>
     </div>
 
     <div id="einBranch" hidden>
@@ -341,12 +341,12 @@
         <p>Most sole proprietors don't. There are two ways forward and the difference is worth a minute.</p>
         <p><b>Getting one takes about 10 minutes.</b> The IRS issues an EIN online at irs.gov and shows you the number on screen straight away. It's free, and it's what most banks ask for when you open a business account.</p>
         <p><b>Without one, you still get all of it.</b> Texting from your business number, missed-call text-back, review requests, and your reactivation and referral campaigns. Promotional messages are allowed either way.</p>
-        <p><b>What's different:</b> the carriers cap a business with no EIN at one campaign, one phone number, and about 1,000 messages a day to T-Mobile customers &mdash; roughly a third of US phones. Everything shares that pool: missed-call replies, review requests, and campaigns. A first campaign to a few hundred past customers fits comfortably. A bigger list gets paced over several days instead of going out at once.</p>
+        <p><b>What's different:</b> the carriers cap a business with no EIN at one campaign, one phone number, and about 1,000 messages a day to T-Mobile customers, roughly a third of US phones. Everything shares that pool: missed-call replies, review requests, and campaigns. A first campaign to a few hundred past customers fits comfortably. A bigger list gets paced over several days instead of going out at once.</p>
         <p class="key">The part that matters most: those limits are fixed. Businesses registered with an EIN earn higher limits as they build a track record. Businesses without one never do. You can switch later, but it means registering again and waiting on another carrier review.</p>
         <p>Either way, we text a verification code to your personal mobile. It can't be a VoIP or app-based number, so not your office line.</p>
       </div>
       <div class="opts" id="einPathOpts">
-        <button type="button" class="opt" data-einpath="Getting EIN" aria-pressed="false"><b>Get one free &mdash; text me the link</b><em>We hold your spot and register you as Standard once it's issued</em></button>
+        <button type="button" class="opt" data-einpath="Getting EIN" aria-pressed="false"><b>Get one free. Text me the link</b><em>We hold your spot and register you as Standard once it's issued</em></button>
         <button type="button" class="opt" data-einpath="Sole Proprietor" aria-pressed="false"><b>Register me without an EIN</b><em>Sole Proprietor, with the capped limits above</em></button>
       </div>
     </div>
@@ -390,7 +390,7 @@
           <option>Not sure</option>
         </select>
       </label>
-      <p class="hint"><b>Not sure</b> is a perfectly good answer &mdash; we run the lookup either way.</p>
+      <p class="hint"><b>Not sure</b> is a perfectly good answer. We run the lookup either way.</p>
     </div>
 
     <div class="grp">
@@ -440,7 +440,7 @@
         <div class="opts" id="domainSuggest"></div>
       </div>
       <label class="f"><span>Or type one you'd rather have</span><input type="text" id="f_domain_wanted" inputmode="url" autocomplete="off" placeholder="yourbusiness.com" enterkeyhint="done"></label>
-      <p class="hint">These are built from your business name and city. We check availability before registering &mdash; if one's taken we'll come back with the closest thing.</p>
+      <p class="hint">These are built from your business name and city. We check availability before registering. If one's taken we'll come back with the closest thing.</p>
     </div>
     <div class="err" id="err6"></div>
   </div>
@@ -450,18 +450,18 @@
 <section class="screen" data-screen="7" aria-labelledby="q7">
   <p class="eyebrow">Step 7 &middot; What you do</p>
   <h1 class="q" id="q7">What do you do?</h1>
-  <p class="sub">Pick your trade and we'll load the usual service list &mdash; untick anything you don't do.</p>
+  <p class="sub">Pick your trade and we'll load the usual service list. Untick anything you don't do.</p>
 
   <div class="block">
     <div class="trades" id="tradeGrid"></div>
 
     <div id="servicesWrap" hidden style="margin-top:30px">
       <div class="grp">
-        <span class="lbl">Your services <span style="font-weight:500;color:var(--ink-2)">&mdash; we've ticked the common ones</span></span>
+        <span class="lbl">Your services <span style="font-weight:500;color:var(--ink-2)">(we've ticked the common ones)</span></span>
         <div class="chips" id="serviceChips"></div>
       </div>
       <div class="grp">
-        <span class="lbl">Which of these makes you the most money? <span style="font-weight:500;color:var(--ink-2)">&mdash; up to three</span></span>
+        <span class="lbl">Which of these makes you the most money? <span style="font-weight:500;color:var(--ink-2)">(up to three)</span></span>
         <div class="chips" id="topChips"></div>
         <p class="hint">This decides which services get their own page and rank first. It's the most valuable answer on this screen.</p>
       </div>
@@ -532,10 +532,10 @@
   <div id="boardDone" hidden>
     <p class="eyebrow">Live &middot; <span id="boardToday"></span></p>
     <h1 class="q" id="q10">Your build has started.</h1>
-    <p class="sub">Nothing is charged today. Here's what's already moving &mdash; you don't need to do anything else right now.</p>
+    <p class="sub">Nothing is charged today. Here's what's already moving. You don't need to do anything else right now.</p>
 
     <div class="board">
-      <div class="line"><span class="tickmark"></span><span class="txt"><b>Carrier registration submitted</b><time id="t1"></time><em id="e1">Carrier review is out of our hands &mdash; usually a few days.</em></span></div>
+      <div class="line"><span class="tickmark"></span><span class="txt"><b>Carrier registration submitted</b><time id="t1"></time><em id="e1">Carrier review is out of our hands, usually a few days.</em></span></div>
       <div class="line"><span class="tickmark"></span><span class="txt"><b id="b2">Domain secured</b><time id="t2"></time><em id="e2"></em></span></div>
       <div class="line"><span class="tickmark"></span><span class="txt"><b id="b3">Google manager invite sent</b><time id="t3"></time><em id="e3"></em></span></div>
       <div class="line"><span class="tickmark"></span><span class="txt"><b>Build started</b><time id="t4"></time><em id="e4">We're building your pages now.</em></span></div>
@@ -544,7 +544,7 @@
 
     <div class="warn" style="border-left-color:var(--green);background:#EDF7F2;color:var(--green-deep)">
       <b>Next: the part that makes it yours.</b>
-      Photos and your customer list come to you as a text message &mdash; no forms, no logins. Watch your phone.
+      Photos and your customer list come to you as a text message. No forms, no logins. Watch your phone.
     </div>
 
     <div class="warn" id="unconfirmed" hidden>
@@ -557,7 +557,7 @@
   <div id="boardFailed" hidden>
     <p class="eyebrow">Not sent yet</p>
     <h1 class="q">We couldn't reach the server.</h1>
-    <p class="sub"><b>Your answers are safe on this device</b> &mdash; nothing is lost, and this page will still have them if you close it and come back. Check your connection and try again.</p>
+    <p class="sub"><b>Your answers are safe on this device.</b> Nothing is lost, and this page will still have them if you close it and come back. Check your connection and try again.</p>
     <p><button type="button" class="btn-solid" id="retryBtn2">Try again</button></p>
     <div class="err" id="errSend"></div>
   </div>
@@ -582,12 +582,13 @@
   'use strict';
 
   /* ------------------------------------------------------------------ *
-   * CONFIG — set ENDPOINT to your deployed Apps Script web app URL.
+   * CONFIG. Set ENDPOINT to your deployed Apps Script web app URL.
    * ------------------------------------------------------------------ */
   var ENDPOINT = 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
-  var DISCLOSURE_VERSION = '2026-08-a';
+  var DISCLOSURE_VERSION = '2026-08-b';   /* bumped when the no-EIN copy was reworded */
   var STORE_KEY = 'truaido_onboarding_v1';
   var LAST_SCREEN = 9;
+  var PHONE_DIGITS = 10;   /* US numbers. The carriers will not take anything longer. */
 
   /* ---- trade library: trades named on the landing page ---- */
   /* "*" prefix = pre-ticked, per the spec's "common ones pre-ticked" */
@@ -618,7 +619,7 @@
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
 
   /* ------------------------------------------------------------------ *
-   * formatting — the field map is an output contract
+   * formatting. The field map is an output contract.
    * ------------------------------------------------------------------ */
   function digits(v) { return String(v == null ? '' : v).replace(/[^\d]/g, ''); }
 
@@ -662,7 +663,7 @@
   }
 
   /* ------------------------------------------------------------------ *
-   * persistence — autosave on every change, never cleared before receipt
+   * persistence. Autosave on every change, never cleared before receipt.
    * ------------------------------------------------------------------ */
   var wiped = false;   /* set by "Start over" so beforeunload can't rewrite the draft */
 
@@ -673,7 +674,7 @@
         v: 1, D: D, UI: UI, services: services, topServices: topServices,
         cities: cities, savedAt: Date.now()
       }));
-    } catch (e) { /* private mode — the form still works, it just won't resume */ }
+    } catch (e) { /* private mode. The form still works, it just won't resume. */ }
   }
 
   function load() {
@@ -688,7 +689,7 @@
   function set(k, v) { D[k] = v; save(); }
 
   /* ------------------------------------------------------------------ *
-   * prefill — Stripe hands us what it collected, via the redirect URL
+   * prefill. Stripe hands us what it collected, via the redirect URL.
    * ------------------------------------------------------------------ */
   var PARAM_MAP = {
     first_name: ['first_name', 'firstname', 'fname'],
@@ -723,6 +724,29 @@
   /* ------------------------------------------------------------------ *
    * generic control wiring
    * ------------------------------------------------------------------ */
+  /**
+   * US numbers are ten digits. Strip anything that isn't a digit, drop a
+   * leading country code, and hard-cap at ten so a mistyped or run-on number
+   * can't reach carrier registration. Formatting happens on blur, which keeps
+   * the caret out of trouble while they type.
+   */
+  function bindPhone(id, col) {
+    var el = $(id);
+    if (!el) return;
+    el.setAttribute('maxlength', '20');   /* paste guard; the cap below is the real one */
+    el.addEventListener('input', function () {
+      var d = digits(el.value);
+      if (d.length > 10 && d.charAt(0) === '1') d = d.slice(1);
+      d = d.slice(0, PHONE_DIGITS);
+      if (el.value !== d) el.value = d;
+      set(col, d);
+    });
+    el.addEventListener('blur', function () {
+      var f = prettyPhone(el.value);
+      if (f !== el.value) { el.value = f; set(col, f); }
+    });
+  }
+
   function bindText(id, col, transform) {
     var el = $(id);
     if (!el) return;
@@ -764,18 +788,18 @@
   }
 
   /* ------------------------------------------------------------------ *
-   * screen 1 — confirm, don't ask
+   * screen 1. Confirm, don't ask.
    * ------------------------------------------------------------------ */
   var ID_FIELDS = ['first_name', 'last_name', 'company_name', 'email', 'contact_phone', 'address1', 'city', 'state', 'postal_code'];
 
   function renderCard() {
     var name = [D.first_name, D.last_name].filter(Boolean).join(' ');
     var addr = [D.address1, [D.city, D.state].filter(Boolean).join(', '), D.postal_code].filter(Boolean).join('  ');
-    $('cName').textContent = name || '—';
-    $('cBiz').textContent = D.company_name || '—';
-    $('cEmail').textContent = D.email || '—';
-    $('cPhone').textContent = D.contact_phone ? prettyPhone(D.contact_phone) : '—';
-    $('cAddr').textContent = addr || '—';
+    $('cName').textContent = name || 'Not provided';
+    $('cBiz').textContent = D.company_name || 'Not provided';
+    $('cEmail').textContent = D.email || 'Not provided';
+    $('cPhone').textContent = D.contact_phone ? prettyPhone(D.contact_phone) : 'Not provided';
+    $('cAddr').textContent = addr || 'Not provided';
     $('ownerSameEmail').textContent = D.email || 'Your checkout email';
     $('regSameLine').textContent = addr ? 'Same as ' + addr : 'Same as my business address';
   }
@@ -794,7 +818,7 @@
   }
 
   /* ------------------------------------------------------------------ *
-   * screen 6 — domain suggestions (no availability API; we confirm by hand)
+   * screen 6. Domain suggestions (no availability API; we confirm by hand).
    * ------------------------------------------------------------------ */
   function domainSuggestions() {
     var base = slug(D.company_name || '').replace(/-/g, '');
@@ -823,7 +847,7 @@
   }
 
   /* ------------------------------------------------------------------ *
-   * screen 7 — trade, services, money services
+   * screen 7. Trade, services, money services.
    * ------------------------------------------------------------------ */
   function renderTrades() {
     $('tradeGrid').innerHTML = Object.keys(TRADES).map(function (t) {
@@ -863,7 +887,7 @@
   }
 
   /* ------------------------------------------------------------------ *
-   * screen 8 — service area
+   * screen 8. Service area.
    * ------------------------------------------------------------------ */
   function renderCities() {
     $('cityChips').innerHTML = cities.map(function (c) {
@@ -872,7 +896,7 @@
   }
 
   /* ------------------------------------------------------------------ *
-   * the output contract — column order matches apps-script.gs exactly
+   * the output contract. Column order matches apps-script.gs exactly.
    * ------------------------------------------------------------------ */
   var COLUMNS = [
     'first_name','last_name','email','company_name','address1','city','state','postal_code','timezone','tags',
@@ -901,12 +925,35 @@
     t.push('needs-photos');
     t.push('needs-list');
     /* An invite (or a reclaim) is pending unless there is no listing to get
-       access to — in that case we create one and there is nothing to chase. */
+       access to. In that case we create one and there is nothing to chase. */
     if (D._noGbp !== 'yes') t.push('needs-gbp-access');
     return t.join(',');
   }
 
+  var PHONE_COLUMNS = ['business_phone', 'otp_mobile', 'alert_number', 'alert_number_2', 'contact_phone'];
+
+  /**
+   * The contract is enforced here, at the output boundary, not in per-screen
+   * validation. Validation only runs for screens visited in this session, so a
+   * customer who fills half the form, closes the tab and comes back would
+   * otherwise submit whatever display format was restored from localStorage.
+   * A phone that reached carrier registration as "(916) 555-0142" would be
+   * rejected, and we would not find out for days.
+   */
+  function normalizeForOutput() {
+    PHONE_COLUMNS.forEach(function (c) {
+      if (!D[c]) { D[c] = ''; return; }
+      D[c] = e164(D[c]) || D[c];      /* keep the raw value if it can't be parsed, never drop it */
+    });
+    if (D.state) D.state = String(D.state).toUpperCase().slice(0, 2);
+    if (D.ein) D.ein = digits(D.ein).slice(0, 9);
+    if (D.domain_name) D.domain_name = cleanDomain(D.domain_name);
+    if (D.gbp_url) D.gbp_url = cleanUrl(D.gbp_url);
+    if (D.existing_website) D.existing_website = cleanUrl(D.existing_website);
+  }
+
   function buildPayload() {
+    normalizeForOutput();
     D.timezone = D.timezone || (function () {
       try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { return ''; }
     })();
@@ -940,7 +987,7 @@
   }
 
   /* ------------------------------------------------------------------ *
-   * validation — offers, never scolds
+   * validation. Offers, never scolds.
    * ------------------------------------------------------------------ */
   function clearErr() { $$('.err').forEach(function (e) { e.classList.remove('on'); e.textContent = ''; }); }
 
@@ -960,34 +1007,34 @@
       }
       if (!D.first_name || !D.last_name) return fail(1, 'We need a first and last name to put on the registration.', 'f_first_name');
       if (!D.company_name) return fail(1, "What's the business called? It goes on the site and the carrier filing.", 'f_company_name');
-      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(D.email || '')) return fail(1, "That email doesn't look complete — mind checking it?", 'f_email');
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(D.email || '')) return fail(1, "That email doesn't look complete. Mind checking it?", 'f_email');
       if (!e164(D.contact_phone)) return fail(1, "That mobile doesn't look like ten digits. It's the number we text you on.", 'f_contact_phone');
-      if (!D.address1 || !D.city || !D.state) return fail(1, 'We need the business address — the carriers check it, and your service area is measured from it.', 'f_address1');
+      if (!D.address1 || !D.city || !D.state) return fail(1, 'We need the business address. The carriers check it, and your service area is measured from it.', 'f_address1');
       if (!digits(D.postal_code)) return fail(1, 'A ZIP code as well, and that part is done.', 'f_postal_code');
       D.contact_phone = e164(D.contact_phone);
       D.state = String(D.state).toUpperCase().slice(0, 2);
       return true;
     }
     if (n === 2) {
-      if (!e164(D.business_phone)) return fail(2, "That doesn't look like ten digits — this is the number customers dial.", 'f_business_phone');
+      if (!e164(D.business_phone)) return fail(2, "That doesn't look like ten digits. This is the number customers dial.", 'f_business_phone');
       D.business_phone = e164(D.business_phone);
       D.gbp_url = D.gbp_url ? cleanUrl(D.gbp_url) : '';
       D.existing_website = D.existing_website ? cleanUrl(D.existing_website) : '';
       return true;
     }
     if (n === 3) {
-      if (!D._ownerChoice) return fail(3, 'Pick whichever is closest — "I don\'t know" is a real answer here and we handle it.');
+      if (!D._ownerChoice) return fail(3, 'Pick whichever is closest. "I don\'t know" is a real answer here and we handle it.');
       if (D._ownerChoice === 'other' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(D.gbp_owner_email || '')) {
         return fail(3, 'We need that address to send the invite to.', 'f_gbp_owner_email');
       }
       return true;
     }
     if (n === 4) {
-      if (!D.legal_business_name) return fail(4, 'The legal name as it reads on your EIN letter — this is the one the carriers match against.', 'f_legal_business_name');
+      if (!D.legal_business_name) return fail(4, 'The legal name as it reads on your EIN letter. This is the one the carriers match against.', 'f_legal_business_name');
       if (!D.business_type) return fail(4, 'Which of these is the business set up as?');
       var ein = digits(D.ein);
       if (D.has_ein === 'No') {
-        if (!D.ein_path) return fail(4, 'Have a read of the two options above and pick one — the difference is worth a minute.');
+        if (!D.ein_path) return fail(4, 'Have a read of the two options above and pick one. The difference is worth a minute.');
       } else {
         if (ein.length !== 9) return fail(4, "That doesn't look like nine digits. If you don't have it on you, tap \"I don't have one\" and we'll sort it.", 'f_ein');
         D.ein = ein;
@@ -997,12 +1044,12 @@
       if (!D._regAddrChoice) return fail(4, 'Is the business registered at that same address?');
       if (D._regAddrChoice === 'other' && !D.registered_address) return fail(4, 'Where is it registered?', 'f_registered_address');
       if (!D.auth_rep_name) return fail(4, "Who's signing for the business? Usually you.", 'f_auth_rep_name');
-      if (!e164(D.otp_mobile)) return fail(4, "That doesn't look like ten digits. It has to be a real mobile — the code won't land on an office line.", 'f_otp_mobile');
+      if (!e164(D.otp_mobile)) return fail(4, "That doesn't look like ten digits. It has to be a real mobile, so the code won't land on an office line.", 'f_otp_mobile');
       D.otp_mobile = e164(D.otp_mobile);
       return true;
     }
     if (n === 5) {
-      if (!D.phone_carrier) return fail(5, '"Not sure" is fine — we run the lookup either way.', 'f_phone_carrier');
+      if (!D.phone_carrier) return fail(5, '"Not sure" is fine. We run the lookup either way.', 'f_phone_carrier');
       if (!e164(D.alert_number)) return fail(5, 'Where should the missed-call alerts land?', 'f_alert_number');
       D.alert_number = e164(D.alert_number);
       D.alert_number_2 = e164(D.alert_number_2) || '';
@@ -1011,13 +1058,13 @@
     if (n === 6) {
       if (!D.domain_status) return fail(6, 'Which of these is you?');
       if (D.domain_status !== 'Need one') {
-        if (!D.domain_name) return fail(6, "What's the address? Just the domain — no https:// needed.", 'f_domain_name');
+        if (!D.domain_name) return fail(6, "What's the address? Just the domain, no https:// needed.", 'f_domain_name');
         D.domain_name = cleanDomain(D.domain_name);
       } else {
         var typed = cleanDomain($('f_domain_wanted') ? $('f_domain_wanted').value : '');
         if (typed) D.domain_name = typed;
         if (!D.domain_name && D._domainDefer !== 'yes') {
-          return fail(6, 'Tap one of ours, type your own, or tap "you pick one for me" — any of the three works.');
+          return fail(6, 'Tap one of ours, type your own, or tap "you pick one for me". Any of the three works.');
         }
         D.registrar = '';
       }
@@ -1026,7 +1073,7 @@
     if (n === 7) {
       if (!D.trade) return fail(7, 'Which one is closest? It loads the right service list.');
       if (!services.length) return fail(7, 'Tick at least one thing you do.');
-      if (!topServices.length) return fail(7, 'Tap the one or two that make you the most money — it decides what the site leads with.');
+      if (!topServices.length) return fail(7, 'Tap the one or two that make you the most money. It decides what the site leads with.');
       return true;
     }
     if (n === 8) {
@@ -1040,7 +1087,7 @@
     }
     if (n === 9) {
       if (D.tcpa_attested !== 'Yes' || D.agency_authorized !== 'Yes') {
-        return fail(9, 'Both boxes have to be ticked — they are what makes the campaigns legal to send.');
+        return fail(9, 'Both boxes have to be ticked. They are what makes the campaigns legal to send.');
       }
       if (!D.signature_name || D.signature_name.trim().length < 3) {
         return fail(9, 'Type your full name to sign.', 'f_signature_name');
@@ -1086,7 +1133,7 @@
   }
 
   /* ------------------------------------------------------------------ *
-   * submit — simple request, no preflight. Nothing is cleared without a receipt.
+   * submit. Simple request, no preflight. Nothing is cleared without a receipt.
    * ------------------------------------------------------------------ */
   var sending = false;
 
@@ -1122,7 +1169,7 @@
   }
 
   /* The CORS quirk: a successful write can still look like a failure.
-     Send again opaquely, and treat it as sent-but-unconfirmed —
+     Send again opaquely, and treat it as sent-but-unconfirmed.
      the local copy stays put either way. */
   function blind(payload) {
     fetch(ENDPOINT, {
@@ -1165,8 +1212,8 @@
     $('t3').textContent = t(45);
     $('t4').textContent = t(60);
 
-    if (D.has_ein === 'Yes') $('e1').textContent = 'Filed as a Standard brand. Carrier review is out of our hands — usually a few days.';
-    else if (D.ein_path === 'Sole Proprietor') $('e1').textContent = 'Filed as a Sole Proprietor. We text a code to ' + prettyPhone(D.otp_mobile) + ' — answer it from that phone.';
+    if (D.has_ein === 'Yes') $('e1').textContent = 'Filed as a Standard brand. Carrier review is out of our hands, usually a few days.';
+    else if (D.ein_path === 'Sole Proprietor') $('e1').textContent = 'Filed as a Sole Proprietor. We text a code to ' + prettyPhone(D.otp_mobile) + '. Answer it from that phone.';
     else $('e1').textContent = 'Held for your EIN. Send us the number when the IRS shows it and we file the same hour.';
 
     if (D.domain_status === 'Need one') {
@@ -1182,7 +1229,7 @@
 
     if (D._ownerChoice === 'unknown') {
       $('b3').textContent = 'Google profile reclaim started';
-      $('e3').textContent = 'No invite to accept — we take it from here.';
+      $('e3').textContent = 'No invite to accept. We take it from here.';
     } else if (D._noGbp === 'yes') {
       $('b3').textContent = 'New Google profile being created';
       $('e3').textContent = 'We create it and put it through verification for you.';
@@ -1212,10 +1259,13 @@
 
     /* --- 1.1 --- */
     $('idEditBtn').addEventListener('click', function () { openEdit(false); });
-    ID_FIELDS.forEach(function (c) { bindText('f_' + c, c, c === 'contact_phone' ? prettyPhone : null); });
+    ID_FIELDS.forEach(function (c) {
+      if (c === 'contact_phone') bindPhone('f_' + c, c);
+      else bindText('f_' + c, c);
+    });
 
     /* --- 1.2 --- */
-    bindText('f_business_phone', 'business_phone', prettyPhone);
+    bindPhone('f_business_phone', 'business_phone');
     bindText('f_gbp_url', 'gbp_url');
     bindText('f_existing_website', 'existing_website');
     $$('[data-skip]').forEach(function (b) {
@@ -1251,7 +1301,7 @@
     singleSelect('entityChips', 'data-entity', function (v) {
       set('business_type', v);
       if (v === 'Sole Proprietor' && !D.ein) {
-        $('einOffer').textContent = "Plenty of sole proprietors do have an EIN — if you've got one, it's the better path. If not, tap \"I don't have one\".";
+        $('einOffer').textContent = "Plenty of sole proprietors do have an EIN. If you've got one, it's the better path. If not, tap \"I don't have one\".";
         $('einOffer').classList.add('on');
       } else { $('einOffer').classList.remove('on'); }
     });
@@ -1303,12 +1353,12 @@
     bindText('f_registered_address', 'registered_address');
     bindText('f_auth_rep_name', 'auth_rep_name');
     bindText('f_auth_rep_title', 'auth_rep_title');
-    bindText('f_otp_mobile', 'otp_mobile', prettyPhone);
+    bindPhone('f_otp_mobile', 'otp_mobile');
 
     /* --- 1.5 --- */
     $('f_phone_carrier').addEventListener('change', function () { set('phone_carrier', $('f_phone_carrier').value); });
-    bindText('f_alert_number', 'alert_number', prettyPhone);
-    bindText('f_alert_number_2', 'alert_number_2', prettyPhone);
+    bindPhone('f_alert_number', 'alert_number');
+    bindPhone('f_alert_number_2', 'alert_number_2');
     $('addAlert2').addEventListener('click', function () {
       $('alert2Wrap').hidden = false;
       $('addAlert2').style.display = 'none';
@@ -1391,7 +1441,7 @@
       if (i > -1) { topServices.splice(i, 1); }
       else {
         if (topServices.length >= 3) {
-          $('live').textContent = 'Three is the limit — untick one to swap it.';
+          $('live').textContent = 'Three is the limit. Untick one to swap it.';
           var box = $('err7');
           box.textContent = 'Three is the limit. Untick one if you want to swap it.';
           box.classList.add('on');
@@ -1463,7 +1513,7 @@
       return;
     }
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(url).then(function () { $('live').textContent = 'Link copied.'; window.alert('Link copied — paste it into a text to yourself.'); });
+      navigator.clipboard.writeText(url).then(function () { $('live').textContent = 'Link copied.'; window.alert('Link copied. Paste it into a text to yourself.'); });
       return;
     }
     window.prompt('Copy this link:', url);
@@ -1519,7 +1569,7 @@
   }
 
   /* ------------------------------------------------------------------ *
-   * honest progress — a real elapsed timer
+   * honest progress. A real elapsed timer.
    * ------------------------------------------------------------------ */
   function startClock() {
     UI.started = Date.now();
