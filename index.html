@@ -1358,6 +1358,13 @@
 
   /* What they told us, shown back as the brief we're building from. The
      timeline above says what is happening; this says what it is based on. */
+  /* "A", "A and B", "A, B and C" */
+  function listJoin(arr) {
+    if (arr.length <= 1) return arr.join('');
+    if (arr.length === 2) return arr[0] + ' and ' + arr[1];
+    return arr.slice(0, -1).join(', ') + ' and ' + arr[arr.length - 1];
+  }
+
   function renderRecap() {
     var area = '';
     if (D.service_area_type === 'Cities') {
@@ -1365,7 +1372,11 @@
     } else {
       area = (D.service_radius_mi || 25) + ' miles';
       if (D.city) area += ' around ' + D.city;
-      if (cities.length) area += ', starting with ' + cities.join(' and ');
+      /* Drop the hub city; it is already named as the centre of the radius. */
+      var named = cities.filter(function (c) {
+        return c.trim().toLowerCase() !== String(D.city || '').trim().toLowerCase();
+      });
+      if (named.length) area += ', starting with ' + listJoin(named);
     }
 
     var domain = D.domain_name
