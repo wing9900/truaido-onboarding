@@ -125,6 +125,8 @@
   .nextup-list li { position: relative; padding-left: 26px; margin-bottom: 12px; font-size: 15.5px; line-height: 1.5; color: #fff; max-width: 46ch; }
   .nextup-list li:last-child { margin-bottom: 0; }
   .nextup-list li::before { content: ""; position: absolute; left: 0; top: 0.42em; width: 9px; height: 9px; border-radius: 50%; background: var(--orange); }
+  .nextup a { color: #fff; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(255,255,255,0.5); }
+  @media (hover: hover) { .nextup a:hover { text-decoration-color: #fff; } }
   .nextup p { font-size: 15.5px; line-height: 1.55; color: #D8E8DF; margin: 0; max-width: 46ch; }
   .recap-h { font-stretch: 110%; font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 16px; }
   .card dl { display: grid; grid-template-columns: auto 1fr; gap: 10px 18px; align-items: baseline; }
@@ -586,7 +588,7 @@
       </p>
       <h2 id="nextupH">Watch your phone.</h2>
       <ul class="nextup-list" id="nextupList"></ul>
-      <p id="nextupP">We'll text you shortly for your job photos and customer list. Send them back by text or email, whichever is easier. No forms, no logins.</p>
+      <p id="nextupP">We'll text you shortly for your job photos and customer list. Text them back, or email them to <a href="mailto:info@truaido.com">info@truaido.com</a>, whichever is easier. No forms, no logins.</p>
     </div>
 
     <div class="card" id="recap" style="margin-top:26px">
@@ -1417,9 +1419,10 @@
 
     $('nextupList').innerHTML = acts.map(function (a) { return '<li>' + a + '</li>'; }).join('');
 
-    $('nextupP').textContent = acts.length
-      ? "After that, sit tight. We'll text you for your job photos and customer list. Send them back by text or email, whichever is easier."
-      : "We'll text you shortly for your job photos and customer list. Send them back by text or email, whichever is easier. No forms, no logins.";
+    var mail = '<a href="mailto:info@truaido.com">info@truaido.com</a>';
+    $('nextupP').innerHTML = acts.length
+      ? "After that, sit tight. We'll text you for your job photos and customer list. Text them back, or email them to " + mail + ", whichever is easier."
+      : "We'll text you shortly for your job photos and customer list. Text them back, or email them to " + mail + ", whichever is easier. No forms, no logins.";
   }
 
   function renderRecap() {
