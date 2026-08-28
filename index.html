@@ -319,7 +319,11 @@
   <p class="sub">Sixty seconds, and we submit it today. This is the one screen that asks for a tax ID. It's what the carriers check your business against.</p>
 
   <div class="block">
-    <label class="f"><span>Legal business name</span><input type="text" id="f_legal_business_name" autocomplete="organization" enterkeyhint="next"><span class="hint" style="font-weight:500">Exactly as it reads on your EIN letter. Registration is rejected on a single mismatched character, so it's worth checking.</span></label>
+    <div class="grp">
+      <label class="f" style="margin-bottom:8px"><span>Legal business name</span><input type="text" id="f_legal_business_name" autocomplete="organization" enterkeyhint="next"></label>
+      <div class="chips" id="legalSameWrap" hidden><button type="button" class="chip" id="legalSame" aria-pressed="false"></button></div>
+      <p class="hint">Exactly as it reads on your EIN letter. Often that's your trading name plus LLC or Inc., and for a sole proprietor it's frequently your own name. Carrier registration is rejected on a single mismatched character, so it's worth reading off the paperwork rather than memory.</p>
+    </div>
 
     <div class="grp">
       <span class="lbl">Business type</span>
@@ -1215,6 +1219,10 @@
     window.scrollTo(0, 0);
     var h = document.querySelector('.screen.on h1');
     if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
+    if (n === 4 && D.company_name) {
+      $('legalSame').textContent = 'Same as ' + D.company_name;
+      $('legalSameWrap').hidden = false;
+    }
     if (n === 5) $('bizPhoneEcho').textContent = D.business_phone ? prettyPhone(D.business_phone) : 'your number';
     if (n === 6) renderDomainSuggestions();
     if (n === 8) {
@@ -1433,6 +1441,22 @@
 
     /* --- 1.4 --- */
     bindText('f_legal_business_name', 'legal_business_name');
+    /* Deliberately a tap rather than a prefilled value. A box that already
+       holds the trading name gets confirmed without being read, and for an
+       LLC or a sole proprietor the trading name is usually NOT the legal one.
+       A wrong legal name is not caught here; it comes back days later as a
+       rejected carrier registration. */
+    $('legalSame').addEventListener('click', function () {
+      $('f_legal_business_name').value = D.company_name || '';
+      set('legal_business_name', D.company_name || '');
+      $('legalSame').setAttribute('aria-pressed', 'true');
+      clearErr();
+    });
+    $('f_legal_business_name').addEventListener('input', function () {
+      if ($('f_legal_business_name').value !== (D.company_name || '')) {
+        $('legalSame').setAttribute('aria-pressed', 'false');
+      }
+    });
     singleSelect('entityChips', 'data-entity', function (v) {
       set('business_type', v);
       if (v === 'Sole Proprietor' && !D.ein) {
