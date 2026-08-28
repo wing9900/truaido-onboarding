@@ -738,25 +738,79 @@
   /* ------------------------------------------------------------------ *
    * generic control wiring
    * ------------------------------------------------------------------ */
+  /* Grows into (916) 382-2904 as they type. */
+  function phoneFormat(d) {
+    if (!d) return '';
+    if (d.length <= 3) return '(' + d;
+    if (d.length <= 6) return '(' + d.slice(0, 3) + ') ' + d.slice(3);
+    return '(' + d.slice(0, 3) + ') ' + d.slice(3, 6) + '-' + d.slice(6);
+  }
+
+  function countDigits(s) { return (String(s).match(/\d/g) || []).length; }
+
+  /* Where the caret belongs so it sits just after the nth digit. */
+  function caretAfterDigit(formatted, n) {
+    if (n <= 0) return formatted.charAt(0) === '(' ? 1 : 0;
+    var seen = 0;
+    for (var i = 0; i < formatted.length; i++) {
+      if (formatted.charAt(i) >= '0' && formatted.charAt(i) <= '9') {
+        seen++;
+        if (seen === n) return i + 1;
+      }
+    }
+    return formatted.length;
+  }
+
   /**
-   * US numbers are ten digits. Strip anything that isn't a digit, drop a
-   * leading country code, and hard-cap at ten so a mistyped or run-on number
-   * can't reach carrier registration. Formatting happens on blur, which keeps
-   * the caret out of trouble while they type.
+   * US numbers are ten digits. Anything that isn't a digit is stripped, a
+   * leading country code is dropped, and ten is a hard cap so a mistyped or
+   * run-on number can't reach carrier registration.
+   *
+   * Formatting is live, which means owning the caret. Position is tracked as
+   * "how many digits are to my left" rather than as a string offset, so
+   * inserting a bracket or dash doesn't shunt the cursor. Backspacing onto a
+   * bracket, space or dash deletes the digit before it instead of leaving the
+   * field looking stuck.
    */
   function bindPhone(id, col) {
     var el = $(id);
     if (!el) return;
-    el.setAttribute('maxlength', '20');   /* paste guard; the cap below is the real one */
-    el.addEventListener('input', function () {
-      var d = digits(el.value);
-      if (d.length > 10 && d.charAt(0) === '1') d = d.slice(1);
+    el.setAttribute('maxlength', '20');   /* paste guard; the ten-digit cap below is the real one */
+    var lastDigits = digits(el.value);
+
+    el.addEventListener('input', function (ev) {
+      var raw = el.value;
+      var caret = (el.selectionStart == null) ? raw.length : el.selectionStart;
+      var before = countDigits(raw.slice(0, caret));
+      var d = digits(raw);
+
+      if (d.length > PHONE_DIGITS && d.charAt(0) === '1') {
+        d = d.slice(1);
+        if (before > 0) before--;
+      }
+
+      /* A delete that removed no digit means they hit a separator. Take the
+         digit to its left, which is what they were aiming at. */
+      var deleting = ev && ev.inputType && ev.inputType.indexOf('delete') === 0;
+      if (deleting && d.length === lastDigits.length && before > 0) {
+        d = d.slice(0, before - 1) + d.slice(before);
+        before--;
+      }
+
       d = d.slice(0, PHONE_DIGITS);
-      if (el.value !== d) el.value = d;
-      set(col, d);
+      if (before > d.length) before = d.length;
+
+      var f = phoneFormat(d);
+      lastDigits = d;
+      el.value = f;
+      set(col, f);
+      var pos = caretAfterDigit(f, before);
+      try { el.setSelectionRange(pos, pos); } catch (e) {}
     });
+
     el.addEventListener('blur', function () {
-      var f = prettyPhone(el.value);
+      var f = phoneFormat(digits(el.value).slice(0, PHONE_DIGITS));
+      lastDigits = digits(f);
       if (f !== el.value) { el.value = f; set(col, f); }
     });
   }
@@ -823,7 +877,11 @@
     $('idCard').hidden = true;
     $('idHint').hidden = true;
     $('idEditBtn').hidden = true;
-    ID_FIELDS.forEach(function (c) { var el = $('f_' + c); if (el) el.value = D[c] || ''; });
+    ID_FIELDS.forEach(function (c) {
+      var el = $('f_' + c);
+      if (!el) return;
+      el.value = (c === 'contact_phone' && D[c]) ? phoneFormat(digits(D[c]).slice(-PHONE_DIGITS)) : (D[c] || '');
+    });
     if (force) {
       $('q1').textContent = 'First, who are we building for?';
       var sub = document.querySelector('[data-screen="1"] .sub');
@@ -1590,7 +1648,7 @@
      'registered_address','auth_rep_name','auth_rep_title','otp_mobile','alert_number',
      'alert_number_2','domain_name','signature_name'].forEach(function (c) {
       var el = $('f_' + c);
-      if (el && D[c]) el.value = /phone|mobile|alert/.test(c) ? prettyPhone(D[c]) : D[c];
+      if (el && D[c]) el.value = /phone|mobile|alert/.test(c) ? phoneFormat(digits(D[c]).slice(-PHONE_DIGITS)) : D[c];
     });
     if (D.ein) $('f_ein').value = D.ein.length > 2 ? D.ein.slice(0, 2) + '-' + D.ein.slice(2) : D.ein;
     if (D.phone_carrier) $('f_phone_carrier').value = D.phone_carrier;
