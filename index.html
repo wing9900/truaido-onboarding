@@ -56,6 +56,9 @@
   .track > i { display: block; height: 100%; width: 0; background: var(--green); transition: width 0.35s cubic-bezier(.4,0,.2,1); }
 
   /* ---- resume bar ---- */
+  .paid { display: flex; align-items: flex-start; gap: 11px; background: #EDF7F2; border: 1px solid #CDEBDD; border-radius: 8px; padding: 14px 16px; margin-bottom: 22px; }
+  .paid svg { flex: none; margin-top: 1px; }
+  .paid span { font-size: 14.5px; line-height: 1.45; color: var(--green-deep); }
   .resume { display: none; background: #FDF3E3; border-bottom: 1px solid #F3DCB4; }
   .resume.on { display: block; }
   .resume .container { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding-top: 12px; padding-bottom: 12px; }
@@ -248,6 +251,10 @@
 
 <!-- ============ 1.1 identity ============ -->
 <section class="screen" data-screen="1" aria-labelledby="q1">
+  <div class="paid" id="paidBar" hidden>
+    <svg width="17" height="17" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="#0E8A5F"/><path d="M4.5 8.3 6.9 10.7 11.5 5.6" stroke="#fff" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span><b>You're all set.</b> Your subscription is active and nothing is charged while we build. Now let's get your system started.</span>
+  </div>
   <p class="eyebrow">Step 1 &middot; About 2 minutes left</p>
   <h1 class="q" id="q1">Is this right?</h1>
   <p class="sub">Straight from your checkout. If it all looks correct, one tap and we're moving.</p>
@@ -1848,6 +1855,14 @@
       UI.status = (saved.UI && saved.UI.status) || 'draft';
     }
     prefillFromUrl();
+
+    /* Stripe redirects here instead of showing its own confirmation page, so
+       this screen has to carry the payment acknowledgement. Shown only when
+       they genuinely arrived from checkout; on a bare URL it would be a lie. */
+    try {
+      var q = new URLSearchParams(location.search);
+      if (q.get('session_id') || q.get('checkout') === 'success') $('paidBar').hidden = false;
+    } catch (e) {}
 
     renderTrades();
     wire();
