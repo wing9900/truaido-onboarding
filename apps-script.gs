@@ -111,19 +111,21 @@ function doPost(e) {
 
     // One lock around read-check-append. The form retries on a failed receipt,
     // so the same submission can legitimately arrive twice.
+    var placed = null;
     var lock = LockService.getScriptLock();
     lock.waitLock(20000);
     try {
       if (sid && alreadySeen(sid)) {
         return json({ ok: true, duplicate: true, submission_id: sid });
       }
-      appendRow(row);
+      var at = appendRow(row);
       logSubmission(sid, payload, e);
+      placed = at;
     } finally {
       lock.releaseLock();
     }
 
-    notify(row);
+    notify(row, placed);
     return json({ ok: true, submission_id: sid });
 
   } catch (err) {
@@ -149,6 +151,7 @@ function json(obj) {
  * Sheet writes
  * ========================================================================= */
 
+/** Appends the row and returns { row: <1-based index>, gid: <sheet id> }. */
 function appendRow(row) {
   var sh = ensureSheet();
   var values = COLUMNS.map(function (c) {
@@ -164,6 +167,7 @@ function appendRow(row) {
     var idx = COLUMNS.indexOf(name);
     if (idx > -1) sh.getRange(r, idx + 1).setNumberFormat('@');
   });
+  return { row: r, gid: sh.getSheetId() };
 }
 
 function logSubmission(sid, payload, e) {
@@ -199,18 +203,27 @@ function alreadySeen(sid) {
  * answers. An EIN in an inbox lives there forever, and the sheet is the
  * record. Notify, don't email the data.
  */
-function notify(row) {
+function notify(row, placed) {
   if (!NOTIFY_EMAIL) return;
   try {
     var who = [row.first_name, row.last_name].filter(String).join(' ');
+
+    /* Link at the tab and row, not at the file. A bare /edit URL opens
+       whichever sheet is first, which is how you land on a blank tab. */
+    var link = SpreadsheetApp.getActiveSpreadsheet().getUrl();
+    if (placed) {
+      link += '#gid=' + placed.gid + '&range=A' + placed.row + ':CL' + placed.row;
+    }
+
     var body =
       'A Phase 1 onboarding was submitted.\n\n' +
       'Business: ' + (row.company_name || '(none)') + '\n' +
       'Trade:    ' + (row.trade || '(none)') + '\n' +
-      'A2P path: ' + (row.ein_path || '(none)') + '\n\n' +
+      'A2P path: ' + (row.ein_path || '(none)') + '\n' +
+      (placed ? 'Sheet row: ' + placed.row + '\n' : '') + '\n' +
       'Day-0 actions this fires: carrier registration, domain, Google invite, build start.\n' +
       'The answers are in the sheet. This message deliberately does not repeat them.\n\n' +
-      SpreadsheetApp.getActiveSpreadsheet().getUrl();
+      link;
 
     MailApp.sendEmail(NOTIFY_EMAIL, 'New onboarding: ' + (row.company_name || who), body);
   } catch (err) {
