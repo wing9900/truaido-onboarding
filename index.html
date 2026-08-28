@@ -114,6 +114,14 @@
     #recap dt:first-child { margin-top: 0; }
     #recap dd { margin-top: 2px; }
   }
+  /* The one instruction on this page. Solid deep green so it reads as a
+     section in its own right rather than a notice, and so it survives being
+     the third block on a long scroll. */
+  .nextup { background: var(--green-deep); border-radius: 10px; padding: 26px 26px 28px; margin-top: 26px; }
+  .nextup-eyebrow { display: flex; align-items: center; gap: 8px; font-stretch: 78%; font-weight: 650; letter-spacing: 0.1em; text-transform: uppercase; font-size: 11.5px; color: var(--select); margin-bottom: 12px; }
+  .nextup-eyebrow svg { flex: none; display: block; }
+  .nextup h2 { font-stretch: 120%; font-weight: 780; font-size: clamp(21px, 4.6vw, 26px); line-height: 1.15; letter-spacing: -0.02em; color: #fff; margin-bottom: 10px; }
+  .nextup p { font-size: 15.5px; line-height: 1.55; color: #D8E8DF; margin: 0; max-width: 46ch; }
   .recap-h { font-stretch: 110%; font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 16px; }
   .card dl { display: grid; grid-template-columns: auto 1fr; gap: 10px 18px; align-items: baseline; }
   .card dt { font-size: 12px; font-stretch: 80%; font-weight: 650; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-2); white-space: nowrap; }
@@ -567,14 +575,18 @@
       <div class="line"><span class="tickmark pending"></span><span class="txt"><b>Your site preview</b><em>About five days out. We'll text you the link.</em></span></div>
     </div>
 
+    <div class="nextup">
+      <p class="nextup-eyebrow">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#CDEBDD" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 10.5a1.5 1.5 0 0 1-1.5 1.5H5l-3 3V3.5A1.5 1.5 0 0 1 3.5 2h9A1.5 1.5 0 0 1 14 3.5z"/></svg>
+        What happens next
+      </p>
+      <h2>Watch your phone.</h2>
+      <p>Your job photos and customer list come to you as a text message, not a form. Nothing to upload, nothing to log into. We'll text you shortly.</p>
+    </div>
+
     <div class="card" id="recap" style="margin-top:26px">
       <h2 class="recap-h">What we're building from</h2>
       <dl id="recapList"></dl>
-    </div>
-
-    <div class="warn" style="border-left-color:var(--green);background:#EDF7F2;color:var(--green-deep)">
-      <b>Next: the part that makes it yours.</b>
-      Photos and your customer list come to you as a text message. No forms, no logins. Watch your phone.
     </div>
 
     <div class="warn" id="unconfirmed" hidden>
