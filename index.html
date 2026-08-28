@@ -586,7 +586,7 @@
       </p>
       <h2 id="nextupH">Watch your phone.</h2>
       <ul class="nextup-list" id="nextupList"></ul>
-      <p id="nextupP">We'll text you shortly for your job photos and customer list. Send them straight back from your phone. No forms, no logins.</p>
+      <p id="nextupP">We'll text you shortly for your job photos and customer list. Send them back by text or email, whichever is easier. No forms, no logins.</p>
     </div>
 
     <div class="card" id="recap" style="margin-top:26px">
@@ -1418,8 +1418,8 @@
     $('nextupList').innerHTML = acts.map(function (a) { return '<li>' + a + '</li>'; }).join('');
 
     $('nextupP').textContent = acts.length
-      ? "After that, sit tight. We'll text you for your job photos and customer list, and you can send them straight back from your phone."
-      : "We'll text you shortly for your job photos and customer list. Send them straight back from your phone. No forms, no logins.";
+      ? "After that, sit tight. We'll text you for your job photos and customer list. Send them back by text or email, whichever is easier."
+      : "We'll text you shortly for your job photos and customer list. Send them back by text or email, whichever is easier. No forms, no logins.";
   }
 
   function renderRecap() {
