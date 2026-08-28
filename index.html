@@ -346,8 +346,12 @@
         <p>Either way, we text a verification code to your personal mobile. It can't be a VoIP or app-based number, so not your office line.</p>
       </div>
       <div class="opts" id="einPathOpts">
-        <button type="button" class="opt" data-einpath="Getting EIN" aria-pressed="false"><b>Get one free. Text me the link</b><em>We hold your spot and register you as Standard once it's issued</em></button>
+        <button type="button" class="opt" data-einpath="Getting EIN" aria-pressed="false"><b>Get one free, I'll send the number over</b><em>We text you the link, hold your spot, and register you as Standard once the IRS issues it</em></button>
         <button type="button" class="opt" data-einpath="Sole Proprietor" aria-pressed="false"><b>Register me without an EIN</b><em>Sole Proprietor, with the capped limits above</em></button>
+      </div>
+      <div class="note" id="einLinkNote" hidden>
+        <b>Keep going, this is saved.</b> We'll text the link to your mobile the moment you finish, so you can do it when you're off the road.
+        If you'd rather start now, it's <a href="https://www.irs.gov/businesses/small-businesses-self-employed/apply-for-an-employer-identification-number-ein-online" target="_blank" rel="noopener noreferrer">irs.gov</a>, and this page will still be here when you come back.
       </div>
     </div>
 
@@ -427,6 +431,7 @@
           <button type="button" class="chip" data-registrar="Namecheap" aria-pressed="false">Namecheap</button>
           <button type="button" class="chip" data-registrar="Wix" aria-pressed="false">Wix</button>
           <button type="button" class="chip" data-registrar="Squarespace" aria-pressed="false">Squarespace</button>
+          <button type="button" class="chip" data-registrar="Cloudflare" aria-pressed="false">Cloudflare</button>
           <button type="button" class="chip" data-registrar="Google Domains" aria-pressed="false">Google Domains</button>
           <button type="button" class="chip" data-registrar="Network Solutions" aria-pressed="false">Network Solutions</button>
           <button type="button" class="chip" data-registrar="Not sure" aria-pressed="false">Not sure</button>
@@ -454,6 +459,10 @@
 
   <div class="block">
     <div class="trades" id="tradeGrid"></div>
+
+    <div id="tradeOtherWrap" hidden style="margin-top:18px">
+      <label class="f"><span>What do you call your trade?</span><input type="text" id="f_trade_other" autocomplete="off" placeholder="Mobile detailing, pool service, locksmith..." enterkeyhint="next"><span class="hint" style="font-weight:500">In your own words. It names your pages and tags your account.</span></label>
+    </div>
 
     <div id="servicesWrap" hidden style="margin-top:30px">
       <div class="grp">
@@ -592,6 +601,12 @@
 
   /* ---- trade library: trades named on the landing page ---- */
   /* "*" prefix = pre-ticked, per the spec's "common ones pre-ticked" */
+  var OTHER_TRADE = 'Other service trade';
+
+  /* The grid label keys the service library; D.trade holds what the customer
+     actually calls their trade, which on the Other path is their own words. */
+  function tradeKey() { return D._tradeKey || D.trade || ''; }
+
   var TRADES = {
     'HVAC': ['*AC repair','*AC installation','*Furnace repair','*Furnace installation','Heat pumps','Ductwork','Indoor air quality','*Maintenance plans','Thermostats','Mini-splits','*Emergency service','Commercial HVAC'],
     'Plumbing': ['*Drain cleaning','*Water heaters','*Leak repair','Repiping','*Toilets & faucets','Sewer line repair','Garbage disposals','Water softeners','Gas lines','*Emergency plumbing','Sump pumps','Bathroom remodels'],
@@ -1071,7 +1086,11 @@
       return true;
     }
     if (n === 7) {
-      if (!D.trade) return fail(7, 'Which one is closest? It loads the right service list.');
+      if (!D._tradeKey) return fail(7, 'Which one is closest? It loads the right service list.');
+      if (D._tradeKey === OTHER_TRADE) {
+        D.trade = $('f_trade_other').value.trim();
+        if (!D.trade) return fail(7, "What do you call it? A couple of words is plenty.", 'f_trade_other');
+      }
       if (!services.length) return fail(7, 'Tick at least one thing you do.');
       if (!topServices.length) return fail(7, 'Tap the one or two that make you the most money. It decides what the site leads with.');
       return true;
@@ -1339,9 +1358,11 @@
     singleSelect('einPathOpts', 'data-einpath', function (v) {
       set('ein_path', v);
       set('ein_disclosure_version', DISCLOSURE_VERSION);
-      if (v === 'Getting EIN') {
-        share('Get your free EIN from the IRS here: https://www.irs.gov/businesses/small-businesses-self-employed/apply-for-an-employer-identification-number-ein-online', 'Your free EIN');
-      }
+      /* No share sheet here. Firing one mid-form pushes a paying customer out
+         to another app at the most fragile moment, and it needs a secure
+         context to exist at all. The link is inline, and the actual text goes
+         out from the day-0 sequence, where we already have their mobile. */
+      $('einLinkNote').hidden = (v !== 'Getting EIN');
     });
 
     singleSelect('regAddrOpts', 'data-regaddr', function (v) {
@@ -1398,11 +1419,24 @@
       if (!b) return;
       var t = b.getAttribute('data-trade');
       $$('[data-trade]').forEach(function (o) { o.setAttribute('aria-pressed', String(o === b)); });
-      var changed = (D.trade !== t);
-      set('trade', t);
+      var changed = (D._tradeKey !== t);
+      D._tradeKey = t;
+      $('tradeOtherWrap').hidden = (t !== OTHER_TRADE);
+      if (t === OTHER_TRADE) {
+        D.trade = $('f_trade_other').value.trim();
+        if (changed) $('f_trade_other').focus();
+      } else {
+        D.trade = t;
+      }
       loadServicesFor(t, !changed);
       clearErr();
-      if (changed) $('servicesWrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (changed && t !== OTHER_TRADE) $('servicesWrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      save();
+    });
+
+    $('f_trade_other').addEventListener('input', function () {
+      D.trade = $('f_trade_other').value.trim();
+      clearErr();
       save();
     });
 
@@ -1412,7 +1446,7 @@
         if (name && name.trim()) {
           name = name.trim();
           if (services.indexOf(name) === -1) services.push(name);
-          renderServiceChips(TRADES[D.trade] || []);
+          renderServiceChips(TRADES[tradeKey()] || []);
           renderTopChips();
           save();
         }
@@ -1551,9 +1585,14 @@
     }
     if (D.alert_number_2) { $('alert2Wrap').hidden = false; $('addAlert2').style.display = 'none'; }
 
-    if (D.trade) {
-      $$('[data-trade]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-trade') === D.trade)); });
-      loadServicesFor(D.trade, true);
+    if (tradeKey()) {
+      var key = tradeKey();
+      $$('[data-trade]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-trade') === key)); });
+      if (key === OTHER_TRADE) {
+        $('tradeOtherWrap').hidden = false;
+        $('f_trade_other').value = D.trade || '';
+      }
+      loadServicesFor(key, true);
     }
 
     var area = D.service_area_type || 'Radius';
