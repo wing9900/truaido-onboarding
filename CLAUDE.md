@@ -2,8 +2,10 @@
 
 Post-checkout onboarding for **The TruAido System**, a $297/mo marketing system for
 contractors and local service businesses. This repo holds the onboarding form the
-customer fills out immediately after paying. **Phase 1 is built** (`index.html` +
-`apps-script.gs`); Phase 2 is specified but not built. This file is the complete brief.
+customer fills out immediately after paying. **Phase 1 is built, deployed and live**
+at https://start.truaido.com, and has processed a real checkout end to end. Phase 2 is
+specified but not built. This file is the context; **`PHASE2.md` is the current build
+brief and the place to start.**
 
 Owner: Jordan Ewing (ewing9900@gmail.com). Solo founder, pre-first-customer.
 
@@ -51,9 +53,13 @@ Read both before writing code. They are the specification; this file is the cont
 Static site. No build step, no framework, no backend server.
 
 ```
-index.html          Phase 1 interview (BUILT)
-apps-script.gs      Google Apps Script endpoint (BUILT — run setupSheet() once)
+index.html          Phase 1 interview (BUILT, live at start.truaido.com)
+apps-script.gs      Google Apps Script endpoint (BUILT, deployed)
+PHASE2.md           Phase 2 build brief, current state, and what Phase 1 still owes
 ```
+
+Hosting: Vercel, auto-deploying from `claude/onboarding-phase1` on push. DNS on
+Cloudflare, `start` CNAME to Vercel, grey cloud.
 
 Data path: **form → Google Apps Script web app → Google Sheet → (later) CSV → HighLevel.**
 Free at every step, no vendor caps.
@@ -235,22 +241,19 @@ but not merged**:
 
 ## Open items, roughly in order
 
-1. ~~Build Phase 1~~ — done. Two things remain before it can take a customer: run
-   `setupSheet()` from the Apps Script editor, and paste the deployed `/exec` URL into
-   `ENDPOINT` at the top of `index.html`.
-2. **Create the Google Sheet** — `setupSheet()` writes the 90 columns in field-map order
-   and pre-formats EIN, ZIP and every phone column as plain text. Run it before the
-   first submission, not after.
-3. **Stripe: set the Terms of Service URL** in Settings → Business → Public details
-   (`https://truaido.com/terms.html`). The "require customers to accept your terms of
-   service" checkbox on the Payment Link is greyed out purely because that field is
-   empty. Note some Payment Link settings lock after creation — a new link may be needed,
-   which is a one-line find/replace in the landing page (all buttons share
-   `buy.stripe.com/aFa5kE5oRcaW6lQcgzaIM00`).
-4. **Stripe: configure a trial** so nothing charges at signup. The Terms now promise this
-   in writing; Stripe has to actually do it.
-5. **Set the Stripe success redirect** to the onboarding URL.
-6. **Build Phase 2.**
+Phase 1 shipped and took a live checkout on 2026-08-29. Sheet created, endpoint
+deployed, Stripe ToS URL set, 10-day trial configured, success redirect live.
+**`PHASE2.md` carries the full list with reasoning.** In short:
+
+1. **Redeploy the Apps Script.** The repo copy is ahead of the deployed one.
+2. **Delete the test rows** from `Onboarding`, and the empty `Sheet1` tab.
+3. **Decide 10 vs 14 day trial.** Launch is ~day 7; ten days leaves three days of
+   slack against a promise made in writing.
+4. **Fix Stripe branding contrast** on the secondary checkout pages.
+5. **Wire Stripe prefill.** Stripe passes only `session_id`, so screen 1 currently
+   falls back to asking for nine fields. A Vercel function that exchanges the
+   session for the customer is about half a day, and is the biggest UX win left.
+6. **Build Phase 2.** See `PHASE2.md`.
 7. **Merge the landing-page branch.**
 
 ## Open questions
