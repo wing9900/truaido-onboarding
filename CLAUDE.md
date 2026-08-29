@@ -3,9 +3,9 @@
 Post-checkout onboarding for **The TruAido System**, a $297/mo marketing system for
 contractors and local service businesses. This repo holds the onboarding form the
 customer fills out immediately after paying. **Phase 1 is built, deployed and live**
-at https://start.truaido.com, and has processed a real checkout end to end. Phase 2 is
-specified but not built. This file is the context; **`PHASE2.md` is the current build
-brief and the place to start.**
+at https://start.truaido.com, and has processed a real checkout end to end. **Phase 2 is
+built and tested but not yet deployed.** This file is the context; **`PHASE2.md` says
+what got built, what was left out, and what has to happen before a customer sees it.**
 
 Owner: Jordan Ewing (ewing9900@gmail.com). Solo founder, pre-first-customer.
 
@@ -54,8 +54,11 @@ Static site. No build step, no framework, no backend server.
 
 ```
 index.html          Phase 1 interview (BUILT, live at start.truaido.com)
-apps-script.gs      Google Apps Script endpoint (BUILT, deployed)
-PHASE2.md           Phase 2 build brief, current state, and what Phase 1 still owes
+phase2.html         Phase 2 build brief (BUILT, tested, NOT yet deployed)
+apps-script.gs      Google Apps Script endpoint (BUILT; repo copy is AHEAD of deployed)
+PHASE2.md           What got built, what was left out, what has to happen next
+TRADE-CONTENT.md    The 33 offers and the certification chips, drafted for review
+test/               Mock endpoint over the real script, plus the browser runs
 ```
 
 Hosting: Vercel, auto-deploying from `claude/onboarding-phase1` on push. DNS on
@@ -63,6 +66,14 @@ Cloudflare, `start` CNAME to Vercel, grey cloud.
 
 Data path: **form → Google Apps Script web app → Google Sheet → (later) CSV → HighLevel.**
 Free at every step, no vendor caps.
+
+The endpoint has three modes. **append** is what Phase 1 posts, and it stays the
+default forever because Phase 1 sends no `mode` key at all. **update** is what Phase 2
+posts: it finds that customer's existing row and writes only the 39 Phase 2 columns
+into it, never a Phase 1 answer, and never blanking a cell that already has a value.
+**lookup** turns an email into a `submission_id` so someone can resume on a phone that
+has never seen their draft. A 91st column, `submission_id`, is the key; it is appended
+last so no existing column moves.
 
 Deliberately rejected: Tally and other form builders. Reasons, in order — a coded form
 emits the field map's exact column formats by construction rather than needing cleanup
@@ -82,6 +93,24 @@ This split is the entire abandonment strategy: someone who closes the tab at min
 still gets a website, still has carrier registration in flight. Building this as one
 continuous wizard that only commits at the end destroys that. Build Phase 1 first and
 ship it alone.
+
+### Phase 2 screens
+
+The spec's 2.1 to 2.8 in order, plus photo routing inserted at five.
+
+1. Their story: type it / text a voice note / write it from my reviews
+2. What to brag about: years, license, insured, bonded, trade-seeded certifications
+3. How a job runs: estimates, after hours, financing, warranty, payment, what they don't do
+4. Make it look like you: logo route, colors, notes
+5. Photo routing: text them / pull from social / stock for now. No upload
+6. The campaign: three pre-written offers per trade, editable, plus the referral offer
+7. Capacity: a slider that throttles sends, slow months, do-not-contact
+8. The guarantee baseline: average job, new customers, missed calls, locked and dated
+9. Tools and contact: what they run jobs on, best number, OK to text, best time
+
+Then a board that says what their answers changed, and shows the locked baseline
+back to them. Identity is a magic link (`?id=<submission_id>`), the Phase 1 draft in
+localStorage, or an email lookup. Never a login.
 
 ### Phase 1 screens
 
@@ -243,18 +272,25 @@ but not merged**:
 
 Phase 1 shipped and took a live checkout on 2026-08-29. Sheet created, endpoint
 deployed, Stripe ToS URL set, 10-day trial configured, success redirect live.
+Phase 2 was built the same day and is tested but not deployed.
 **`PHASE2.md` carries the full list with reasoning.** In short:
 
-1. **Redeploy the Apps Script.** The repo copy is ahead of the deployed one.
-2. **Delete the test rows** from `Onboarding`, and the empty `Sheet1` tab.
-3. **Decide 10 vs 14 day trial.** Launch is ~day 7; ten days leaves three days of
+1. **Redeploy the Apps Script.** Not optional now: update mode does not exist in
+   production, so nothing in Phase 2 works until it does. Manage deployments ->
+   pencil -> New version, so the `/exec` URL survives.
+2. **Merge to `claude/onboarding-phase1`,** the branch Vercel builds from. Until
+   then `phase2.html` is a 404 and the button on the Phase 1 board goes nowhere.
+3. **Delete the test rows** from `Onboarding`, and the empty `Sheet1` tab.
+4. **Decide 10 vs 14 day trial.** Launch is ~day 7; ten days leaves three days of
    slack against a promise made in writing.
-4. **Fix Stripe branding contrast** on the secondary checkout pages.
-5. **Wire Stripe prefill.** Stripe passes only `session_id`, so screen 1 currently
+5. **Fix Stripe branding contrast** on the secondary checkout pages.
+6. **Wire Stripe prefill.** Stripe passes only `session_id`, so screen 1 currently
    falls back to asking for nine fields. A Vercel function that exchanges the
    session for the customer is about half a day, and is the biggest UX win left.
-6. **Build Phase 2.** See `PHASE2.md`.
-7. **Merge the landing-page branch.**
+7. **Review the offer prices** in `TRADE-CONTENT.md`. The form ships without them:
+   the offer cards carry a visible blank the customer fills in, because a price we
+   invented is not a price they agreed to.
+8. **Merge the landing-page branch.**
 
 ## Open questions
 

@@ -1,7 +1,7 @@
 /**
  * TruAido onboarding: the Google Apps Script endpoint.
  *
- * Data path: index.html  ->  this web app  ->  Google Sheet  ->  CSV  ->  HighLevel.
+ * Data path: index.html / phase2.html  ->  this web app  ->  Google Sheet  ->  CSV  ->  HighLevel.
  *
  * ---------------------------------------------------------------------------
  * SETUP, once
@@ -20,9 +20,43 @@
  *       Who has access:    Anyone
  *     "Anyone" is required. The customer is not signed in to Google, and an
  *     unauthenticated POST is the whole point.
- *  5. Copy the /exec URL into ENDPOINT at the top of index.html.
+ *  5. Copy the /exec URL into ENDPOINT at the top of index.html AND phase2.html.
  *  6. Re-deploy as a NEW VERSION after any edit here. Apps Script serves the
  *     last deployed version, not the saved one, so an edit alone changes nothing.
+ *     Use Manage deployments -> pencil -> New version -> Deploy so the /exec
+ *     URL stays the same and both forms keep working.
+ *
+ * ---------------------------------------------------------------------------
+ * THREE MODES
+ * ---------------------------------------------------------------------------
+ *  append  (default, and what Phase 1 posts)
+ *      Adds a new row. Phase 1 sends no "mode" key at all, so the default has
+ *      to stay append forever or the live form breaks.
+ *
+ *  update  (what Phase 2 posts)
+ *      Finds that customer's existing row and writes ONLY the Phase 2 columns
+ *      into it. It never duplicates the customer and never touches a Phase 1
+ *      answer. The row is found by submission_id, falling back to email.
+ *
+ *  lookup  (how Phase 2 knows who it is talking to)
+ *      Takes an email, or a submission_id, and hands back who that row belongs
+ *      to. The email direction is the fallback for someone who lost their link.
+ *      The submission_id direction is for the link itself: a magic link opened
+ *      on a phone that has never seen this customer's draft knows the key and
+ *      nothing else, so one call fills in their name and their trade and the
+ *      form stops being generic. There is no password anywhere in this product.
+ *
+ * ---------------------------------------------------------------------------
+ * THE submission_id COLUMN
+ * ---------------------------------------------------------------------------
+ *  Update mode needs a stable key, and the sheet had none. It is appended as
+ *  the last column so every existing column keeps its position and any saved
+ *  HighLevel import mapping still matches. ensureSheet() adds it on the next
+ *  write, so there is no migration to run by hand.
+ *
+ *  Rows written before this column existed have it blank. Those customers are
+ *  found by email instead, and the lookup adopts the row by writing a fresh
+ *  submission_id into it the first time they come back.
  * ---------------------------------------------------------------------------
  */
 
@@ -34,7 +68,8 @@ var SHEET_NAME = 'Onboarding';
 var LOG_NAME   = '_log';
 
 /**
- * The output contract. Order and spelling must match COLUMNS in index.html.
+ * The output contract. Order and spelling must match COLUMNS in index.html
+ * and PHASE2_COLUMNS in phase2.html.
  * Phase 2 and Phase 3 columns are created empty now so the sheet is shaped
  * once and never restructured. A later phase fills them in place.
  */
@@ -62,7 +97,36 @@ var COLUMNS = [
   'contact_phone','text_ok','cc_email','best_time',
   // Phase 3, drop tracking, maintained by hand
   'photos_status','photos_url','list_status','list_url','list_count',
-  'gbp_access_status','domain_access_status','a2p_status','launch_date'
+  'gbp_access_status','domain_access_status','a2p_status','launch_date',
+  // operational key, set by this script, not asked
+  'submission_id'
+];
+
+/**
+ * The only columns update mode is allowed to write.
+ *
+ * This whitelist is the safety property that matters. A Phase 2 payload is a
+ * write against a row that already holds a signed consent, an EIN and a
+ * carrier filing. Naming what may be written, rather than trusting the client
+ * to send only what it should, means a malformed or hostile Phase 2 post can
+ * never reach any of that.
+ *
+ * photos_status is a Phase 3 tracking column, but the ninth Phase 2 screen
+ * routes photos, so Phase 2 sets it and Jordan maintains it afterwards.
+ *
+ * These are contiguous in COLUMNS on purpose. See writeSpan().
+ */
+var PHASE2_COLUMNS = [
+  'story_mode','story_text','story_recording_url',
+  'years_in_business','license_number','insured','bonded','certifications','team_size',
+  'free_estimates','emergency_service','emergency_hours','financing_offered','warranty_terms',
+  'payment_methods','services_declined',
+  'logo_status','logo_url','brand_colors','style_pick','design_notes',
+  'reactivation_offer','reactivation_type','referral_offer','referral_type',
+  'weekly_capacity','slow_months','do_not_contact',
+  'avg_job_value','monthly_new_customers','weekly_missed_calls','baseline_locked_at',
+  'existing_crm','crm_integration','contact_phone','text_ok','cc_email','best_time',
+  'photos_status'
 ];
 
 /** Columns Sheets would otherwise corrupt. Forced to plain text. */
@@ -86,7 +150,7 @@ var REQUIRED = [
  * ========================================================================= */
 
 /**
- * The form posts text/plain on purpose. A Content-Type of application/json
+ * The forms post text/plain on purpose. A Content-Type of application/json
  * triggers a CORS preflight, and Apps Script cannot answer an OPTIONS
  * request. The write succeeds and the browser reports a failure. Simple
  * request in, JSON string body, read here from e.postData.contents.
@@ -98,35 +162,14 @@ function doPost(e) {
     }
 
     var payload = JSON.parse(e.postData.contents);
-    var row = payload.row || {};
-    var sid = String(payload.submission_id || '');
 
-    var missing = [];
-    for (var i = 0; i < REQUIRED.length; i++) {
-      if (!String(row[REQUIRED[i]] || '').trim()) missing.push(REQUIRED[i]);
-    }
-    if (missing.length) {
-      return json({ ok: false, error: 'missing_fields', fields: missing });
-    }
+    /* Phase 1 shipped before modes existed and sends no mode key. Append has
+       to stay the default or the live form stops writing rows. */
+    var mode = String(payload.mode || 'append');
 
-    // One lock around read-check-append. The form retries on a failed receipt,
-    // so the same submission can legitimately arrive twice.
-    var placed = null;
-    var lock = LockService.getScriptLock();
-    lock.waitLock(20000);
-    try {
-      if (sid && alreadySeen(sid)) {
-        return json({ ok: true, duplicate: true, submission_id: sid });
-      }
-      var at = appendRow(row);
-      logSubmission(sid, payload, e);
-      placed = at;
-    } finally {
-      lock.releaseLock();
-    }
-
-    notify(row, placed);
-    return json({ ok: true, submission_id: sid });
+    if (mode === 'lookup') return handleLookup(payload);
+    if (mode === 'update') return handleUpdate(payload, e);
+    return handleAppend(payload, e);
 
   } catch (err) {
     try {
@@ -138,13 +181,322 @@ function doPost(e) {
 
 /** Health check. Open the /exec URL in a browser to confirm the deployment. */
 function doGet() {
-  return json({ ok: true, service: 'truaido-onboarding', columns: COLUMNS.length });
+  return json({
+    ok: true,
+    service: 'truaido-onboarding',
+    columns: COLUMNS.length,
+    modes: ['append', 'update', 'lookup']
+  });
 }
 
 function json(obj) {
   return ContentService
     .createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+/* ========================================================================= *
+ * append. Phase 1.
+ * ========================================================================= */
+
+function handleAppend(payload, e) {
+  var row = payload.row || {};
+  var sid = String(payload.submission_id || '');
+
+  var missing = [];
+  for (var i = 0; i < REQUIRED.length; i++) {
+    if (!String(row[REQUIRED[i]] || '').trim()) missing.push(REQUIRED[i]);
+  }
+  if (missing.length) {
+    return json({ ok: false, error: 'missing_fields', fields: missing });
+  }
+
+  /* Written server side rather than trusted from the payload, so the key in
+     the sheet is always the key the log was written against. */
+  row.submission_id = sid;
+
+  // One lock around read-check-append. The form retries on a failed receipt,
+  // so the same submission can legitimately arrive twice.
+  var placed = null;
+  var lock = LockService.getScriptLock();
+  lock.waitLock(20000);
+  try {
+    if (sid && alreadySeen(sid)) {
+      return json({ ok: true, duplicate: true, submission_id: sid });
+    }
+    var at = appendRow(row);
+    logSubmission(sid, payload, e);
+    placed = at;
+  } finally {
+    lock.releaseLock();
+  }
+
+  notify(row, placed);
+  return json({ ok: true, submission_id: sid });
+}
+
+/* ========================================================================= *
+ * update. Phase 2.
+ * ========================================================================= */
+
+/**
+ * Finds the customer's row and writes the Phase 2 answers into it.
+ *
+ * Blank values are skipped rather than written. A Phase 2 payload carries all
+ * 39 columns whether or not the customer answered them, and a skipped question
+ * must not blank a value that is already there. contact_phone is the case that
+ * proves it: Phase 1 collected it on screen one, and Phase 2 asks again at 2.8.
+ * If they leave it alone, the Phase 1 answer has to survive.
+ *
+ * The consequence, stated plainly: update mode cannot clear a cell back to
+ * blank. Nothing in Phase 2 needs to, and the alternative is a form that can
+ * erase a paying customer's answers on a half-filled resubmit.
+ */
+function handleUpdate(payload, e) {
+  var row = payload.row || {};
+  var sid = String(payload.submission_id || '').trim();
+  var email = String(payload.email || row.email || '').trim();
+
+  if (!sid && !email) {
+    return json({ ok: false, error: 'no_key' });
+  }
+
+  var result;
+  var lock = LockService.getScriptLock();
+  lock.waitLock(20000);
+  try {
+    var sh = ensureSheet();
+    var found = findRow(sh, sid, email);
+    if (!found) {
+      return json({ ok: false, error: 'not_found' });
+    }
+
+    var written = writeSpan(sh, found.row, row);
+    mergeTags(sh, found.row, payload.tags_add, payload.tags_remove);
+
+    /* Adopt a row that predates the submission_id column, so any later write
+       for this customer is keyed rather than guessed at from an email. */
+    if (sid && !found.submission_id) {
+      sh.getRange(found.row, COLUMNS.indexOf('submission_id') + 1).setValue(sid);
+    }
+
+    logSubmission(sid, payload, e, 'update row ' + found.row + ', ' + written + ' fields');
+    result = { row: found.row, gid: sh.getSheetId(), written: written, matched: found.by };
+  } finally {
+    lock.releaseLock();
+  }
+
+  notifyPhase2(row, result);
+  return json({
+    ok: true,
+    mode: 'update',
+    submission_id: sid,
+    row: result.row,
+    written: result.written,
+    matched: result.matched
+  });
+}
+
+/**
+ * Writes the Phase 2 answers as one range operation over one contiguous span.
+ *
+ * PHASE2_COLUMNS runs unbroken from story_mode to photos_status, so the span
+ * between the first and last of them contains nothing else. Reading that span,
+ * changing what the customer answered, and writing it back cannot touch a
+ * Phase 1 cell, and it costs two calls rather than thirty-nine.
+ *
+ * The guard is there because that is a fact about COLUMNS, not a law. If
+ * someone reorders COLUMNS and breaks the run, this falls back to writing the
+ * whitelisted cells one at a time. Slower, and still correct.
+ */
+function writeSpan(sh, rowIndex, row) {
+  var idx = {};
+  var lo = COLUMNS.length, hi = -1;
+  PHASE2_COLUMNS.forEach(function (c) {
+    var i = COLUMNS.indexOf(c);
+    if (i < 0) return;
+    idx[i] = c;
+    if (i < lo) lo = i;
+    if (i > hi) hi = i;
+  });
+  if (hi < 0) return 0;
+
+  var contiguous = true;
+  for (var i = lo; i <= hi; i++) {
+    if (idx[i] === undefined) { contiguous = false; break; }
+  }
+
+  var written = 0;
+
+  if (contiguous) {
+    var range = sh.getRange(rowIndex, lo + 1, 1, hi - lo + 1);
+    var values = range.getValues()[0];
+    for (var c = lo; c <= hi; c++) {
+      var v = row[idx[c]];
+      if (v === undefined || v === null) continue;
+      v = String(v).trim();
+      if (!v) continue;
+      values[c - lo] = v;
+      written++;
+    }
+    if (written) range.setValues([values]);
+  } else {
+    PHASE2_COLUMNS.forEach(function (name) {
+      var col = COLUMNS.indexOf(name);
+      if (col < 0) return;
+      var v = row[name];
+      if (v === undefined || v === null) return;
+      v = String(v).trim();
+      if (!v) return;
+      sh.getRange(rowIndex, col + 1).setValue(v);
+      written++;
+    });
+  }
+
+  /* Same trap as on append: re-assert plain text on the row we just wrote so a
+     leading zero or a leading + survives the write itself. */
+  TEXT_COLUMNS.forEach(function (name) {
+    var col = COLUMNS.indexOf(name);
+    if (col > -1 && idx[col] !== undefined) sh.getRange(rowIndex, col + 1).setNumberFormat('@');
+  });
+
+  return written;
+}
+
+/**
+ * Tags drive every automation HighLevel will ever run for this customer, so
+ * Phase 2 adds to them rather than replacing them. Replacing would drop
+ * phase1-complete and the a2p path, which is how a build silently stops being
+ * picked up by a workflow.
+ */
+function mergeTags(sh, rowIndex, add, remove) {
+  var col = COLUMNS.indexOf('tags');
+  if (col < 0) return;
+  var cell = sh.getRange(rowIndex, col + 1);
+  var current = String(cell.getValue() || '').split(',');
+
+  var out = [], seen = {};
+  var drop = {};
+  (remove || []).forEach(function (t) { drop[String(t).trim()] = true; });
+
+  current.concat(add || []).forEach(function (t) {
+    t = String(t).trim();
+    if (!t || seen[t] || drop[t]) return;
+    seen[t] = true;
+    out.push(t);
+  });
+
+  cell.setValue(out.join(','));
+}
+
+/* ========================================================================= *
+ * lookup. The magic-link fallback.
+ * ========================================================================= */
+
+/**
+ * Says who a row belongs to, given either an email or a submission_id.
+ *
+ * Kept deliberately thin. It returns the key, the first name, the business and
+ * the trade, which is what the form needs to greet them and seed the trade
+ * chips and the offer cards. It does not return their answers, and never
+ * anything from the carrier filing. An unauthenticated endpoint that reads back
+ * a stranger's EIN would be a far worse trade than the one being made here.
+ *
+ * The trade it does make, named honestly: someone who guesses a customer's
+ * email learns that the address belongs to a TruAido customer, and their trade
+ * and business name. Both are on the customer's own website. The alternative
+ * is a password, and the brief rules that out in the first line of its friction
+ * rules: no account, ever. Lookup by submission_id gives away less again, since
+ * the key is an opaque random string rather than something guessable.
+ */
+function handleLookup(payload) {
+  var email = String(payload.email || '').trim();
+  var key = String(payload.submission_id || '').trim();
+  if (email.indexOf('@') < 1) email = '';
+  if (!email && !key) {
+    return json({ ok: true, found: false });
+  }
+
+  var sid, first, company, trade, done;
+  var lock = LockService.getScriptLock();
+  lock.waitLock(20000);
+  try {
+    var sh = ensureSheet();
+    var found = findRow(sh, key, email);
+    if (!found) {
+      return json({ ok: true, found: false });
+    }
+
+    var values = sh.getRange(found.row, 1, 1, COLUMNS.length).getValues()[0];
+    var at = function (name) {
+      var i = COLUMNS.indexOf(name);
+      return i > -1 ? String(values[i] == null ? '' : values[i]).trim() : '';
+    };
+
+    sid = found.submission_id || key;
+    /* A row written before the submission_id column existed. Adopt it now so
+       the customer's Phase 2 write is keyed rather than matched on email. */
+    if (!found.submission_id) {
+      sid = 'p1-adopted-' + Utilities.getUuid().slice(0, 8);
+      sh.getRange(found.row, COLUMNS.indexOf('submission_id') + 1).setValue(sid);
+    }
+
+    first = at('first_name');
+    company = at('company_name');
+    trade = at('trade');
+    done = !!at('baseline_locked_at');
+  } finally {
+    lock.releaseLock();
+  }
+
+  return json({
+    ok: true,
+    found: true,
+    submission_id: sid,
+    first_name: first,
+    company_name: company,
+    trade: trade,
+    phase2_done: done
+  });
+}
+
+/* ========================================================================= *
+ * Row lookup
+ * ========================================================================= */
+
+/**
+ * submission_id first, email second. Both scan bottom up so the most recent
+ * row wins, which is the right answer if a customer ever checks out twice.
+ * Returns { row, by, submission_id } or null.
+ */
+function findRow(sh, sid, email) {
+  var last = sh.getLastRow();
+  if (last < 2) return null;
+
+  var sidCol = COLUMNS.indexOf('submission_id') + 1;
+  var emailCol = COLUMNS.indexOf('email') + 1;
+  var sids = sh.getRange(2, sidCol, last - 1, 1).getValues();
+
+  var i;
+  if (sid) {
+    for (i = sids.length - 1; i >= 0; i--) {
+      if (String(sids[i][0]).trim() === sid) {
+        return { row: i + 2, by: 'submission_id', submission_id: sid };
+      }
+    }
+  }
+
+  if (email) {
+    var want = email.toLowerCase();
+    var emails = sh.getRange(2, emailCol, last - 1, 1).getValues();
+    for (i = emails.length - 1; i >= 0; i--) {
+      if (String(emails[i][0]).trim().toLowerCase() === want) {
+        return { row: i + 2, by: 'email', submission_id: String(sids[i][0]).trim() };
+      }
+    }
+  }
+
+  return null;
 }
 
 /* ========================================================================= *
@@ -170,14 +522,14 @@ function appendRow(row) {
   return { row: r, gid: sh.getSheetId() };
 }
 
-function logSubmission(sid, payload, e) {
+function logSubmission(sid, payload, e, note) {
   var log = ensureLog();
   log.appendRow([
     new Date(),
     sid,
     payload.phase || '',
     payload.client_submitted_at || '',
-    (e && e.parameter && e.parameter.ua) || '',
+    note || (e && e.parameter && e.parameter.ua) || '',
     JSON.stringify(payload)
   ]);
 }
@@ -198,6 +550,19 @@ function alreadySeen(sid) {
   return false;
 }
 
+/* ========================================================================= *
+ * Notifications
+ * ========================================================================= */
+
+/** Deep link at the tab and the row, not at the file. */
+function rowLink(placed) {
+  var link = SpreadsheetApp.getActiveSpreadsheet().getUrl();
+  if (placed) {
+    link += '#gid=' + placed.gid + '&range=A' + placed.row + ':CM' + placed.row;
+  }
+  return link;
+}
+
 /**
  * Tells the owner a submission landed. Deliberately does NOT include the
  * answers. An EIN in an inbox lives there forever, and the sheet is the
@@ -208,13 +573,6 @@ function notify(row, placed) {
   try {
     var who = [row.first_name, row.last_name].filter(String).join(' ');
 
-    /* Link at the tab and row, not at the file. A bare /edit URL opens
-       whichever sheet is first, which is how you land on a blank tab. */
-    var link = SpreadsheetApp.getActiveSpreadsheet().getUrl();
-    if (placed) {
-      link += '#gid=' + placed.gid + '&range=A' + placed.row + ':CL' + placed.row;
-    }
-
     var body =
       'A Phase 1 onboarding was submitted.\n\n' +
       'Business: ' + (row.company_name || '(none)') + '\n' +
@@ -223,11 +581,31 @@ function notify(row, placed) {
       (placed ? 'Sheet row: ' + placed.row + '\n' : '') + '\n' +
       'Day-0 actions this fires: carrier registration, domain, Google invite, build start.\n' +
       'The answers are in the sheet. This message deliberately does not repeat them.\n\n' +
-      link;
+      rowLink(placed);
 
     MailApp.sendEmail(NOTIFY_EMAIL, 'New onboarding: ' + (row.company_name || who), body);
   } catch (err) {
     // A failed notification must never cost us the row.
+  }
+}
+
+/** Same rule for Phase 2: say it arrived, say where, do not repeat it. */
+function notifyPhase2(row, placed) {
+  if (!NOTIFY_EMAIL) return;
+  try {
+    var body =
+      'A Phase 2 build brief was submitted.\n\n' +
+      'Photos:   ' + (row.photos_status || '(not set)') + '\n' +
+      'Logo:     ' + (row.logo_status || '(not set)') + '\n' +
+      'Capacity: ' + (row.weekly_capacity || '(not set)') + ' jobs a week\n' +
+      (placed ? 'Sheet row: ' + placed.row + ', ' + placed.written + ' fields written\n' : '') + '\n' +
+      'The guarantee baseline is captured and timestamped. The build brief is released.\n' +
+      'The answers are in the sheet. This message deliberately does not repeat them.\n\n' +
+      rowLink(placed);
+
+    MailApp.sendEmail(NOTIFY_EMAIL, 'Phase 2 in: row ' + (placed ? placed.row : '?'), body);
+  } catch (err) {
+    // A failed notification must never cost us the write.
   }
 }
 

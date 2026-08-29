@@ -131,6 +131,13 @@
   .nextup a { color: #fff; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(255,255,255,0.5); }
   @media (hover: hover) { .nextup a:hover { text-decoration-color: #fff; } }
   .nextup p { font-size: 15.5px; line-height: 1.55; color: #D8E8DF; margin: 0; max-width: 46ch; }
+  /* The hand-off into part two. Deliberately lighter than .nextup: the deep
+     green block is still the loudest thing on the board, because those are the
+     things that stall a build. This is the next action, not the urgent one. */
+  .part2 { border: 1px solid var(--rule); border-left: 3px solid var(--orange); border-radius: 10px; padding: 22px 24px; background: #FFFDF9; margin-top: 26px; }
+  .part2 h2 { font-stretch: 120%; font-weight: 780; font-size: clamp(19px, 4.2vw, 23px); line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .part2 p { font-size: 15.5px; line-height: 1.5; color: var(--ink-2); margin-bottom: 16px; max-width: 48ch; }
+  .part2 .small { font-size: 13.5px; margin: 12px 0 0; }
   .recap-h { font-stretch: 110%; font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 16px; }
   .card dl { display: grid; grid-template-columns: auto 1fr; gap: 10px 18px; align-items: baseline; }
   .card dt { font-size: 12px; font-stretch: 80%; font-weight: 650; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-2); white-space: nowrap; }
@@ -588,6 +595,13 @@
       <div class="line"><span class="tickmark pending"></span><span class="txt"><b>Your site preview</b><em>About five days out. We'll text you the link.</em></span></div>
     </div>
 
+    <div class="part2">
+      <h2>One more part, and it's the good one.</h2>
+      <p>About seven minutes on what makes the business yours: your story, what we should brag about, and the offer that goes out to your past customers next week.</p>
+      <p><a class="btn-solid" id="part2Link" href="phase2.html">Make it mine</a></p>
+      <p class="small">None of it holds up your launch. If now isn't the moment, we'll text you the link and it'll be waiting.</p>
+    </div>
+
     <div class="nextup">
       <p class="nextup-eyebrow">
         <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#CDEBDD" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 10.5a1.5 1.5 0 0 1-1.5 1.5H5l-3 3V3.5A1.5 1.5 0 0 1 3.5 2h9A1.5 1.5 0 0 1 14 3.5z"/></svg>
@@ -1031,6 +1045,11 @@
 
   /* ------------------------------------------------------------------ *
    * the output contract. Column order matches apps-script.gs exactly.
+   *
+   * One column in the sheet is not here: submission_id. The endpoint writes it
+   * from the payload's own submission_id, so the key in the sheet is always
+   * the key the log was written against. Part two finds this customer's row by
+   * it. Do not add it to this list and send a blank.
    * ------------------------------------------------------------------ */
   var COLUMNS = [
     'first_name','last_name','email','company_name','address1','city','state','postal_code','timezone','tags',
@@ -1380,6 +1399,11 @@
       $('b3').textContent = 'Google manager invite sent';
       $('e3').textContent = 'Sent to ' + (D.gbp_owner_email || D.email) + '. Accepting it from that inbox is the one thing we can\'t do for you.';
     }
+
+    /* Part two updates this same row, so the link has to carry the key. Without
+       it they land on the "which build is this?" gate and have to type the
+       email they just gave us. */
+    $('part2Link').href = 'phase2.html?id=' + encodeURIComponent(submissionId());
 
     renderNextUp();
     renderRecap();
