@@ -519,6 +519,22 @@ async function testMagicLink(browser) {
   await page.waitForFunction(() => /^Dale/.test(document.getElementById('runningWho').textContent), null, { timeout: 6000 });
   check('the key alone is enough to greet them by name', (await page.textContent('#runningWho')).indexOf('Dale') === 0);
 
+  /* The voice-note route names the number on the screen rather than promising
+     a text nobody may send. */
+  await page.click('[data-story="Recorded"]');
+  check('the voice note screen names the number', await page.isVisible('#storyRecNote'));
+  check('and it is the right one',
+    (await page.textContent('#storyRecNote')).indexOf('(925) 389-4584') > -1,
+    await page.textContent('#storyRecNote'));
+  check('and it is tappable on a phone',
+    await page.getAttribute('#storyRecNote .voice-link', 'href') === 'sms:+19253894584',
+    await page.getAttribute('#storyRecNote .voice-link', 'href'));
+  check('the option card names it too, before they commit',
+    (await page.textContent('[data-story="Recorded"]')).indexOf('(925) 389-4584') > -1,
+    await page.textContent('[data-story="Recorded"]'));
+  check('nothing on the page still promises to text them a number',
+    (await page.textContent('[data-screen="1"]')).indexOf('We text you a number') === -1);
+
   await page.click('[data-story="Write it for me"]');
   await page.click('#nextBtn');
   const certLabels = await page.$$eval('#certChips [data-cert]', (els) => els.map((e) => e.getAttribute('data-cert')));
@@ -679,11 +695,14 @@ async function testNoCors(browser) {
   await page.waitForSelector('.screen.on');
   failFirstCall = true;
 
-  await page.click('[data-story="Write it for me"]');
+  await page.click('[data-story="Recorded"]');
   check('it reaches the board with everything skipped', await advanceToBoard(page));
   await page.waitForSelector('#boardDone:not([hidden])', { timeout: 10000 });
 
   check('the board still renders when the first attempt fails', await page.isVisible('#boardDone'));
+  check('the board repeats the voice number rather than promising a text',
+    (await page.textContent('#boardList')).indexOf('Text your voice note to (925) 389-4584') > -1,
+    await page.textContent('#boardList'));
   check('and it says so plainly rather than claiming success', await page.isVisible('#unconfirmed'));
 
   const kept = await page.evaluate(() => !!localStorage.getItem('truaido_phase2_v1'));

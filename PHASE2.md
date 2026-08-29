@@ -182,9 +182,16 @@ the same argument on day 90 as no starting line at all.
 
 ## Decisions that held. Do not reopen.
 
-**Voice note: texted, not recorded.** Offered as "text me, I'd rather say it out
-loud". MediaRecorder is a full day of Safari and Chrome format differences and
-iOS permission states for something a text message does identically.
+**Voice note: texted, not recorded.** Offered as "I'd rather say it out loud",
+with the number on the screen: **(925) 389-4584**, as a tap-to-text link and
+again on the completion board. Naming it beats promising to text it, which is a
+promise the software cannot keep on its own. MediaRecorder is a full day of
+Safari and Chrome format differences and iOS permission states for something a
+text message does identically.
+
+The number is spelled out once, as `VOICE_NUMBER` and `VOICE_SMS` near the top of
+the script in `phase2.html`, and written into the page at boot. Change it there
+and every mention follows.
 
 **Logo: texted or emailed, no upload.** Both of the spec's non-upload options
 are there, plus email, which the Phase 1 board already offers for photos.
@@ -283,11 +290,18 @@ Two more, learned building Phase 2:
 
 ## What Phase 2 hands to day 0
 
-Two of the screens promise a text message: "we text you a number" for the voice
-note, the logo and the photos. Those texts come from the day-0 sequence, which
+The voice note names its number on the screen, so nothing has to be sent for
+that one to work. **The logo and the photo screens still say "we text you a
+number" and do not name it.** Those texts come from the day-0 sequence, which
 needs HighLevel, which waits on first revenue. Until then they are a manual text
 from your own phone, and the sheet tells you which ones to send:
-`story_mode = Recorded`, `logo_status = Texting it`, `photos_status = Waiting`.
+`logo_status = Texting it`, `photos_status = Waiting`.
+
+If (925) 389-4584 is also where logos and photos should land, those two screens
+should name it the same way, and then nothing in Phase 2 depends on a text being
+sent by hand. Photos are the one to think about before doing it: ten or fifteen
+full-resolution images per customer is a different proposition for a personal
+phone than one voice note.
 
 The `phase2-complete` tag releases the build brief. `needs-photos` is dropped
 when they chose stock or social, so the reminder ladder does not chase someone

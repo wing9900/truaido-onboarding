@@ -173,6 +173,7 @@
   /* ---- notices ---- */
   .note { border-left: 3px solid var(--blue); background: #F3F7FC; border-radius: 0 6px 6px 0; padding: 12px 16px; font-size: 14px; color: var(--ink-2); margin-top: 14px; }
   .note b { color: var(--ink); }
+  .note a { color: var(--blue); font-weight: 650; text-underline-offset: 3px; }
 
   /* ---- footer bar ---- */
   .footbar { position: fixed; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.94); backdrop-filter: blur(8px); border-top: 1px solid var(--rule); z-index: 40; padding-bottom: env(safe-area-inset-bottom); }
@@ -268,7 +269,7 @@
   <div class="block">
     <div class="opts" id="storyOpts">
       <button type="button" class="opt" data-story="Typed" aria-pressed="false"><b>I'll type it</b><em>A few sentences in your own words. We tidy it up, you approve it</em></button>
-      <button type="button" class="opt" data-story="Recorded" aria-pressed="false"><b>Text me, I'd rather say it out loud</b><em>We text you a number. Talk for a minute, we write it up from that</em></button>
+      <button type="button" class="opt" data-story="Recorded" aria-pressed="false"><b>I'd rather say it out loud</b><em>Text a voice note to <span class="voice-num"></span>. Talk for a minute, we write it up from that</em></button>
       <button type="button" class="opt quiet" data-story="Write it for me" aria-pressed="false"><b>Skip it, write it from my reviews</b><em>We read what your customers already said about you and draft it. You approve before it goes live</em></button>
     </div>
 
@@ -279,7 +280,9 @@
     </div>
 
     <div class="note" id="storyRecNote" hidden>
-      <b>We'll text you the number.</b> Say what you'd tell a neighbor who asked why they should call you. A minute is plenty, and you can do it from the truck.
+      <b>Text it to <a class="voice-link" href="#"><span class="voice-num"></span></a>.</b>
+      Say what you'd tell a neighbor who asked why they should call you. A minute is plenty, and you can do it from the truck.
+      Carry on here first if you like, this screen is saved and the number is on your confirmation at the end.
     </div>
     <div class="err" id="err1"></div>
   </div>
@@ -739,6 +742,11 @@
 
   /* What goes in license_number when the trade has no license to give. */
   var NO_LICENSE = 'None required';
+
+  /* Where a voice note goes. Written into every .voice-num on the page at boot
+     and into the board line, so this is the only place it is spelled out. */
+  var VOICE_NUMBER = '(925) 389-4584';
+  var VOICE_SMS = 'sms:+19253894584';
 
   /* ------------------------------------------------------------------ *
    * trade content. Certifications and offers, keyed by the same trade
@@ -1542,7 +1550,7 @@
     if (D.story_mode === 'Typed') {
       lines.push(['Your words are in the copy queue', 'We write the page from what you typed, and you approve it before it goes live.', true]);
     } else if (D.story_mode === 'Recorded') {
-      lines.push(["We'll text you for a voice note", 'Talk for a minute. We write the page from that, and you approve it before it goes live.', false]);
+      lines.push(['Text your voice note to ' + VOICE_NUMBER, 'Talk for a minute. We write the page from that, and you approve it before it goes live.', false]);
     } else {
       lines.push(["We're writing your page from your reviews", 'What your customers already said about you, in your voice. You approve it before it goes live.', true]);
     }
@@ -1976,6 +1984,9 @@
         if (!D._p1Phone) D._p1Phone = p1.D.contact_phone || '';
       }
     }
+
+    $$('.voice-num').forEach(function (el) { el.textContent = VOICE_NUMBER; });
+    $$('.voice-link').forEach(function (el) { el.href = VOICE_SMS; });
 
     wire();
     repaint();
