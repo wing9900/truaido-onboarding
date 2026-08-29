@@ -134,10 +134,10 @@
   /* The hand-off into part two. Deliberately lighter than .nextup: the deep
      green block is still the loudest thing on the board, because those are the
      things that stall a build. This is the next action, not the urgent one. */
-  .part2 { border: 1px solid var(--rule); border-left: 3px solid var(--orange); border-radius: 10px; padding: 22px 24px; background: #FFFDF9; margin-top: 26px; }
+  .part2 { border: 1px solid var(--rule); border-left: 3px solid var(--orange); border-radius: 10px; padding: 20px 22px; background: #FFFDF9; margin-top: 26px; }
   .part2 h2 { font-stretch: 120%; font-weight: 780; font-size: clamp(19px, 4.2vw, 23px); line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 8px; }
   .part2 p { font-size: 15.5px; line-height: 1.5; color: var(--ink-2); margin-bottom: 16px; max-width: 48ch; }
-  .part2 .small { font-size: 13.5px; margin: 12px 0 0; }
+  .part2 p:last-child { margin-bottom: 0; }
   .recap-h { font-stretch: 110%; font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 16px; }
   .card dl { display: grid; grid-template-columns: auto 1fr; gap: 10px 18px; align-items: baseline; }
   .card dt { font-size: 12px; font-stretch: 80%; font-weight: 650; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-2); white-space: nowrap; }
@@ -596,10 +596,9 @@
     </div>
 
     <div class="part2">
-      <h2>One more part, and it's the good one.</h2>
-      <p>About seven minutes on what makes the business yours: your story, what we should brag about, and the offer that goes out to your past customers next week.</p>
+      <h2>Seven minutes makes it yours.</h2>
+      <p>Your story, what we should brag about, and the offer that goes out to your past customers. It can wait if now isn't the moment.</p>
       <p><a class="btn-solid" id="part2Link" href="phase2.html">Make it mine</a></p>
-      <p class="small">None of it holds up your launch. If now isn't the moment, we'll text you the link and it'll be waiting.</p>
     </div>
 
     <div class="nextup">
