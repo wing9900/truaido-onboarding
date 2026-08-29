@@ -673,6 +673,7 @@
    * ------------------------------------------------------------------ */
   var D = {};                 // field-map columns
   var UI = { screen: 1, status: 'draft' };
+  var stripeSession = '';        /* which checkout this draft belongs to */
   var services = [];          // selected services
   var topServices = [];
   var cities = [];
@@ -734,7 +735,7 @@
     try {
       localStorage.setItem(STORE_KEY, JSON.stringify({
         v: 1, D: D, UI: UI, services: services, topServices: topServices,
-        cities: cities, savedAt: Date.now()
+        cities: cities, stripeSession: stripeSession, savedAt: Date.now()
       }));
     } catch (e) { /* private mode. The form still works, it just won't resume. */ }
   }
@@ -1845,6 +1846,29 @@
    * ------------------------------------------------------------------ */
   function init() {
     var saved = load();
+
+    var urlSession = '';
+    try { urlSession = new URLSearchParams(location.search).get('session_id') || ''; } catch (e) {}
+
+    /* A different Stripe checkout is a different onboarding. Without this, a
+       finished draft on this device gets restored and the customer lands on
+       the status board of a build that is not theirs, having just paid. The
+       old copy is kept under a backup key rather than dropped, because losing
+       a submission is the one thing we never do. */
+    if (saved && urlSession) {
+      var stale = saved.stripeSession
+        ? (saved.stripeSession !== urlSession)
+        : ((saved.UI && saved.UI.status) === 'submitted');
+      if (stale) {
+        try {
+          localStorage.setItem(STORE_KEY + '_prev', JSON.stringify(saved));
+          localStorage.removeItem(STORE_KEY);
+        } catch (e) {}
+        saved = null;
+      }
+    }
+    if (urlSession) stripeSession = urlSession;
+
     if (saved) {
       D = saved.D || {};
       services = saved.services || [];
@@ -1853,6 +1877,7 @@
       UI.screen = (saved.UI && saved.UI.screen) || 1;
       UI.sid = saved.UI && saved.UI.sid;
       UI.status = (saved.UI && saved.UI.status) || 'draft';
+      stripeSession = saved.stripeSession || stripeSession;
     }
     prefillFromUrl();
 
