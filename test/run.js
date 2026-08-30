@@ -414,6 +414,13 @@ async function testFullRun(browser) {
   check('needs-photos stayed, because they are texting them over', tags.indexOf('needs-photos') > -1, tags);
 
   check('the board shows the locked baseline back to them', await page.isVisible('#lockedCard'));
+  const boardText = await page.textContent('#boardList');
+  check('the board does not promise where trust signals land',
+    boardText.indexOf('top of every page') === -1, boardText);
+  check('and it says years in business rather than a bare number',
+    boardText.indexOf('years in business') > -1, boardText);
+  check('the capacity line is in plain language',
+    boardText.indexOf('throttled') === -1 && boardText.indexOf('drown') === -1, boardText);
   check('no page errors in phase 2', errors.length === 0, errors.join(' | '));
 
   await ctx.close();

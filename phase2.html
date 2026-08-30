@@ -1607,12 +1607,15 @@
     }
 
     var badges = [];
-    if (D.years_in_business) badges.push(D.years_in_business + ' years');
+    if (D.years_in_business) badges.push(D.years_in_business + ' years in business');
     if (certs.length) badges.push(certs.length === 1 ? '1 certification' : certs.length + ' certifications');
     if (D.insured === 'Yes') badges.push('insured');
     if (D.bonded === 'Yes') badges.push('bonded');
     if (badges.length) {
-      lines.push(['Trust signals added', listJoin(badges) + ', going near the top of every page.', true]);
+      /* Deliberately does not say where these go. Promising a spot on every
+         page is a design decision made before the design exists, and the
+         preview is where placement is actually agreed. */
+      lines.push(['Trust signals added', listJoin(badges) + '. You will see where each one sits when the preview lands.', true]);
     }
 
     if (D.logo_status === 'Need one made') {
@@ -1634,7 +1637,7 @@
     }
     if (D.weekly_capacity) {
       var cap = Number(D.weekly_capacity) >= 20 ? '20 or more' : D.weekly_capacity;
-      lines.push(['Send pace set to ' + cap + ' jobs a week', 'The campaign is throttled to what the crew can absorb. We would rather book you out than drown you.', true]);
+      lines.push(['Send pace set to ' + cap + ' jobs a week', 'We send in batches so the calls come at a pace you can handle. Tell us any time if that number changes.', true]);
     }
     if (D.services_declined) {
       lines.push(['Junk leads filtered out', 'We will not send you work you told us you do not take.', true]);
