@@ -633,6 +633,20 @@ async function testResume(browser) {
   await page.goto(BASE + '/phase2.html?id=p1-test-0001');
   await page.waitForSelector('.resume.on', { timeout: 6000 });
   check('the resume bar offers to pick up where they left off', await page.isVisible('.resume.on'));
+  /* The bar is a message and two actions. It used to squeeze the message into
+     wrapping and drop one action onto a row of its own. */
+  const bar = await page.evaluate(() => {
+    const box = (el) => { const r = el.getBoundingClientRect(); return { t: r.top, h: r.height }; };
+    return {
+      barH: document.querySelector('.resume').getBoundingClientRect().height,
+      msgH: box(document.querySelector('.resume p')).h,
+      goT: box(document.getElementById('resumeGo')).t,
+      newT: box(document.getElementById('resumeNew')).t
+    };
+  });
+  check('the two actions sit on one row', Math.abs(bar.goT - bar.newT) <= 3, JSON.stringify(bar));
+  check('the message is not squeezed into wrapping', bar.msgH < 32, JSON.stringify(bar));
+  check('and the bar stays two rows at most', bar.barH < 100, JSON.stringify(bar));
   await page.click('#resumeGo');
   check('and it lands on the screen they left', await screen(page) === 3, 'screen ' + await screen(page));
 

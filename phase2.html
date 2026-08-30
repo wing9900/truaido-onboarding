@@ -57,8 +57,20 @@
   /* ---- resume bar ---- */
   .resume { display: none; background: #FDF3E3; border-bottom: 1px solid #F3DCB4; }
   .resume.on { display: block; }
-  .resume .container { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding-top: 12px; padding-bottom: 12px; }
-  .resume p { font-size: 14px; color: #6B4A12; flex: 1; min-width: 200px; }
+  /* Message left, actions right, and the two actions stay together as a block
+     when the bar wraps. Letting them be loose siblings with flex:1 on the
+     message was what squeezed the message into wrapping while one of the two
+     links dropped onto a row of its own. */
+  .resume .container { display: flex; align-items: center; justify-content: space-between; gap: 4px 20px; flex-wrap: wrap; padding-top: 10px; padding-bottom: 10px; }
+  .resume p { font-size: 14px; color: #6B4A12; }
+  .resume-acts { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  /* No horizontal padding on these two: the gap already separates them, and
+     those sixteen pixels are the difference between the pair fitting on one
+     row on a narrow phone and the bar growing a second row of buttons. */
+  .resume-acts .linkish { padding: 6px 0; }
+  /* Starting over throws the answers away, so it does not get equal billing
+     with the thing almost everyone who sees this bar actually wants. */
+  .resume-acts .quiet { color: #6B4A12; font-weight: 600; font-size: 13.5px; }
   .linkish { background: none; border: 0; font: inherit; font-weight: 650; color: var(--blue); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; padding: 4px; }
 
   /* ---- the running banner ---- */
@@ -237,8 +249,10 @@
 <div class="resume" id="resumeBar">
   <div class="container">
     <p><b>We saved your answers.</b> <span id="resumeWhen"></span></p>
-    <button type="button" class="linkish" id="resumeGo">Pick up where I left off</button>
-    <button type="button" class="linkish" id="resumeNew">Start this part over</button>
+    <div class="resume-acts">
+      <button type="button" class="linkish" id="resumeGo">Keep going</button>
+      <button type="button" class="linkish quiet" id="resumeNew">Start this part over</button>
+    </div>
   </div>
 </div>
 
