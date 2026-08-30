@@ -183,15 +183,23 @@ the same argument on day 90 as no starting line at all.
 ## Decisions that held. Do not reopen.
 
 **Voice note: texted, not recorded.** Offered as "I'd rather say it out loud",
-with the number on the screen: **(925) 389-4584**, as a tap-to-text link and
-again on the completion board. Naming it beats promising to text it, which is a
+with the number on the screen. Naming it beats promising to text it, which is a
 promise the software cannot keep on its own. MediaRecorder is a full day of
 Safari and Chrome format differences and iOS permission states for something a
 text message does identically.
 
-The number is spelled out once, as `VOICE_NUMBER` and `VOICE_SMS` near the top of
-the script in `phase2.html`, and written into the page at boot. Change it there
-and every mention follows.
+**One number for every drop: (925) 389-4584.** The voice note, the logo and the
+job photos all name it on the screen and again on the completion board. No
+screen promises a text that nothing sends. It is spelled out once, as
+`DROP_NUMBER`, `DROP_SMS` and `DROP_EMAIL` near the top of the script in
+`phase2.html`, and written into the page at boot. Change it there and every
+mention follows.
+
+**Photos take text or email.** Both are named when they choose to send them.
+Text is quickest; email is the one that keeps the file at full size, which is
+worth having for the images across the top of a page. Both are the same
+`photos_status = Waiting`, because the delivery route is not a different state
+and forcing that choice on the screen buys nothing.
 
 **Logo: texted or emailed, no upload.** Both of the spec's non-upload options
 are there, plus email, which the Phase 1 board already offers for photos.
@@ -290,18 +298,20 @@ Two more, learned building Phase 2:
 
 ## What Phase 2 hands to day 0
 
-The voice note names its number on the screen, so nothing has to be sent for
-that one to work. **The logo and the photo screens still say "we text you a
-number" and do not name it.** Those texts come from the day-0 sequence, which
-needs HighLevel, which waits on first revenue. Until then they are a manual text
-from your own phone, and the sheet tells you which ones to send:
-`logo_status = Texting it`, `photos_status = Waiting`.
+**Nothing in Phase 2 depends on a text being sent by hand any more.** All three
+drops name (925) 389-4584 on the screen and again on the board, so a customer who
+closes the tab still has the number.
 
-If (925) 389-4584 is also where logos and photos should land, those two screens
-should name it the same way, and then nothing in Phase 2 depends on a text being
-sent by hand. Photos are the one to think about before doing it: ten or fifteen
-full-resolution images per customer is a different proposition for a personal
-phone than one voice note.
+What the sheet still tells you is what to expect, and from whom:
+`story_mode = Recorded`, `logo_status = Texting it`, `photos_status = Waiting`.
+A reminder ladder for those is still day-0 sequence work and still waits on
+HighLevel, but the customer is no longer blocked on it.
+
+One thing to watch once photos start arriving: MMS compresses images hard,
+so a texted photo can land far smaller than the original. That is why the screen
+offers email alongside, and why it says email keeps them full size. Worth
+checking against your own carrier before the first build leans on texted
+photos for its front page.
 
 The `phase2-complete` tag releases the build brief. `needs-photos` is dropped
 when they chose stock or social, so the reminder ladder does not chase someone

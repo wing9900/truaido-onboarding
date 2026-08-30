@@ -388,6 +388,9 @@ async function testFullRun(browser) {
   check('editing the wording makes the offer theirs, not ours', r.reactivation_type === 'Custom', String(r.reactivation_type));
   check('no unfilled blank reached the sheet', String(r.reactivation_offer).indexOf('____') === -1, String(r.reactivation_offer));
   check('photos_status is set by the routing screen', r.photos_status === 'Waiting', String(r.photos_status));
+  check('the board repeats both photo routes',
+    (await page.textContent('#boardList')).indexOf('Text them to (925) 389-4584 or email info@truaido.com') > -1,
+    await page.textContent('#boardList'));
   check('style_pick stays empty, there are no builds to show yet', !r.style_pick);
 
   check('phase 1 answers are all still there',
@@ -445,6 +448,9 @@ async function fillPhase2(page) {
 
   /* 2.4 */
   check('on phase 2 screen 4', await screen(page) === 4);
+  check('the logo card names the number rather than promising a text',
+    (await page.textContent('[data-logo="Texting it"]')).indexOf('(925) 389-4584') > -1,
+    await page.textContent('[data-logo="Texting it"]'));
   await page.click('[data-logo="Texting it"]');
   await page.click('[data-color="pick"]');
   await page.$eval('#f_color_1', (el) => { el.value = '#1d4e89'; el.dispatchEvent(new Event('input', { bubbles: true })); });
@@ -454,7 +460,13 @@ async function fillPhase2(page) {
 
   /* photo routing */
   check('the photo routing screen is screen 5', await screen(page) === 5);
+  check('no note until they say they are sending photos', await page.isHidden('#photoSendNote'));
   await page.click('[data-photos="Waiting"]');
+  check('the photo screen names the number', (await page.textContent('#photoSendNote')).indexOf('(925) 389-4584') > -1,
+    await page.textContent('#photoSendNote'));
+  check('and offers email as well', (await page.textContent('#photoSendNote')).indexOf('info@truaido.com') > -1);
+  check('the number is tappable there too',
+    await page.getAttribute('#photoSendNote .drop-link', 'href') === 'sms:+19253894584');
   await page.click('#nextBtn');
 
   /* 2.5 */
@@ -484,6 +496,10 @@ async function fillPhase2(page) {
 
   /* 2.7 */
   check('on the baseline screen', await screen(page) === 8);
+  check('nothing on it tells them accuracy does not matter',
+    (await page.textContent('[data-screen="8"]')).indexOf("holding you to") === -1);
+  check('and the average job field says why it matters',
+    (await page.textContent('[data-screen="8"]')).indexOf('undersells you') > -1);
   await page.fill('#f_avg_job_value', '$1,200');
   await page.click('[data-newc="6-15"]');
   await page.click('[data-missed="4-10"]');
@@ -527,8 +543,8 @@ async function testMagicLink(browser) {
     (await page.textContent('#storyRecNote')).indexOf('(925) 389-4584') > -1,
     await page.textContent('#storyRecNote'));
   check('and it is tappable on a phone',
-    await page.getAttribute('#storyRecNote .voice-link', 'href') === 'sms:+19253894584',
-    await page.getAttribute('#storyRecNote .voice-link', 'href'));
+    await page.getAttribute('#storyRecNote .drop-link', 'href') === 'sms:+19253894584',
+    await page.getAttribute('#storyRecNote .drop-link', 'href'));
   check('the option card names it too, before they commit',
     (await page.textContent('[data-story="Recorded"]')).indexOf('(925) 389-4584') > -1,
     await page.textContent('[data-story="Recorded"]'));

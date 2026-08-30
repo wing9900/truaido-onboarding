@@ -269,7 +269,7 @@
   <div class="block">
     <div class="opts" id="storyOpts">
       <button type="button" class="opt" data-story="Typed" aria-pressed="false"><b>I'll type it</b><em>A few sentences in your own words. We tidy it up, you approve it</em></button>
-      <button type="button" class="opt" data-story="Recorded" aria-pressed="false"><b>I'd rather say it out loud</b><em>Text a voice note to <span class="voice-num"></span>. Talk for a minute, we write it up from that</em></button>
+      <button type="button" class="opt" data-story="Recorded" aria-pressed="false"><b>I'd rather say it out loud</b><em>Text a voice note to <span class="drop-num"></span>. Talk for a minute, we write it up from that</em></button>
       <button type="button" class="opt quiet" data-story="Write it for me" aria-pressed="false"><b>Skip it, write it from my reviews</b><em>We read what your customers already said about you and draft it. You approve before it goes live</em></button>
     </div>
 
@@ -280,7 +280,7 @@
     </div>
 
     <div class="note" id="storyRecNote" hidden>
-      <b>Text it to <a class="voice-link" href="#"><span class="voice-num"></span></a>.</b>
+      <b>Text it to <a class="drop-link" href="#"><span class="drop-num"></span></a>.</b>
       Say what you'd tell a neighbor who asked why they should call you. A minute is plenty, and you can do it from the truck.
       Carry on here first if you like, this screen is saved and the number is on your confirmation at the end.
     </div>
@@ -437,7 +437,7 @@
     <div class="grp">
       <span class="lbl">Your logo</span>
       <div class="opts" id="logoOpts">
-        <button type="button" class="opt" data-logo="Texting it" aria-pressed="false"><b>I'll text it over</b><em>We text you a number. Send the file, or a photo of your truck or a shirt</em></button>
+        <button type="button" class="opt" data-logo="Texting it" aria-pressed="false"><b>I'll text it over</b><em>Text it to <span class="drop-num"></span>. The file, or a photo of your truck or a shirt</em></button>
         <button type="button" class="opt" data-logo="Emailing it" aria-pressed="false"><b>I'll email it to you</b><em>Send it to info@truaido.com whenever it's in front of you</em></button>
         <button type="button" class="opt" data-logo="Need one made" aria-pressed="false"><b>I don't have one. Make me one</b><em>Included. You'll see it with the site preview</em></button>
       </div>
@@ -476,9 +476,13 @@
 
   <div class="block">
     <div class="opts" id="photoOpts">
-      <button type="button" class="opt" data-photos="Waiting" aria-pressed="false"><b>I'll text them over</b><em>We text you a number. Send ten or fifteen straight from your camera roll</em></button>
+      <button type="button" class="opt" data-photos="Waiting" aria-pressed="false"><b>I'll send them over</b><em>Ten or fifteen straight from your camera roll, by text or by email</em></button>
       <button type="button" class="opt" data-photos="Pulling from social" aria-pressed="false"><b>Pull them from my Facebook or Instagram</b><em>We take what's already posted. Nothing for you to do</em></button>
       <button type="button" class="opt quiet" data-photos="Using stock" aria-pressed="false"><b>Use stock for now</b><em>We launch on trade photography and swap yours in whenever they turn up</em></button>
+    </div>
+    <div class="note" id="photoSendNote" hidden>
+      <b>Text them to <a class="drop-link" href="#"><span class="drop-num"></span></a>, or email <a href="mailto:info@truaido.com">info@truaido.com</a>.</b>
+      Text is quickest. Email keeps them full size, which shows on the big ones across the top of the page. Before and after pairs are worth the most.
     </div>
     <p class="hint" style="margin-top:16px">This never holds up a launch. Photos swap live at any time, and the best ones are usually the ones you take on the next job because we asked.</p>
     <div class="err" id="err5"></div>
@@ -547,13 +551,13 @@
 <section class="screen" data-screen="8" aria-labelledby="q8">
   <p class="eyebrow">Step 8 &middot; About 2 minutes left</p>
   <h1 class="q" id="q8">Where are you starting from?</h1>
-  <p class="sub">The promise is arithmetic: jobs booked through the system against what you've paid. We need a number from before we start so we can show you what changed. Rough is fine. Nobody's holding you to these.</p>
+  <p class="sub">The promise is arithmetic: jobs booked through the system against what you've paid. We need a number from before we start so we can show you what changed. Your best estimate is what we want, not your books.</p>
 
   <div class="block">
     <div class="grp">
       <span class="lbl">What's an average job worth to you?</span>
       <div class="money"><b>$</b><input type="text" id="f_avg_job_value" inputmode="numeric" maxlength="9" autocomplete="off" placeholder="450" enterkeyhint="next"></div>
-      <p class="hint">Ballpark. Revenue on a typical job, before costs.</p>
+      <p class="hint">Ballpark, revenue on a typical job before costs. This one does real work: it sets what your reactivation offer is worth, so a number under what you really charge buys you an offer that undersells you.</p>
     </div>
 
     <div class="grp">
@@ -743,10 +747,12 @@
   /* What goes in license_number when the trade has no license to give. */
   var NO_LICENSE = 'None required';
 
-  /* Where a voice note goes. Written into every .voice-num on the page at boot
-     and into the board line, so this is the only place it is spelled out. */
-  var VOICE_NUMBER = '(925) 389-4584';
-  var VOICE_SMS = 'sms:+19253894584';
+  /* Where anything a customer sends us goes: the voice note, the logo, the job
+     photos. Written into every .drop-num on the page at boot and into the board
+     lines, so this is the only place it is spelled out. */
+  var DROP_NUMBER = '(925) 389-4584';
+  var DROP_SMS = 'sms:+19253894584';
+  var DROP_EMAIL = 'info@truaido.com';
 
   /* ------------------------------------------------------------------ *
    * trade content. Certifications and offers, keyed by the same trade
@@ -1550,7 +1556,7 @@
     if (D.story_mode === 'Typed') {
       lines.push(['Your words are in the copy queue', 'We write the page from what you typed, and you approve it before it goes live.', true]);
     } else if (D.story_mode === 'Recorded') {
-      lines.push(['Text your voice note to ' + VOICE_NUMBER, 'Talk for a minute. We write the page from that, and you approve it before it goes live.', false]);
+      lines.push(['Text your voice note to ' + DROP_NUMBER, 'Talk for a minute. We write the page from that, and you approve it before it goes live.', false]);
     } else {
       lines.push(["We're writing your page from your reviews", 'What your customers already said about you, in your voice. You approve it before it goes live.', true]);
     }
@@ -1567,7 +1573,7 @@
     if (D.logo_status === 'Need one made') {
       lines.push(["We're making you a logo", 'Included. You will see it with the site preview.', true]);
     } else if (D.logo_status) {
-      lines.push(['Waiting on your logo', D.logo_status === 'Emailing it' ? "Send it to info@truaido.com whenever it's in front of you." : 'We text you a number. Send the file, or a photo of the truck.', false]);
+      lines.push(['Waiting on your logo', D.logo_status === 'Emailing it' ? 'Send it to ' + DROP_EMAIL + " whenever it's in front of you." : 'Text it to ' + DROP_NUMBER + ', the file or a photo of the truck.', false]);
     }
 
     if (D.photos_status === 'Using stock') {
@@ -1575,7 +1581,7 @@
     } else if (D.photos_status === 'Pulling from social') {
       lines.push(['Pulling your photos from social', 'Nothing for you to do. We take what is already posted.', true]);
     } else if (D.photos_status) {
-      lines.push(["We'll text you for job photos", 'Ten or fifteen straight from your camera roll. Before-and-after pairs are worth the most.', false]);
+      lines.push(['Send us your job photos', 'Text them to ' + DROP_NUMBER + ' or email ' + DROP_EMAIL + '. Ten or fifteen, and before-and-after pairs are worth the most.', false]);
     }
 
     if (D.reactivation_offer) {
@@ -1745,7 +1751,10 @@
     bindText('f_design_notes', 'design_notes');
 
     /* --- photos --- */
-    singleSelect('photoOpts', 'data-photos', function (v) { set('photos_status', v); });
+    singleSelect('photoOpts', 'data-photos', function (v) {
+      set('photos_status', v);
+      $('photoSendNote').hidden = (v !== 'Waiting');
+    });
 
     /* --- 2.5 --- */
     singleSelect('reactOpts', 'data-react', function (v, btn) {
@@ -1900,6 +1909,7 @@
     if (D._color1) $('f_color_1').value = D._color1;
     if (D._color2) $('f_color_2').value = D._color2;
     press('photoOpts', 'data-photos', D.photos_status);
+    $('photoSendNote').hidden = (D.photos_status !== 'Waiting');
     press('newCustChips', 'data-newc', D.monthly_new_customers);
     press('missedChips', 'data-missed', D.weekly_missed_calls);
     press('crmIntChips', 'data-crmint', D.crm_integration);
@@ -1985,8 +1995,8 @@
       }
     }
 
-    $$('.voice-num').forEach(function (el) { el.textContent = VOICE_NUMBER; });
-    $$('.voice-link').forEach(function (el) { el.href = VOICE_SMS; });
+    $$('.drop-num').forEach(function (el) { el.textContent = DROP_NUMBER; });
+    $$('.drop-link').forEach(function (el) { el.href = DROP_SMS; });
 
     wire();
     repaint();
