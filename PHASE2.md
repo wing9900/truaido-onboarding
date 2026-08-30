@@ -195,11 +195,12 @@ screen promises a text that nothing sends. It is spelled out once, as
 `phase2.html`, and written into the page at boot. Change it there and every
 mention follows.
 
-**Photos take text or email.** Both are named when they choose to send them.
-Text is quickest; email is the one that keeps the file at full size, which is
-worth having for the images across the top of a page. Both are the same
-`photos_status = Waiting`, because the delivery route is not a different state
-and forcing that choice on the screen buys nothing.
+**Photos take text or email.** Both are named when they choose to send them,
+with no steer either way: a contractor picking between texting and emailing is
+picking whichever is already open on their phone, and a paragraph about file
+sizes is a lecture on a screen that only needs to hand over two addresses. Both
+are the same `photos_status = Waiting`, because the delivery route is not a
+different state and forcing that choice on the screen buys nothing.
 
 **Logo: texted or emailed, no upload.** Both of the spec's non-upload options
 are there, plus email, which the Phase 1 board already offers for photos.
@@ -307,11 +308,12 @@ What the sheet still tells you is what to expect, and from whom:
 A reminder ladder for those is still day-0 sequence work and still waits on
 HighLevel, but the customer is no longer blocked on it.
 
-One thing to watch once photos start arriving: MMS compresses images hard,
-so a texted photo can land far smaller than the original. That is why the screen
-offers email alongside, and why it says email keeps them full size. Worth
-checking against your own carrier before the first build leans on texted
-photos for its front page.
+One thing to watch once photos start arriving: MMS compresses images hard, so a
+texted photo can land far smaller than the original. Email is offered alongside
+for that reason, though the screen does not say so, because it is our problem
+rather than theirs. Worth checking against your own carrier before the first
+build leans on texted photos for its front page. If they do come back too small,
+the fix is to ask for email rather than to explain compression on the form.
 
 The `phase2-complete` tag releases the build brief. `needs-photos` is dropped
 when they chose stock or social, so the reminder ladder does not chase someone
