@@ -33,6 +33,10 @@ const BASE = 'http://127.0.0.1:' + PORT;
 let passed = 0;
 const failures = [];
 
+/* When set, the endpoint replies with this instead of running the real script.
+   Used to stand in for an endpoint that has not been redeployed. */
+let cannedReply = null;
+
 /* When true, the next call to the endpoint fails at the network layer and
    everything after it succeeds.
    This stands in for the Apps Script quirk the blind retry exists for: a write
@@ -210,6 +214,13 @@ async function openPage(browser, url) {
     if (failFirstCall) {
       failFirstCall = false;
       return route.abort('failed');
+    }
+    if (cannedReply) {
+      return route.fulfill({
+        status: 200,
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+        body: cannedReply
+      });
     }
     const r = await fetch(BASE + '/exec', {
       method: req.method(),
@@ -658,6 +669,58 @@ async function testResume(browser) {
 }
 
 /* ===================================================================== *
+ * 8. Phase 2 posted at an endpoint that was never redeployed
+ *
+ * This has happened twice for real. The deployed Apps Script predates update
+ * mode, so it does not know the "mode" key, reads a Phase 2 payload as a new
+ * Phase 1 row, finds none of the sixteen required Phase 1 fields, and answers
+ * missing_fields. Nothing is written. What matters is that the customer keeps
+ * their answers and that the screen says which error came back, so the cause
+ * can be named without a screen share.
+ * ===================================================================== */
+async function testStaleEndpoint(browser) {
+  console.log('\n8. posted at an endpoint that was never redeployed');
+  await reset();
+  await post(phase1Payload());
+
+  const { ctx, page, errors } = await openPage(browser, BASE + '/phase2.html?id=p1-test-0001');
+  await page.waitForSelector('.screen.on');
+
+  cannedReply = JSON.stringify({
+    ok: false,
+    error: 'missing_fields',
+    fields: ['first_name', 'last_name', 'email', 'company_name', 'legal_business_name']
+  });
+
+  await page.click('[data-story="Write it for me"]');
+  check('it reaches the board', await advanceToBoard(page));
+  await page.waitForSelector('#boardFailed:not([hidden])', { timeout: 9000 });
+
+  check('a refusal is not dressed up as success', await page.isHidden('#boardDone'));
+  check('and it says the answers are safe',
+    (await page.textContent('#errSend')).indexOf('safe on this device') > -1);
+  check('and it names the error the server actually gave',
+    (await page.textContent('#errSend .diag')) === 'missing_fields',
+    await page.textContent('#errSend'));
+
+  const kept = await page.evaluate(() => !!localStorage.getItem('truaido_phase2_v1'));
+  check('the draft is still on the device', kept === true);
+
+  /* now the endpoint is redeployed and they press try again */
+  cannedReply = null;
+  await page.click('#retryBtn2');
+  await page.waitForSelector('#boardDone:not([hidden])', { timeout: 9000 });
+  check('retrying after the redeploy goes straight through', await page.isVisible('#boardDone'));
+
+  const r = (await dump()).recs[0];
+  check('and the answers land on the existing row', r.story_mode === 'Write it for me', String(r.story_mode));
+  check('with phase 1 untouched', r.ein === '041234567');
+
+  check('no page errors on the stale-endpoint path', errors.length === 0, errors.join(' | '));
+  await ctx.close();
+}
+
+/* ===================================================================== *
  * 7. answers that are not one of the chips
  * ===================================================================== */
 async function testTypedAnswers(browser) {
@@ -749,6 +812,7 @@ async function testNoCors(browser) {
     await testLookup(browser);
     await testResume(browser);
     await testTypedAnswers(browser);
+    await testStaleEndpoint(browser);
     await testNoCors(browser);
   } catch (err) {
     fatal = err;

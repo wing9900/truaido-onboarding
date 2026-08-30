@@ -216,6 +216,9 @@
 
   .err { display: none; font-size: 14px; font-weight: 600; color: #8A5A00; background: #FDF3E3; border-radius: 6px; padding: 11px 14px; margin-top: 12px; }
   .err.on { display: block; }
+  /* The server's own word for what went wrong. A customer can ignore it; it is
+     here so that "it did not work" can be answered without a screen share. */
+  .diag { display: block; margin-top: 7px; font-family: ui-monospace, Menlo, monospace; font-size: 12px; font-weight: 500; opacity: 0.75; }
   .vis-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 </style>
 </head>
@@ -1498,7 +1501,8 @@
         if (res && res.ok === false) {
           finish(false, res.error === 'not_found'
             ? "We couldn't match this to your build. Your answers are safe on this device. Text us and we'll pick it up from here."
-            : 'The server turned this down. Your answers are safe on this device.');
+            : 'The server turned this down. Your answers are safe on this device.',
+            false, res.error);
           return;
         }
         blind(payload);
@@ -1526,11 +1530,15 @@
     finish(true, null, true);
   }
 
-  function finish(sent, message, receipted) {
+  function finish(sent, message, receipted, code) {
     $('boardSending').hidden = true;
     if (!sent) {
       $('boardFailed').hidden = false;
-      if (message) { $('errSend').textContent = message; $('errSend').classList.add('on'); }
+      if (message) {
+        $('errSend').innerHTML = esc(message) +
+          (code ? '<span class="diag">' + esc(String(code)) + '</span>' : '');
+        $('errSend').classList.add('on');
+      }
       return;
     }
     $('boardDone').hidden = false;
