@@ -683,6 +683,38 @@ async function testResume(browser) {
 }
 
 /* ===================================================================== *
+ * 9. an endpoint on old code is caught at boot, not at minute seven
+ * ===================================================================== */
+async function testStaleCaughtEarly(browser) {
+  console.log('\n9. an endpoint on old code is caught at boot');
+  await reset();
+  await post(phase1Payload());
+
+  /* What the pre-update-mode script answers: no sv stamp anywhere. */
+  cannedReply = JSON.stringify({ ok: false, error: 'missing_fields', fields: ['first_name'] });
+
+  const { ctx, page, errors } = await openPage(browser, BASE + '/phase2.html?id=p1-test-0001');
+  await page.waitForSelector('#endpointBar.on', { timeout: 8000 });
+
+  check('the warning is up before they answer anything', await screen(page) === 1);
+  check('and it tells them to carry on rather than stopping them',
+    (await page.textContent('#endpointBar')).indexOf('Keep going anyway') > -1,
+    await page.textContent('#endpointBar'));
+  check('and it promises the answers are kept',
+    (await page.textContent('#endpointBar')).indexOf('saved on this device') > -1);
+
+  /* a healthy endpoint says nothing */
+  cannedReply = null;
+  await ctx.close();
+  const fresh = await openPage(browser, BASE + '/phase2.html?id=p1-test-0001');
+  await fresh.page.waitForSelector('.screen.on');
+  await fresh.page.waitForTimeout(700);
+  check('a working endpoint shows no warning at all', await fresh.page.isHidden('#endpointBar'));
+  check('no page errors on the early-warning path', errors.length === 0, errors.join(' | '));
+  await fresh.ctx.close();
+}
+
+/* ===================================================================== *
  * 8. Phase 2 posted at an endpoint that was never redeployed
  *
  * This has happened twice for real. The deployed Apps Script predates update
@@ -714,7 +746,10 @@ async function testStaleEndpoint(browser) {
   check('and it says the answers are safe',
     (await page.textContent('#errSend')).indexOf('safe on this device') > -1);
   check('and it names the error the server actually gave',
-    (await page.textContent('#errSend .diag')) === 'missing_fields',
+    (await page.textContent('#errSend .diag')).indexOf('missing_fields') === 0,
+    await page.textContent('#errSend'));
+  check('and says the endpoint is on old code, since no version came back',
+    (await page.textContent('#errSend .diag')).indexOf('no script version') > -1,
     await page.textContent('#errSend'));
 
   const kept = await page.evaluate(() => !!localStorage.getItem('truaido_phase2_v1'));
@@ -827,6 +862,7 @@ async function testNoCors(browser) {
     await testResume(browser);
     await testTypedAnswers(browser);
     await testStaleEndpoint(browser);
+    await testStaleCaughtEarly(browser);
     await testNoCors(browser);
   } catch (err) {
     fatal = err;

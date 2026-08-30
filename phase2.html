@@ -256,6 +256,12 @@
   </div>
 </div>
 
+<div class="resume" id="endpointBar">
+  <div class="container">
+    <p><b>Heads up.</b> <span id="endpointMsg"></span></p>
+  </div>
+</div>
+
 <main>
 <div class="container">
 
@@ -1441,14 +1447,22 @@
   }
 
   /**
-   * A magic link opened on a phone that has never seen this customer's draft
-   * carries the key and nothing else, so screen two would show generic
-   * certification chips and screen six generic offers. One call fixes that.
-   * It runs in the background while they are still on screen one, and if it
-   * never comes back the generic set is a perfectly good fallback.
+   * One call at boot that does two jobs.
+   *
+   * It fills in the name and the trade for a magic link opened on a phone that
+   * has never seen this customer's draft, which is what stops screen two
+   * showing generic certification chips and screen six generic offers.
+   *
+   * And it checks the endpoint can actually take a Phase 2 write, before they
+   * spend seven minutes finding out at the end. The tell is the sv stamp: every
+   * reply from a current script carries one. A reply without it came from code
+   * that predates update mode, which means a deployment that was never updated,
+   * a second deployment on a second URL, or an old doPost still defined
+   * somewhere else in the same Apps Script project. Nothing the customer types
+   * can fix that, so the notice says what is true and tells them to carry on.
    */
   function hydrate() {
-    if (!sid || D.trade) return;
+    if (!sid) return;
     fetch(ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -1459,6 +1473,9 @@
       .then(function (txt) {
         var res = null;
         try { res = JSON.parse(txt); } catch (e) {}
+        if (res && !res.sv) {
+          endpointTrouble("We can't file answers at the minute, so the send at the end may not go through. Keep going anyway. Everything is saved on this device and it takes one tap to send once we're back.");
+        }
         if (!res || !res.ok || !res.found) return;
         if (res.first_name && !D._firstName) D._firstName = res.first_name;
         if (res.company_name && !D.company_name) D.company_name = res.company_name;
@@ -1469,6 +1486,12 @@
         greet();
       })
       .catch(function () {});
+  }
+
+  function endpointTrouble(msg) {
+    $('endpointMsg').textContent = msg;
+    $('endpointBar').classList.add('on');
+    $('live').textContent = msg;
   }
 
   function greet() {
@@ -1516,7 +1539,7 @@
           finish(false, res.error === 'not_found'
             ? "We couldn't match this to your build. Your answers are safe on this device. Text us and we'll pick it up from here."
             : 'The server turned this down. Your answers are safe on this device.',
-            false, res.error);
+            false, res.error + (res.sv ? ' \u00b7 sv ' + res.sv : ' \u00b7 no script version, the endpoint is running old code'));
           return;
         }
         blind(payload);

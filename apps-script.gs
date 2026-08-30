@@ -60,6 +60,17 @@
  * ---------------------------------------------------------------------------
  */
 
+/**
+ * Bumped whenever this file changes in a way a form would notice.
+ *
+ * Stamped on every reply as "sv". Apps Script serves the last DEPLOYED version
+ * rather than the last saved one, and it is easy to end up with a second
+ * deployment on a second URL, or an old doPost still defined in another file in
+ * the same project. When that happens the forms get answers from code nobody
+ * is looking at. A reply with no sv is that, and the form says so out loud.
+ */
+var SCRIPT_VERSION = '2026-08-30a';
+
 /** Where the "a submission arrived" ping goes. Never the answers themselves. */
 var NOTIFY_EMAIL = 'ewing9900@gmail.com';
 
@@ -190,6 +201,7 @@ function doGet() {
 }
 
 function json(obj) {
+  obj.sv = SCRIPT_VERSION;
   return ContentService
     .createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
@@ -564,6 +576,67 @@ function rowLink(placed) {
 }
 
 /**
+ * The four things that have to happen today, written out rather than named.
+ *
+ * Each one is worded from what the customer actually answered, because the
+ * shorthand version of this list ("carrier registration, domain, Google
+ * invite, build start") assumed the reader already knew what each one meant
+ * and why it could not wait.
+ */
+function dayZeroSteps(row) {
+  var steps = [];
+
+  var a2p;
+  if (row.has_ein === 'Yes') {
+    a2p = 'Register them with the carriers as a Standard brand, using the EIN and legal\n' +
+          '   name in the row. Start here: carrier review takes days, and their number\n' +
+          '   cannot send a single text until it clears.';
+  } else if (row.ein_path === 'Getting EIN') {
+    a2p = 'They are getting a free EIN from the IRS and sending you the number. Text them\n' +
+          '   the irs.gov link today, then register as a Standard brand the hour it lands.\n' +
+          '   Nothing texts until that registration clears, so the sooner they have it the\n' +
+          '   better.';
+  } else {
+    a2p = 'Register them as a Sole Proprietor brand. Verification is a one time passcode\n' +
+          '   to the mobile in otp_mobile, and it has to be answered from that handset.\n' +
+          '   Their limits are capped and cannot be raised later, so pace their sends.';
+  }
+  steps.push(['Get the carrier registration in', a2p]);
+
+  var dom;
+  if (row.domain_status === 'Need one') {
+    dom = row.domain_name
+      ? 'Check ' + row.domain_name + ' is free and register it IN THEIR NAME. If it has\n   gone, come back to them with the closest thing rather than picking silently.'
+      : 'They asked us to choose. Register something clean in their name and tell them\n   what you picked.';
+  } else if (row.domain_status === 'Have it with login') {
+    dom = 'They own ' + (row.domain_name || 'a domain') + ' and have the login. Send the transfer\n' +
+          '   request to approve. Chase it, because it sits in an inbox until they act.';
+  } else {
+    dom = 'They own ' + (row.domain_name || 'a domain') + ' but do not know who holds it. Run WHOIS\n' +
+          '   and start chasing today, because this is the one that quietly costs a week.';
+  }
+  steps.push(['Sort the domain', dom]);
+
+  var gbp;
+  if (!row.gbp_owner_email) {
+    gbp = 'They do not know who has access to their Google listing. Start the reclaim now\n' +
+          '   rather than on day six. If there is no listing at all, create one and put it\n' +
+          '   through verification.';
+  } else {
+    gbp = 'Send the manager invite to ' + row.gbp_owner_email + '. They have to accept it from\n' +
+          '   that inbox, and that acceptance is the single most common thing that stalls a\n' +
+          '   build in this trade. Text them when you send it.';
+  }
+  steps.push(['Get access to the Google Business Profile', gbp]);
+
+  steps.push(['Start the site', 
+    'Lead with ' + (row.top_services || 'their main services') + '. Those get their own pages\n' +
+    '   and rank first. Their service area and everything else you need is in the row.']);
+
+  return steps;
+}
+
+/**
  * Tells the owner a submission landed. Deliberately does NOT include the
  * answers. An EIN in an inbox lives there forever, and the sheet is the
  * record. Notify, don't email the data.
@@ -572,15 +645,19 @@ function notify(row, placed) {
   if (!NOTIFY_EMAIL) return;
   try {
     var who = [row.first_name, row.last_name].filter(String).join(' ');
+    var steps = dayZeroSteps(row).map(function (s, i) {
+      return (i + 1) + '. ' + s[0] + '\n   ' + s[1];
+    }).join('\n\n');
 
     var body =
-      'A Phase 1 onboarding was submitted.\n\n' +
-      'Business: ' + (row.company_name || '(none)') + '\n' +
-      'Trade:    ' + (row.trade || '(none)') + '\n' +
-      'A2P path: ' + (row.ein_path || '(none)') + '\n' +
-      (placed ? 'Sheet row: ' + placed.row + '\n' : '') + '\n' +
-      'Day-0 actions this fires: carrier registration, domain, Google invite, build start.\n' +
-      'The answers are in the sheet. This message deliberately does not repeat them.\n\n' +
+      (row.company_name || who) + ' just finished part one' +
+      (row.trade ? ' (' + row.trade + ')' : '') + '.\n' +
+      (placed ? 'Sheet row ' + placed.row + '.\n' : '') + '\n' +
+      'FOUR THINGS TO DO TODAY. The first three are all waiting on somebody outside\n' +
+      'this building, so every hour they sit is an hour added to the launch date.\n\n' +
+      steps + '\n\n' +
+      'Their answers are in the sheet, at the link below. This email deliberately does\n' +
+      'not repeat them: the row holds a tax ID, and an inbox is a bad place to keep one.\n\n' +
       rowLink(placed);
 
     MailApp.sendEmail(NOTIFY_EMAIL, 'New onboarding: ' + (row.company_name || who), body);
@@ -593,14 +670,29 @@ function notify(row, placed) {
 function notifyPhase2(row, placed) {
   if (!NOTIFY_EMAIL) return;
   try {
+    var waiting = [];
+    if (row.story_mode === 'Recorded') waiting.push('a voice note about why people hire them');
+    if (row.logo_status === 'Texting it') waiting.push('their logo, by text');
+    if (row.logo_status === 'Emailing it') waiting.push('their logo, by email');
+    if (row.photos_status === 'Waiting') waiting.push('ten or fifteen job photos');
+
     var body =
-      'A Phase 2 build brief was submitted.\n\n' +
-      'Photos:   ' + (row.photos_status || '(not set)') + '\n' +
-      'Logo:     ' + (row.logo_status || '(not set)') + '\n' +
-      'Capacity: ' + (row.weekly_capacity || '(not set)') + ' jobs a week\n' +
-      (placed ? 'Sheet row: ' + placed.row + ', ' + placed.written + ' fields written\n' : '') + '\n' +
-      'The guarantee baseline is captured and timestamped. The build brief is released.\n' +
-      'The answers are in the sheet. This message deliberately does not repeat them.\n\n' +
+      'Part two is in' + (placed ? ' on row ' + placed.row : '') + '. ' +
+      (placed ? placed.written + ' fields written.' : '') + '\n\n' +
+      'THE BUILD BRIEF IS RELEASED. Everything the site needs to be theirs rather than\n' +
+      'generic is now in the row: their story, their trust badges, how they run a job,\n' +
+      'and the wording of the campaign that goes to their past customers.\n\n' +
+      'THE GUARANTEE BASELINE IS LOCKED AND DATED. That is the starting line the 90 day\n' +
+      'promise is measured from, and it can only be captured before launch. It is done.\n\n' +
+      (waiting.length
+        ? 'THEY STILL OWE YOU: ' + waiting.join(', ') + '.\n' +
+          'They have the number, so no chasing text is needed yet. If nothing arrives in a\n' +
+          'day or two, that is when to nudge.\n\n'
+        : 'NOTHING IS OUTSTANDING FROM THEM. Photos and logo are both handled.\n\n') +
+      'Send pace is set to ' + (row.weekly_capacity || 'an unset number of') + ' jobs a week. The campaign is throttled to\n' +
+      'that, so do not send faster than the crew can absorb.\n\n' +
+      'Their answers are in the sheet, at the link below. This email deliberately does\n' +
+      'not repeat them.\n\n' +
       rowLink(placed);
 
     MailApp.sendEmail(NOTIFY_EMAIL, 'Phase 2 in: row ' + (placed ? placed.row : '?'), body);
