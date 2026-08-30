@@ -280,6 +280,14 @@ async function testFullRun(browser) {
   await page.waitForSelector('.screen.on');
   check('phase 1 opens on screen 1', await screen(page) === 1);
   check('the paid banner shows on a checkout arrival', await page.isVisible('#paidBar'));
+
+  /* Icons are real files now rather than a data URI, so a wrong path is a 404
+     nobody would notice by eye: a missing favicon looks the same as a bad one. */
+  for (const href of await page.$$eval('link[rel*="icon"]', (els) => els.map((e) => e.getAttribute('href')))) {
+    const r = await fetch(BASE + href);
+    const bytes = r.ok ? (await r.arrayBuffer()).byteLength : 0;
+    check('icon is served: ' + href, r.status === 200 && bytes > 500, r.status + ', ' + bytes + ' bytes');
+  }
   check('screen 1 falls back to asking, because Stripe passes no customer', await page.isVisible('#idEdit'));
 
   await page.fill('#f_first_name', 'Dale');
