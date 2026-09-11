@@ -69,7 +69,7 @@
  * the same project. When that happens the forms get answers from code nobody
  * is looking at. A reply with no sv is that, and the form says so out loud.
  */
-var SCRIPT_VERSION = '2026-08-30a';
+var SCRIPT_VERSION = '2026-09-10a';
 
 /** Where the "a submission arrived" ping goes. Never the answers themselves. */
 var NOTIFY_EMAIL = 'ewing9900@gmail.com';
@@ -110,7 +110,10 @@ var COLUMNS = [
   'photos_status','photos_url','list_status','list_url','list_count',
   'gbp_access_status','domain_access_status','a2p_status','launch_date',
   // operational key, set by this script, not asked
-  'submission_id'
+  'submission_id',
+  // Phase 2 columns added after the sheet went live. Appended, never inserted,
+  // so no column in an existing row moves.
+  'checkin_offer','checkin_type'
 ];
 
 /**
@@ -139,6 +142,14 @@ var PHASE2_COLUMNS = [
   'existing_crm','crm_integration','contact_phone','text_ok','cc_email','best_time',
   'photos_status'
 ];
+
+/**
+ * Phase 2 columns that sit past submission_id, because inserting them beside
+ * the other campaign columns would shift every cell in every existing row.
+ * That puts them outside the span writeSpan() writes in one go, so they are
+ * written a cell at a time, under the same rule: a blank never overwrites.
+ */
+var PHASE2_TAIL = ['checkin_offer','checkin_type'];
 
 /** Columns Sheets would otherwise corrupt. Forced to plain text. */
 var TEXT_COLUMNS = [
@@ -365,6 +376,17 @@ function writeSpan(sh, rowIndex, row) {
     });
   }
 
+  PHASE2_TAIL.forEach(function (name) {
+    var col = COLUMNS.indexOf(name);
+    if (col < 0) return;
+    var v = row[name];
+    if (v === undefined || v === null) return;
+    v = String(v).trim();
+    if (!v) return;
+    sh.getRange(rowIndex, col + 1).setValue(v);
+    written++;
+  });
+
   /* Same trap as on append: re-assert plain text on the row we just wrote so a
      leading zero or a leading + survives the write itself. */
   TEXT_COLUMNS.forEach(function (name) {
@@ -570,7 +592,7 @@ function alreadySeen(sid) {
 function rowLink(placed) {
   var link = SpreadsheetApp.getActiveSpreadsheet().getUrl();
   if (placed) {
-    link += '#gid=' + placed.gid + '&range=A' + placed.row + ':CM' + placed.row;
+    link += '#gid=' + placed.gid + '&range=A' + placed.row + ':CO' + placed.row;
   }
   return link;
 }

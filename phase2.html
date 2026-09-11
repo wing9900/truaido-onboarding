@@ -100,6 +100,8 @@
   .grp > .lbl { display: block; font-size: 14px; font-weight: 650; margin-bottom: 8px; }
   .lbl .opt-note { font-weight: 500; color: var(--ink-2); }
   .hint { font-size: 13.5px; color: var(--ink-2); margin-top: 7px; }
+  /* when a campaign goes out, said once between its label and its cards */
+  .grp > .hint.intro { margin-top: -2px; margin-bottom: 12px; }
 
   /* ---- fields ---- */
   label.f { display: block; margin-bottom: 14px; }
@@ -519,7 +521,7 @@
 <section class="screen" data-screen="6" aria-labelledby="q6">
   <p class="eyebrow">Step 6 &middot; About 3 minutes left</p>
   <h1 class="q" id="q6">Your past customers hear from you next week. What do you want to say?</h1>
-  <p class="sub">Tap one to start from it, then change anything. Nothing goes out until you approve the final wording.</p>
+  <p class="sub">Tap one to start from it, then change anything. You approve the wording once, and we text you 2 days before anything goes out.</p>
 
   <div class="block">
     <div class="grp">
@@ -534,12 +536,24 @@
 
     <div class="grp">
       <span class="lbl">The referral offer</span>
+      <p class="hint intro">Goes out a few days after each finished job.</p>
       <div class="opts" id="referOpts"></div>
       <div id="referEdit" hidden style="margin-top:16px">
         <label class="f"><span>What they'll get</span><textarea id="f_referral_offer" style="min-height:96px"></textarea></label>
         <p class="count" id="referCount"></p>
       </div>
       <p class="hint">A reminder with no discount at all is a real answer, and for some trades it's the better one. It's on the list for that reason.</p>
+    </div>
+
+    <div class="grp">
+      <span class="lbl">The twice-a-year check-in</span>
+      <p class="hint intro">After next week, past customers hear from you twice a year, timed just before your slow months.</p>
+      <div class="opts" id="checkinOpts"></div>
+      <div id="checkinEdit" hidden style="margin-top:16px">
+        <label class="f"><span>What they'll get</span><textarea id="f_checkin_offer" style="min-height:96px"></textarea></label>
+        <p class="count" id="checkinCount"></p>
+      </div>
+      <p class="hint">We don't preset discounts here. Want one? Add it to any option above, or write your own.</p>
     </div>
     <div class="err" id="err6"></div>
   </div>
@@ -559,7 +573,7 @@
     </div>
 
     <div class="grp">
-      <span class="lbl">Which months are slow for you? <span class="opt-note">Optional. It decides when campaigns run hardest.</span></span>
+      <span class="lbl">Which months are slow for you? <span class="opt-note">Optional. Your two yearly check-ins go out just before these. Skip it and we send in spring and fall.</span></span>
       <div class="chips" id="monthChips"></div>
       <div class="chips" style="margin-top:10px"><button type="button" class="chip skip" id="skipMonths" aria-pressed="false">Steady all year</button></div>
     </div>
@@ -618,7 +632,7 @@
 <section class="screen" data-screen="9" aria-labelledby="q9">
   <p class="eyebrow">Step 9 &middot; Last one</p>
   <h1 class="q" id="q9">What do you use to run jobs, and who should we talk to?</h1>
-  <p class="sub">The landing page says we map your integration out during onboarding. This is where we keep that.</p>
+  <p class="sub">This decides how finished jobs get into the system, so review requests and follow-ups go out without extra work.</p>
 
   <div class="block">
     <div class="grp">
@@ -632,6 +646,7 @@
         <button type="button" class="chip" data-crm="Paper" aria-pressed="false">Paper</button>
         <button type="button" class="chip" data-crm="Nothing yet" aria-pressed="false">Nothing yet</button>
       </div>
+      <p class="hint">On Jobber or Housecall Pro? We may be able to bring finished jobs over automatically, and we'll check your plan. Everyone else marks a job done with one tap, or texts us a photo of recent invoices. Anything we need a login for we'll chase separately, not now.</p>
     </div>
 
     <div class="grp" id="crmIntWrap" hidden>
@@ -640,7 +655,6 @@
         <button type="button" class="chip" data-crmint="Yes" aria-pressed="false">Yes, wire it up</button>
         <button type="button" class="chip" data-crmint="No" aria-pressed="false">No, leave it alone</button>
       </div>
-      <p class="hint">If it's a yes, we handle it. Anything we need a login for we'll chase separately, not now.</p>
     </div>
 
     <div class="grp">
@@ -706,7 +720,7 @@
       <dl id="recapList"></dl>
     </div>
 
-    <p class="hint" style="margin-top:26px;max-width:620px">Anything here you want to change, just text us. Nothing is set in stone until you approve the site preview, and the messages come to you for approval before a single one goes out.</p>
+    <p class="hint" style="margin-top:26px;max-width:620px">Anything here you want to change, just text us. Nothing is set in stone until you approve the site preview. You approve your campaign wording once, and we text you 2 days before each one goes out.</p>
 
     <div class="warn" id="unconfirmed" hidden>
       <b>One thing worth knowing.</b>
@@ -747,7 +761,7 @@
    * index.html posts to. Phase 2 updates the row Phase 1 appended.
    * ------------------------------------------------------------------ */
   var ENDPOINT = 'https://script.google.com/macros/s/AKfycbzm5Dzx1z2GQWLN-b8geIvud2GA0zK7j0mw05_6N21fXm-LwFfl5-Dgy5bd1Xkw_Hcc/exec';
-  var FORM_VERSION = 'p2-2026-08-a';
+  var FORM_VERSION = 'p2-2026-09-a';
   var STORE_KEY = 'truaido_phase2_v1';
   var P1_KEY = 'truaido_onboarding_v1';   /* read only. Phase 1 owns this. */
   var FIRST_SCREEN = 1;
@@ -867,6 +881,30 @@
     ['Both-sided', 'You both get something', 'Send someone our way and you both get {P} off your next job.'],
     ['Gift card', 'A gift card for you', 'Refer a friend and we send you a {P} gift card once their job is done.'],
     ['None', 'Just the ask, no reward', 'If you know someone who needs us, we would appreciate the introduction. No strings.']
+  ];
+
+  /* The twice-a-year check-in. Only the first card changes by trade; the other
+     two are the same for everyone. No {P} anywhere, because this campaign
+     carries no preset discount. */
+  var CHECKIN_FIRST = {
+    'Tree service': ['A checkup', 'Want us to take a look at your trees and flag anything that should be trimmed or removed before it becomes a problem?'],
+    'Plumbing': ['A checkup', 'Want us to come check your water heater and shutoffs before anything turns into a problem?'],
+    'HVAC': ['A checkup', 'Want us to come look over your heating and cooling before it gets worked hard again?'],
+    'Electrical': ['A checkup', "Want us to come look over your panel and outlets and catch anything that shouldn't wait?"],
+    'Roofing': ['A checkup', 'Want us to come look over your roof and catch small problems before they turn into leaks?'],
+    'Restoration': ['A checkup', 'Want us to come check for hidden moisture or leaks before they turn into damage?'],
+    'Paving': ['A checkup', 'Want us to take a look at your driveway and catch cracks before they spread?'],
+    'Remodeling': ['Your next project', 'Got a project on your list? Want us to come take a look?'],
+    'Moving': ['Planning ahead', 'Have a move coming up? Want us to get you on the calendar early?'],
+    'Auto repair': ['A checkup', 'Want us to take a quick look at your vehicle before a small issue turns into a big repair?'],
+    'Landscaping': ['A checkup', 'Want us to come take a look at your yard and get it back in shape?'],
+    'Pest control': ['A checkup', 'Want us to come do a quick check before anything moves in?'],
+    'Other service trade': ['A checkup', 'Want us to come take a quick look and catch anything before it turns into a bigger job?']
+  };
+
+  var CHECKIN_REST = [
+    ['Openings', 'Openings coming up', 'Our schedule has room over the next few weeks, so we can get to you fast. Need anything done?'],
+    ['Checking in', 'Just checking in', 'Just checking in. Anything we can help with?']
   ];
 
   var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -1148,6 +1186,23 @@
 
   function fillPrice(text, kind) { return String(text).replace(/\{P\}/g, price(kind)); }
 
+  /* The check-in is written for two trades Phase 1 has no key for. Those
+     arrive as the generic trade with the customer's own words in D.trade, so
+     they are matched on the words. */
+  function checkinKey() {
+    var k = tradeKey();
+    if (k !== FALLBACK_TRADE) return k;
+    var t = String(D.trade || '');
+    if (/landscap|lawn/i.test(t)) return 'Landscaping';
+    if (/pest|extermin|termite/i.test(t)) return 'Pest control';
+    return FALLBACK_TRADE;
+  }
+
+  function checkinCards() {
+    var first = CHECKIN_FIRST[checkinKey()] || CHECKIN_FIRST[FALLBACK_TRADE];
+    return [['Checkup', first[0], first[1]]].concat(CHECKIN_REST);
+  }
+
   function renderCerts() {
     var list = (CERTS[tradeKey()] || []).slice();
     certs.forEach(function (c) { if (list.indexOf(c) === -1) list.push(c); });
@@ -1167,10 +1222,17 @@
         '<b>' + esc(o[1]) + '</b><em>' + esc(fillPrice(o[2], 'referral')) + '</em></button>';
     }).join('');
 
+    $('checkinOpts').innerHTML = checkinCards().map(function (o) {
+      return '<button type="button" class="opt offer-card" data-checkin="' + esc(o[0]) + '" data-text="' + esc(o[2]) + '" aria-pressed="false">' +
+        '<b>' + esc(o[1]) + '</b><em>' + esc(o[2]) + '</em></button>';
+    }).join('') + '<button type="button" class="opt quiet" data-checkin="Custom" data-text="" aria-pressed="false"><b>I\'ll write my own</b></button>';
+
     press('reactOpts', 'data-react', D.reactivation_type);
     press('referOpts', 'data-refer', D.referral_type);
+    press('checkinOpts', 'data-checkin', D.checkin_type);
     $('reactEdit').hidden = !D.reactivation_type;
     $('referEdit').hidden = !D.referral_type;
+    $('checkinEdit').hidden = !D.checkin_type;
     $('reactHint').hidden = !!OFFER_PRICES[tradeKey()];
   }
 
@@ -1200,7 +1262,8 @@
     'weekly_capacity','slow_months','do_not_contact',
     'avg_job_value','monthly_new_customers','weekly_missed_calls','baseline_locked_at',
     'existing_crm','crm_integration','contact_phone','text_ok','cc_email','best_time',
-    'photos_status'
+    'photos_status',
+    'checkin_offer','checkin_type'
   ];
 
   /**
@@ -1679,6 +1742,7 @@
       ['After hours', D.emergency_service === 'Yes' ? (D.emergency_hours || 'yes') : (D.emergency_service === 'No' ? 'normal hours' : '')],
       ['Colors', colors],
       ['Referral', D.referral_type],
+      ['Check-in', D.checkin_type],
       ['Running on', crms.join(', ')]
     ];
     $('recapList').innerHTML = rows.filter(function (r) { return r[1]; }).map(function (r) {
@@ -1841,6 +1905,28 @@
       set('referral_offer', $('f_referral_offer').value);
       countChars('f_referral_offer', 'referCount', true);
     });
+    singleSelect('checkinOpts', 'data-checkin', function (v, btn) {
+      set('checkin_type', v);
+      $('checkinEdit').hidden = false;
+      var text = btn.getAttribute('data-text') || '';
+      $('f_checkin_offer').value = text;
+      set('checkin_offer', text);
+      countChars('f_checkin_offer', 'checkinCount', true);
+      $('f_checkin_offer').focus();
+    });
+    $('f_checkin_offer').addEventListener('input', function () {
+      set('checkin_offer', $('f_checkin_offer').value);
+      /* Same rule as the reactivation offer: typing over a card's wording
+         makes it theirs. */
+      if (D.checkin_type && D.checkin_type !== 'Custom') {
+        var picked = $('checkinOpts').querySelector('[data-checkin="' + D.checkin_type + '"]');
+        if (picked && picked.getAttribute('data-text') !== $('f_checkin_offer').value) {
+          set('checkin_type', 'Custom');
+          press('checkinOpts', 'data-checkin', 'Custom');
+        }
+      }
+      countChars('f_checkin_offer', 'checkinCount', true);
+    });
 
     /* --- 2.6 --- */
     $('f_weekly_capacity').addEventListener('input', function () {
@@ -1927,7 +2013,7 @@
    * ------------------------------------------------------------------ */
   function repaint() {
     ['story_text','license_number','design_notes','do_not_contact','cc_email',
-     'reactivation_offer','referral_offer'].forEach(function (c) {
+     'reactivation_offer','referral_offer','checkin_offer'].forEach(function (c) {
       var el = $('f_' + c);
       if (el && D[c]) el.value = D[c];
     });
@@ -1994,6 +2080,7 @@
     countChars('f_story_text', 'storyCount');
     countChars('f_reactivation_offer', 'reactCount', true);
     countChars('f_referral_offer', 'referCount', true);
+    countChars('f_checkin_offer', 'checkinCount', true);
     greet();
   }
 
